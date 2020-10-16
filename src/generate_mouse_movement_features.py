@@ -22,3 +22,7 @@ def axis_velocity(axis, tpointA, tpointB):
 	deltaT = abs(tpointA[2] - tpointB[2])
 	return deltaAxis / deltaT
 
+def velocity(tpointA, tpointB):
+	xVelocity = axis_velocity('x', tpointA, tpointB)
+	yVelocity = axis_velocity('y', tpointA, tpointB)
+	return (xVelocity**2 + yVelocity**2)**.5
