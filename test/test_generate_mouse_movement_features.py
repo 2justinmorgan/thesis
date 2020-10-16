@@ -12,3 +12,15 @@ def test_hello():
 	])
 def test_theta(pointA, pointB, expect):
 	assert gen_features.theta(pointA, pointB) == expect
+
+@pytest.mark.parametrize(
+	"axis,tpointA,tpointB,expect",
+	[
+		('x',[487,912,3419.371],[488,915,3419.62],pytest.approx(4.016064257)),
+		('x',[50,75,0.001],[55,76,0.092],pytest.approx(54.94505495)),
+		('y',[985,102,40.95],[993,94,41],pytest.approx(160)),
+		('y',[0,4,0.00005],[3,2,0.0038],pytest.approx(533.333333333))
+	])
+def test_axis_velocity(axis, tpointA, tpointB, expect):
+	assert gen_features.axis_velocity(axis, tpointA, tpointB) == expect
+
