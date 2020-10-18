@@ -31,6 +31,37 @@ def velocity(axis, tpointA, tpointB):
 	deltaT = abs(tpointA[2] - tpointB[2])
 	return deltaAxis / deltaT if deltaT else 0
 
+def get_val(feature_name, tpoints):
+	#
+	# need case that returns if feature_name is invalid
+	#
+	num_tpoints = len(tpoints)
+	if "velocity" in feature_name:
+		if num_tpoints != 2:
+			return -1
+		if feature_name == "velocity":
+			return velocity("xy",tpoints[0],tpoints[1])
+		# the first arg, axis, can be 'x' or 'y'
+		return velocity(feature_name[0],tpoints[0],tpoints[1])
+	
+	if feature_name == "acceleration":
+		if num_tpoints != 4:
+			return -1
+		velocityA = velocity('xy',tpoints[0],tpoints[1])
+		velocityB = velocity('xy',tpoints[2],tpoints[3])
+		deltaT = abs(tpoints[0][2]-tpoints[3][2])
+		return abs(velocityA-velocityB) / deltaT if deltaT else 0
+	
+	if feature_name == "jerk":
+		if num_tpoints != 8:
+			return -1
+		accelerationA = get_val("acceleration",tpoints[:4])
+		accelerationB = get_val("acceleration",tpoints[4:])
+		deltaT = abs(tpoints[0][2]-tpoints[7][2])
+		return abs(accelerationA-accelerationB) / deltaT if deltaT else 0
+
+	return -1
+
 def safe_open(file_path):
 	try:
 		f = open(file_path, 'r')

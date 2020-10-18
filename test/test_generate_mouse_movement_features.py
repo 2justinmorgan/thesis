@@ -60,4 +60,68 @@ def test_safe_file_read(tmpdir):
 	])
 def test_get_tpoint(csv_line_str, expect):
 	assert gen_features.get_tpoint(csv_line_str) == expect
-	
+
+@pytest.mark.parametrize(
+	"feature_name,tpoints,expect",
+	[
+		(
+			"velocity",
+			[[34,55,0.334],[33,52,0.397]],
+			pytest.approx(50.19488349473618)
+		),
+		(
+			"velocity",
+			[[34,55,0.334],[33,52,0.397],[30,56,0.405]],
+			pytest.approx(-1)
+		),
+		(
+			"xvelocity",
+			[[34,55,0.334],[33,52,0.397]],
+			pytest.approx(15.873015873)
+		),
+		(
+			"yvelocity",
+			[[34,55,0.334],[33,52,0.397]],
+			pytest.approx(47.619047619)
+		),
+		(
+			"acceleration",
+			[[3,6,9],[2,4,10],[1,3,12]],
+			pytest.approx(-1)
+		),
+		(
+			"acceleration",
+			[[2,4,1],[1,3,2],[2,3,4],[4,8,8]],
+			pytest.approx(0.009703194369924173)
+		),
+		(
+			"acceleration",
+			[[2,4,1],[1,3,1],[2,3,1],[4,8,1]],
+			pytest.approx(0)
+		),
+		(
+			"jerk",
+			[
+				[3,6,0.1],[2,4,0.3],[1,3,0.6],[5,4,1],
+				[6,7,1.1],[8,5,1.4],[5,4,1.6],[2,2,1.9]],
+			pytest.approx(1.2602714455166364)
+		),
+		(
+			"jerk",
+			[
+				[344,108,0.99371],[345,101,0.99914],[347,93,1.0038],[353,90,1.02388],
+				[355,90,1.13884],[355,94,1.177483],[357,95,1.201],[358,98,1.237114]],
+			pytest.approx(131170.79429774)
+		),
+		(
+			"jerk",
+			[
+				[3,6,0.1],[2,4,0.1],[1,3,0.1],[5,4,.1],
+				[6,7,.1],[8,5,.1],[5,4,.1],[2,2,.1]],
+			pytest.approx(0)
+		)
+	])
+def test_get_val(feature_name, tpoints, expect):
+	assert gen_features.get_val(feature_name, tpoints) == expect
+		
+
