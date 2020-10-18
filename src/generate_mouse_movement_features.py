@@ -40,3 +40,25 @@ def safe_open(file_path):
 	f.readline()
 	return f
 
+def init_features_obj():
+	features_obj = {}
+	features = [
+		"velocity",
+		"xvelocity",
+		"yvelocity",
+		"acceleration",
+		"jerk",
+		"theta"
+	]
+	metrics = {
+		"all": [],
+		"stdev": 0.0,
+		"mean": 0.0,
+		"range": []
+	}
+	for feature in features:
+		features_obj[feature] = metrics
+	return features_obj
+
+
+
