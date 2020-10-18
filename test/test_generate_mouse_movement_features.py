@@ -22,6 +22,8 @@ def test_theta(pointA, pointB, expect):
 @pytest.mark.parametrize(
 	"axis,tpointA,tpointB,expect",
 	[
+		('v',[1,2,1],[1,2,1],pytest.approx(-1)),
+		('',[13,52,7],[18,44,9],pytest.approx(-1)),
 		('x',[0,0,0],[1,0,1],pytest.approx(1)),
 		('x',[10,20,5],[15,30,5],pytest.approx(0)),
 		('x',[487,912,3419.371],[488,915,3419.62],pytest.approx(4.016064257)),
@@ -29,21 +31,15 @@ def test_theta(pointA, pointB, expect):
 		('y',[0,2,0],[1,4,1],pytest.approx(2)),
 		('x',[100,200,50],[150,300,50],pytest.approx(0)),
 		('y',[985,102,40.95],[993,94,41],pytest.approx(160)),
-		('y',[0,4,0.00005],[3,2,0.0038],pytest.approx(533.333333333))
+		('y',[0,4,0.00005],[3,2,0.0038],pytest.approx(533.333333333)),
+		('yx',[34,99,54],[23,103,55],pytest.approx(-1)),
+		('xy',[10,20,1],[15,32,2],pytest.approx(13)),
+		('xy',[31,52,30.35],[15,32,30.35],pytest.approx(0)),
+		('xy',[56,341,15290.04],[57,341,15290.29],pytest.approx(4.0)),
+		('xy',[1490,888,0.92],[1539,831,1.005],pytest.approx(884.3115516689962))
 	])
-def test_axis_velocity(axis, tpointA, tpointB, expect):
-	assert gen_features.axis_velocity(axis, tpointA, tpointB) == expect
-
-@pytest.mark.parametrize(
-	"tpointA,tpointB,expect",
-	[
-		([10,20,1],[15,32,2],pytest.approx(13)),
-		([31,52,30.35],[15,32,30.35],pytest.approx(0)),
-		([56,341,15290.04],[57,341,15290.29],pytest.approx(4.0)),
-		([1490,888,0.92],[1539,831,1.005],pytest.approx(884.3115516689962)),
-	])
-def test_velocity(tpointA, tpointB, expect):
-	assert gen_features.velocity(tpointA, tpointB) == expect
+def test_velocity(axis, tpointA, tpointB, expect):
+	assert gen_features.velocity(axis, tpointA, tpointB) == expect
 
 def test_safe_file_read(tmpdir):
 	temp_file_name = "temp_test_file.txt"

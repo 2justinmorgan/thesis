@@ -13,10 +13,15 @@ def theta(pointA, pointB):
 	deltaY = abs(pointA[1] - pointB[1])
 	return math.atan2(deltaY, deltaX)
 
-def axis_velocity(axis, tpointA, tpointB):
+def velocity(axis, tpointA, tpointB):
 	deltaAxis = 0
-	if axis != 'x' and axis != 'y':
+	if axis != 'x' and axis != 'y' and axis != 'xy':
 		return -1
+
+	if axis == 'xy':
+		xVelocity = velocity('x', tpointA, tpointB)
+		yVelocity = velocity('y', tpointA, tpointB)
+		return (xVelocity**2 + yVelocity**2)**.5
 
 	if axis == 'x':
 		deltaAxis = abs(tpointA[0] - tpointB[0])
@@ -25,11 +30,6 @@ def axis_velocity(axis, tpointA, tpointB):
 
 	deltaT = abs(tpointA[2] - tpointB[2])
 	return deltaAxis / deltaT if deltaT else 0
-
-def velocity(tpointA, tpointB):
-	xVelocity = axis_velocity('x', tpointA, tpointB)
-	yVelocity = axis_velocity('y', tpointA, tpointB)
-	return (xVelocity**2 + yVelocity**2)**.5
 
 def safe_open(file_path):
 	try:
