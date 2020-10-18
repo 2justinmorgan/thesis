@@ -123,5 +123,42 @@ def test_get_tpoint(csv_line_str, expect):
 	])
 def test_get_val(feature_name, tpoints, expect):
 	assert gen_features.get_val(feature_name, tpoints) == expect
-		
+
+@pytest.mark.parametrize(
+	"offset,nlines,expect_file_content",
+	[
+		(2,3,["third\n","fourth\n","fifth\n"]),
+		(0,2,["first\n","second\n"]),
+		(
+			1,
+			10,
+			[
+				"second\n",
+				"third\n",
+				"fourth\n",
+				"fifth\n",
+				"sixth\n",
+				"seventh\n",
+				"",
+				"",
+				"",
+				""])
+	])
+def test_read_nlines(tmpdir, offset, nlines, expect_file_content):
+	temp_file_name = "temp_test_file.txt"
+	temp_file = tmpdir.join(temp_file_name)
+	temp_file_content = "first\nsecond\nthird\nfourth\nfifth\nsixth\nseventh\n"
+	temp_file.write(temp_file_content)
+	temp_file_path = str(tmpdir)+'/'+temp_file_name
+	pytemp_file = open(temp_file_path,'r')
+
+	for i in range(offset):
+		pytemp_file.readline()
+
+	actual_file_content = gen_features.read_nlines(pytemp_file, nlines)
+	assert actual_file_content == expect_file_content
+
+
+
+	
 
