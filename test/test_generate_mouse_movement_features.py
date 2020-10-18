@@ -55,4 +55,13 @@ def test_safe_file_read(tmpdir):
 	expect_file_content = '\n'.join(temp_file_content.split('\n')[1:])
 	actual_file_content = gen_features.safe_open(temp_file_path).read()
 	assert actual_file_content == expect_file_content
+
+@pytest.mark.parametrize(
+	"csv_line_str,expect",
+	[
+		("10,20,Left,Pressed,1452,948",[1452,948,20]),
+		("291.082999945,291.082,NoButton,Move,544,594",[544,594,291.082])
+	])
+def test_get_tpoint(csv_line_str, expect):
+	assert gen_features.get_tpoint(csv_line_str) == expect
 	

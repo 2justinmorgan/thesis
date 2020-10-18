@@ -40,6 +40,18 @@ def safe_open(file_path):
 	f.readline()
 	return f
 
+def get_tpoint(csv_line_str):
+	# description: record timestamp,client timestamp,button,state,x,y
+	# input (str):
+	# 291.082999945,291.082,NoButton,Move,544,594
+	# output (list):
+	# [544, 594, 291.082]
+
+	csv_line_list = csv_line_str.split(',')
+	tpoint_str_list = [csv_line_list[4], csv_line_list[5], csv_line_list[1]]
+	tpoint = [float(e) for e in tpoint_str_list]
+	return tpoint
+
 def init_features_obj():
 	features_obj = {}
 	features = [
