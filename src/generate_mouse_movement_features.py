@@ -2,6 +2,22 @@
 import math
 import sys
 
+FEATURES = [
+	"velocity",
+	"xvelocity",
+	"yvelocity",
+	"acceleration",
+	"jerk",
+	"theta"
+]
+
+METRICS = {
+	"all": [],
+	"stdev": 0.0,
+	"mean": 0.0,
+	"range": []
+}
+
 def hello(name):
 	return "hello " + str(name)
 
@@ -96,23 +112,12 @@ def get_tpoint(csv_line_str):
 
 def init_features_obj():
 	features_obj = {}
-	features = [
-		"velocity",
-		"xvelocity",
-		"yvelocity",
-		"acceleration",
-		"jerk",
-		"theta"
-	]
-	metrics = {
-		"all": [],
-		"stdev": 0.0,
-		"mean": 0.0,
-		"range": []
-	}
-	for feature in features:
-		features_obj[feature] = metrics
+	for feature in FEATURES:
+		features_obj[feature] = METRICS
 	return features_obj
+
+
+
 
 
 
