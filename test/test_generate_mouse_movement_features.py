@@ -45,3 +45,14 @@ def test_axis_velocity(axis, tpointA, tpointB, expect):
 def test_velocity(tpointA, tpointB, expect):
 	assert gen_features.velocity(tpointA, tpointB) == expect
 
+def test_safe_file_read(tmpdir):
+	temp_file_name = "temp_test_file.txt"
+	temp_file_content = "first line\nof this\nrandom file content\n"
+	temp_file = tmpdir.join(temp_file_name)
+	temp_file.write(temp_file_content)
+	temp_file_path = str(tmpdir)+'/'+temp_file_name
+
+	expect_file_content = '\n'.join(temp_file_content.split('\n')[1:])
+	actual_file_content = gen_features.safe_open(temp_file_path).read()
+	assert actual_file_content == expect_file_content
+	

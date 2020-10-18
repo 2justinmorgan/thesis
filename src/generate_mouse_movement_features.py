@@ -31,3 +31,12 @@ def velocity(tpointA, tpointB):
 	yVelocity = axis_velocity('y', tpointA, tpointB)
 	return (xVelocity**2 + yVelocity**2)**.5
 
+def safe_open(file_path):
+	try:
+		f = open(file_path, 'r')
+	except Exception as e:
+		sys.stderr.write(str(e))
+		sys.exit(1)
+	f.readline()
+	return f
+
