@@ -1,8 +1,12 @@
 
 import math
+import sys
 
 def hello(name):
 	return "hello " + str(name)
+
+def write_stdout(content):
+	sys.stdout.write(content)
 
 def theta(pointA, pointB):
 	deltaX = abs(pointA[0] - pointB[0])
@@ -26,3 +30,4 @@ def velocity(tpointA, tpointB):
 	xVelocity = axis_velocity('x', tpointA, tpointB)
 	yVelocity = axis_velocity('y', tpointA, tpointB)
 	return (xVelocity**2 + yVelocity**2)**.5
+

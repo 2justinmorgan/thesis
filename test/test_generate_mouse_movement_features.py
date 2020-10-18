@@ -4,6 +4,12 @@ import generate_mouse_movement_features as gen_features
 def test_hello():
 	assert gen_features.hello("Mike") == "hello Mike"
 
+def test_write_stdout(capsys):
+	test_input = "hello stdout test case"	
+	gen_features.write_stdout(test_input)
+	captured = capsys.readouterr()
+	assert captured.out == test_input
+
 @pytest.mark.parametrize(
 	"pointA,pointB,expect",
 	[
