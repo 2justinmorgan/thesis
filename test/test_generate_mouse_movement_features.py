@@ -61,6 +61,13 @@ def test_safe_file_read(tmpdir):
 def test_get_tpoint(csv_line_str, expect):
 	assert gen_features.get_tpoint(csv_line_str) == expect
 
+def test_init_features_obj():
+	expect = {}
+	for feature in gen_features.FEATURES:
+		expect[feature] = gen_features.METRICS
+	actual = gen_features.init_features_obj()
+	assert actual == expect
+
 @pytest.mark.parametrize(
 	"feature_name,tpoints,expect",
 	[
