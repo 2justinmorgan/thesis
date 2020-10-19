@@ -1,5 +1,11 @@
 import pytest
 import generate_mouse_movement_features as gen_features
+import importlib
+
+@pytest.fixture(autouse=True)
+def before_each():
+	import generate_mouse_movement_features
+	gen_features = importlib.reload(generate_mouse_movement_features)
 
 def test_hello():
 	assert gen_features.hello("Mike") == "hello Mike"
@@ -154,7 +160,6 @@ def test_read_nlines(tmpdir, offset, nlines, expect_file_content):
 
 	actual_file_content = gen_features.read_nlines(pytemp_file, nlines)
 	assert actual_file_content == expect_file_content
-
 
 
 	
