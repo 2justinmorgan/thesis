@@ -1,5 +1,6 @@
 
 import math
+import statistics
 import sys
 import copy
 
@@ -14,10 +15,22 @@ FEATURES = [
 
 METRICS = {
 	"all": [],
-	"stdev": 0.0,
-	"mean": 0.0,
-	"range": []
+	"stats": {
+		"stdev": 0.0,
+		"mean": 0.0,
+		"range": []
+	}
 }
+
+def print_usage(exit_program):
+	print(f"Usage: {__file__.split('/')[-1]} <mouse_data_file>")
+	if exit_program:
+		sys.exit(0)
+	
+def check_args(argc, argv):
+	if argc != 2:
+		print_usage(1)
+	return argv[1]
 
 def hello(name):
 	return "hello " + str(name)
@@ -128,5 +141,37 @@ def record_features(mouse_data_file_path):
 		tpoints.insert(0, get_tpoint(line))
 
 	return features_obj
+
+def insert_stats(features_obj):
+	stats_metrics = list(METRICS.keys()).remove("all")
+	for feature in features_obj:
+		vals = features_obj[feature]["all"]
+		stats_obj = features_obj[feature]["stats"]
+		stats_obj["stdev"] = statistics.stdev(vals)
+		stats_obj["mean"] = statistics.fmean(vals)
+		stats_obj["range"] = [min(vals), max(vals)]
+
+def format_print(features_obj):
+	for feature in features_obj:
+		print(feature)
+		for stat in features_obj[feature]["stats"]:
+			val = features_obj[feature]["stats"][stat]
+			sys.stdout.write(f" {stat}:")
+			if type(val) == list:
+				for e in val:
+					e = round(e, 2)
+					sys.stdout.write(f"{e} ")
+			else:
+				val = round(val, 2)
+				sys.stdout.write(f"{val}")
+		print()
+
+if __name__ == "__main__":
+	mouse_data_file_path = check_args(len(sys.argv), sys.argv)
+	features_obj = record_features(mouse_data_file_path)
+	insert_stats(features_obj)
+	format_print(features_obj)
+
+
 
 
