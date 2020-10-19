@@ -77,11 +77,6 @@ def test_init_features_obj():
 			pytest.approx(50.19488349473618)
 		),
 		(
-			"velocity",
-			[[34,55,0.334],[33,52,0.397],[30,56,0.405]],
-			pytest.approx(-1)
-		),
-		(
 			"xvelocity",
 			[[34,55,0.334],[33,52,0.397]],
 			pytest.approx(15.873015873)
@@ -90,11 +85,6 @@ def test_init_features_obj():
 			"yvelocity",
 			[[34,55,0.334],[33,52,0.397]],
 			pytest.approx(47.619047619)
-		),
-		(
-			"acceleration",
-			[[3,6,9],[2,4,10],[1,3,12]],
-			pytest.approx(-1)
 		),
 		(
 			"acceleration",
