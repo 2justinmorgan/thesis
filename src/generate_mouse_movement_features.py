@@ -137,8 +137,8 @@ def record_features(mouse_data_file_path):
 		for feature in FEATURES:
 			feature_val = get_val(feature, tpoints)
 			features_obj[feature]["all"].append(feature_val)
-		tpoints.pop()
-		tpoints.insert(0, get_tpoint(line))
+		tpoints.pop(0)
+		tpoints.append(get_tpoint(line))
 
 	return features_obj
 
@@ -171,6 +171,9 @@ if __name__ == "__main__":
 	features_obj = record_features(mouse_data_file_path)
 	insert_stats(features_obj)
 	format_print(features_obj)
+	import json
+	outfile = open('features.json','w')
+	json.dump(features_obj, outfile)
 
 
 
