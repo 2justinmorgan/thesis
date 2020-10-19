@@ -1,6 +1,7 @@
 
 import math
 import sys
+import copy
 
 FEATURES = [
 	"velocity",
@@ -106,11 +107,21 @@ def get_tpoint(csv_line_str):
 def init_features_obj():
 	features_obj = {}
 	for feature in FEATURES:
-		features_obj[feature] = METRICS
+		features_obj[feature] = copy.deepcopy(METRICS)
 	return features_obj
 
+def record_features(mouse_data_file_path):
+	mouse_data_file = safe_open(mouse_data_file_path)
+	features_obj = init_features_obj()
+	tpoints = [get_tpoint(e) for e in read_nlines(mouse_data_file, 8)]
 
+	for line in mouse_data_file:
+		for feature in FEATURES:
+			feature_val = get_val(feature, tpoints)
+			features_obj[feature]["all"].append(feature_val)
+		tpoints.pop()
+		tpoints.insert(0, get_tpoint(line))
 
-
+	return features_obj
 
 
