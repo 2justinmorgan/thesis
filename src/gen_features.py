@@ -124,7 +124,7 @@ def main(argc, argv):
     features_obj = record_features(mouse_data_file_path)
     insert_stats(features_obj)
 
-    formatout.format_print(features_obj)
+    # formatout.format_print(features_obj)
     formatout.create_json(features_obj, session)
 
 
