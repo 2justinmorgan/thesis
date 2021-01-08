@@ -1,5 +1,6 @@
 import pytest
 import commons as cms
+from commons import Session
 import importlib
 
 
@@ -7,6 +8,7 @@ import importlib
 def before_each():
     import commons
     cms = importlib.reload(commons)
+    Session = cms.Session
 
 
 def test_safe_file_read(tmpdir):
@@ -54,3 +56,15 @@ def test_read_nlines(tmpdir, offset, nlines, expect_file_content):
 
     actual_file_content = cms.read_nlines(pytemp_file, nlines)
     assert actual_file_content == expect_file_content
+
+
+@pytest.mark.parametrize(
+    "filepath,expect",
+    [
+        ("../data/raw_mouse_data/test_files/user7/session_0061629194", Session("user7", "session_0061629194")),
+        ("training_files/user12/session_5265929106", Session("user12", "session_5265929106")),
+    ])
+def test_get_info_from_filepath(filepath, expect):
+    actual = cms.get_info_from_filepath(filepath)
+    assert actual.user == expect.user
+    assert actual.id == expect.id

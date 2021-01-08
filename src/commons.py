@@ -1,4 +1,18 @@
 import sys
+from defines import Session
+
+
+def get_info_from_filepath(filepath):
+    filepath_lst = filepath.split('/')
+    user = ""
+    session_id = ""
+    for element in filepath_lst:
+        if "user" in element:
+            user = element
+        if "session" in element:
+            session_id = element
+
+    return Session(user, session_id)
 
 
 def read_nlines(file_obj, n):

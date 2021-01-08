@@ -30,3 +30,9 @@ class TPoint(Point):
         self.x = int(x)
         self.y = int(y)
         self.time = float(time)
+
+
+class Session:
+    def __init__(self, user="", id=""):
+        self.user = user
+        self.id = id
