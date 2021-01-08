@@ -52,9 +52,7 @@ def test_theta(point_a, point_b, expect):
         ('xy', TPoint(1490, 888, 0.92), TPoint(1539, 831, 1.005), pytest.approx(884.3115516689962))
     ])
 def test_velocity(axis, tpoint_a, tpoint_b, expect):
-    # temporary while creating derivative func
-    # assert gen_features.velocity(axis, tpoint_a, tpoint_b) == expect
-    assert True
+    assert gen_features.velocity(axis, tpoint_a, tpoint_b) == expect
 
 
 def test_safe_file_read(tmpdir):
@@ -141,9 +139,6 @@ def test_init_features_obj():
                 pytest.approx(0))
     ])
 def test_get_val(feature_name, tpoints, expect):
-    # temporary while creating derivative func
-    if feature_name != "theta":
-        return
     assert gen_features.get_val(feature_name, tpoints) == expect
 
 

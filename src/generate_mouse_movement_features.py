@@ -69,7 +69,47 @@ def theta(point_a, point_b):
     return math.atan2(delta_y, delta_x)
 
 
+def velocity(axis, tpoint_a, tpoint_b):
+    if axis != 'x' and axis != 'y' and axis != 'xy':
+        return -1
+
+    if axis == 'xy':
+        x_velocity = velocity('x', tpoint_a, tpoint_b)
+        y_velocity = velocity('y', tpoint_a, tpoint_b)
+        return (x_velocity ** 2 + y_velocity ** 2) ** .5
+
+    delta_axis = 0
+    if axis == 'x':
+        delta_axis = abs(tpoint_a.x - tpoint_b.x)
+    if axis == 'y':
+        delta_axis = abs(tpoint_a.y - tpoint_b.y)
+
+    delta_t = abs(tpoint_a.time - tpoint_b.time)
+    return delta_axis / delta_t if delta_t else 0
+
+
 def get_val(feature_name, tpoints):
+    #
+    # need case that returns if feature_name is invalid
+    #
+    if "velocity" in feature_name:
+        if feature_name == "velocity":
+            return velocity("xy", tpoints[0], tpoints[1])
+        # the first arg, axis, can be 'x' or 'y'
+        return velocity(feature_name[0], tpoints[0], tpoints[1])
+
+    if feature_name == "acceleration":
+        velocity_a = velocity('xy', tpoints[0], tpoints[1])
+        velocity_b = velocity('xy', tpoints[2], tpoints[3])
+        delta_t = abs(tpoints[0].time - tpoints[3].time)
+        return abs(velocity_a - velocity_b) / delta_t if delta_t else 0
+
+    if feature_name == "jerk":
+        acceleration_a = get_val("acceleration", tpoints[:4])
+        acceleration_b = get_val("acceleration", tpoints[4:])
+        delta_t = abs(tpoints[0].time - tpoints[7].time)
+        return abs(acceleration_a - acceleration_b) / delta_t if delta_t else 0
+
     if feature_name == "theta":
         delta_y = abs(tpoints[0].y - tpoints[1].y)
         delta_x = abs(tpoints[0].x - tpoints[1].x)
