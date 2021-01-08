@@ -31,9 +31,9 @@ class Point:
 class TPoint(Point):
     def __init__(self, x, y, time):
         super().__init__(x, y)
-        self.x = x
-        self.y = y
-        self.time = time
+        self.x = int(x)
+        self.y = int(y)
+        self.time = float(time)
 
     @staticmethod
     def list_to_tpoint(tpoint_list):
