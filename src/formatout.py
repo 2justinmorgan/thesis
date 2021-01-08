@@ -1,4 +1,6 @@
 import sys
+import json
+import defines
 
 
 def format_print(features_obj):
@@ -15,3 +17,8 @@ def format_print(features_obj):
                 val = round(val, 2)
                 sys.stdout.write(f"{val}")
         print()
+
+
+def create_json(features_obj):
+    outfile = open(f"{defines.SESSION.user}_{defines.SESSION.id}.json", "w")
+    json.dump(features_obj, outfile)

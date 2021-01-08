@@ -1,6 +1,6 @@
+import sys
 import math
 import statistics
-import sys
 import copy
 import commons
 import formatout
@@ -119,13 +119,13 @@ def write_stdout(content):
 
 def main(argc, argv):
     mouse_data_file_path = commons.check_args(argc, argv)
+    defines.SESSION = commons.get_session(mouse_data_file_path)
+
     features_obj = record_features(mouse_data_file_path)
     insert_stats(features_obj)
-    formatout.format_print(features_obj)
-    import json
 
-    outfile = open('features.json', 'w')
-    json.dump(features_obj, outfile)
+    formatout.format_print(features_obj)
+    formatout.create_json(features_obj)
 
 
 if __name__ == "__main__":

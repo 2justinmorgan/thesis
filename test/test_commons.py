@@ -64,7 +64,7 @@ def test_read_nlines(tmpdir, offset, nlines, expect_file_content):
         ("../data/raw_mouse_data/test_files/user7/session_0061629194", Session("user7", "session_0061629194")),
         ("training_files/user12/session_5265929106", Session("user12", "session_5265929106")),
     ])
-def test_get_info_from_filepath(filepath, expect):
-    actual = cms.get_info_from_filepath(filepath)
+def test_get_session(filepath, expect):
+    actual = cms.get_session(filepath)
     assert actual.user == expect.user
     assert actual.id == expect.id

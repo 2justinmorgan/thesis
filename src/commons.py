@@ -7,7 +7,7 @@ Session = defines.Session
 def print_usage(exit_program):
     sys.stderr.write(f"Usage: {defines.MAIN_FILE} {defines.MOUSE_DATA_FILE_ARGV_TITLE}\n")
     if exit_program:
-        sys.exit(0)
+        sys.exit(1)
 
 
 def check_args(argc, argv):
@@ -15,11 +15,11 @@ def check_args(argc, argv):
         print_usage(1)
     if "user" not in argv[1] and "session" not in argv[1]:
         sys.stderr.write(f"{defines.MOUSE_DATA_FILE_ARGV_TITLE} must have \"user\" and \"session\" in its filepath\n")
-        sys.exit(0)
+        sys.exit(1)
     return argv[1]
 
 
-def get_info_from_filepath(filepath):
+def get_session(filepath):
     filepath_lst = filepath.split('/')
     user = ""
     session_id = ""
