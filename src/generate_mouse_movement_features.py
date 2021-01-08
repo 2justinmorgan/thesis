@@ -117,7 +117,7 @@ def read_nlines(file_obj, n):
         try:
             lines_list[i] = file_obj.readline()
         except Exception as e:
-            sys.stderr.write(e)
+            sys.stderr.write(str(e))
             return lines_list
 
     return lines_list
@@ -167,7 +167,6 @@ def record_features(mouse_data_file_path):
 
 
 def insert_stats(features_obj):
-    stats_metrics = list(METRICS.keys()).remove("all")
     for feature in features_obj:
         vals = features_obj[feature]["all"]
         stats_obj = features_obj[feature]["stats"]
@@ -192,8 +191,8 @@ def format_print(features_obj):
         print()
 
 
-if __name__ == "__main__":
-    mouse_data_file_path = check_args(len(sys.argv), sys.argv)
+def main(argc, argv):
+    mouse_data_file_path = check_args(argc, argv)
     features_obj = record_features(mouse_data_file_path)
     insert_stats(features_obj)
     format_print(features_obj)
@@ -201,3 +200,7 @@ if __name__ == "__main__":
 
     outfile = open('features.json', 'w')
     json.dump(features_obj, outfile)
+
+
+if __name__ == "__main__":
+    main(len(sys.argv), sys.argv)
