@@ -65,7 +65,7 @@ def test_safe_file_read(tmpdir):
     temp_file_path = str(tmpdir) + '/' + temp_file_name
 
     expect_file_content = '\n'.join(temp_file_content.split('\n')[1:])
-    actual_file_content = gen_features.safe_open(temp_file_path).read()
+    actual_file_content = gen_features.commons.safe_open(temp_file_path).read()
     assert actual_file_content == expect_file_content
 
 
@@ -175,7 +175,7 @@ def test_read_nlines(tmpdir, offset, nlines, expect_file_content):
     for i in range(offset):
         pytemp_file.readline()
 
-    actual_file_content = gen_features.read_nlines(pytemp_file, nlines)
+    actual_file_content = gen_features.commons.read_nlines(pytemp_file, nlines)
     assert actual_file_content == expect_file_content
 
 

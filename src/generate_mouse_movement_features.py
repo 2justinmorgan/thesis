@@ -2,6 +2,8 @@ import math
 import statistics
 import sys
 import copy
+import commons
+
 
 FEATURES = [
     "velocity",
@@ -111,28 +113,6 @@ def get_val(feature_name, tpoints):
     return -1
 
 
-def read_nlines(file_obj, n):
-    lines_list = [""] * n
-    for i in range(n):
-        try:
-            lines_list[i] = file_obj.readline()
-        except Exception as e:
-            sys.stderr.write(str(e))
-            return lines_list
-
-    return lines_list
-
-
-def safe_open(file_path):
-    try:
-        f = open(file_path, 'r')
-    except Exception as e:
-        sys.stderr.write(str(e))
-        sys.exit(1)
-    read_nlines(f, 1)
-    return f
-
-
 def get_tpoint(csv_line_str):
     # description: record timestamp,client timestamp,button,state,x,y
     # input (str):
@@ -152,9 +132,9 @@ def init_features_obj():
 
 
 def record_features(mouse_data_file_path):
-    mouse_data_file = safe_open(mouse_data_file_path)
+    mouse_data_file = commons.safe_open(mouse_data_file_path)
     features_obj = init_features_obj()
-    tpoints = [get_tpoint(e) for e in read_nlines(mouse_data_file, 8)]
+    tpoints = [get_tpoint(e) for e in commons.read_nlines(mouse_data_file, 8)]
 
     for line in mouse_data_file:
         for feature in FEATURES:
