@@ -64,8 +64,8 @@ def write_stdout(content):
 
 
 def theta(point_a, point_b):
-    delta_x = abs(point_a[0] - point_b[0])
-    delta_y = abs(point_a[1] - point_b[1])
+    delta_x = abs(point_a.x - point_b.x)
+    delta_y = abs(point_a.y - point_b.y)
     return math.atan2(delta_y, delta_x)
 
 

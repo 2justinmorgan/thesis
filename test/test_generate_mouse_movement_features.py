@@ -1,5 +1,6 @@
 import pytest
 import generate_mouse_movement_features as gen_features
+from generate_mouse_movement_features import Point
 from generate_mouse_movement_features import TPoint
 import importlib
 
@@ -8,6 +9,7 @@ import importlib
 def before_each():
     import generate_mouse_movement_features
     gen_features = importlib.reload(generate_mouse_movement_features)
+    Point = gen_features.Point
     TPoint = gen_features.TPoint
 
 
@@ -25,8 +27,8 @@ def test_write_stdout(capsys):
 @pytest.mark.parametrize(
     "point_a,point_b,expect",
     [
-        ([23, 42], [31, 45], pytest.approx(0.35877067027057225)),
-        ([1020, 355], [1003, 361], pytest.approx(0.3392926144540447))
+        (Point(23, 42), Point(31, 45), pytest.approx(0.35877067027057225)),
+        (Point(1020, 355), Point(1003, 361), pytest.approx(0.3392926144540447))
     ])
 def test_theta(point_a, point_b, expect):
     assert gen_features.theta(point_a, point_b) == expect
