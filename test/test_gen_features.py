@@ -1,25 +1,25 @@
 import pytest
-import generate_mouse_movement_features as gen_features
-from generate_mouse_movement_features import Point
-from generate_mouse_movement_features import TPoint
+import gen_features as genfeatures
+from gen_features import Point
+from gen_features import TPoint
 import importlib
 
 
 @pytest.fixture(autouse=True)
 def before_each():
-    import generate_mouse_movement_features
-    gen_features = importlib.reload(generate_mouse_movement_features)
-    Point = gen_features.Point
-    TPoint = gen_features.TPoint
+    import gen_features
+    genfeatures = importlib.reload(gen_features)
+    Point = genfeatures.Point
+    TPoint = genfeatures.TPoint
 
 
 def test_hello():
-    assert gen_features.hello("Mike") == "hello Mike"
+    assert genfeatures.hello("Mike") == "hello Mike"
 
 
 def test_write_stdout(capsys):
     test_input = "hello stdout test case"
-    gen_features.write_stdout(test_input)
+    genfeatures.write_stdout(test_input)
     captured = capsys.readouterr()
     assert captured.out == test_input
 
@@ -31,7 +31,7 @@ def test_write_stdout(capsys):
         (Point(1020, 355), Point(1003, 361), pytest.approx(0.3392926144540447))
     ])
 def test_theta(point_a, point_b, expect):
-    assert gen_features.theta(point_a, point_b) == expect
+    assert genfeatures.theta(point_a, point_b) == expect
 
 
 @pytest.mark.parametrize(
@@ -54,7 +54,7 @@ def test_theta(point_a, point_b, expect):
         ('xy', TPoint(1490, 888, 0.92), TPoint(1539, 831, 1.005), pytest.approx(884.3115516689962))
     ])
 def test_velocity(axis, tpoint_a, tpoint_b, expect):
-    assert gen_features.velocity(axis, tpoint_a, tpoint_b) == expect
+    assert genfeatures.velocity(axis, tpoint_a, tpoint_b) == expect
 
 
 def test_safe_file_read(tmpdir):
@@ -65,7 +65,7 @@ def test_safe_file_read(tmpdir):
     temp_file_path = str(tmpdir) + '/' + temp_file_name
 
     expect_file_content = '\n'.join(temp_file_content.split('\n')[1:])
-    actual_file_content = gen_features.commons.safe_open(temp_file_path).read()
+    actual_file_content = genfeatures.commons.safe_open(temp_file_path).read()
     assert actual_file_content == expect_file_content
 
 
@@ -76,7 +76,7 @@ def test_safe_file_read(tmpdir):
         ("291.082999945,291.082,NoButton,Move,544,594", TPoint(544, 594, 291.082))
     ])
 def test_get_tpoint(csv_line_str, expect):
-    actual = gen_features.get_tpoint(csv_line_str)
+    actual = genfeatures.get_tpoint(csv_line_str)
     assert actual.x == expect.x
     assert actual.y == expect.y
     assert actual.time == expect.time
@@ -84,9 +84,9 @@ def test_get_tpoint(csv_line_str, expect):
 
 def test_init_features_obj():
     expect = {}
-    for feature in gen_features.FEATURES:
-        expect[feature] = gen_features.METRICS
-    actual = gen_features.init_features_obj()
+    for feature in genfeatures.FEATURES:
+        expect[feature] = genfeatures.METRICS
+    actual = genfeatures.init_features_obj()
     assert actual == expect
 
 
@@ -141,7 +141,7 @@ def test_init_features_obj():
             pytest.approx(0))
     ])
 def test_get_val(feature_name, tpoints, expect):
-    assert gen_features.get_val(feature_name, tpoints) == expect
+    assert genfeatures.get_val(feature_name, tpoints) == expect
 
 
 @pytest.mark.parametrize(
@@ -175,5 +175,5 @@ def test_read_nlines(tmpdir, offset, nlines, expect_file_content):
     for i in range(offset):
         pytemp_file.readline()
 
-    actual_file_content = gen_features.commons.read_nlines(pytemp_file, nlines)
+    actual_file_content = genfeatures.commons.read_nlines(pytemp_file, nlines)
     assert actual_file_content == expect_file_content
