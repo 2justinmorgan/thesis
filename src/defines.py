@@ -1,7 +1,7 @@
 
 MOUSE_DATA_FILE_ARGV_TITLE = "<mouse_data_file>"
+RECORDED_FEATURES_DIR = "../data/recorded_features"
 MAIN_FILE = ""  # defined in script with main func
-SESSION = None
 
 FEATURES = [
     "velocity",

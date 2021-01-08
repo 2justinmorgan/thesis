@@ -119,13 +119,13 @@ def write_stdout(content):
 
 def main(argc, argv):
     mouse_data_file_path = commons.check_args(argc, argv)
-    defines.SESSION = commons.get_session(mouse_data_file_path)
+    session = commons.get_session(mouse_data_file_path)
 
     features_obj = record_features(mouse_data_file_path)
     insert_stats(features_obj)
 
     formatout.format_print(features_obj)
-    formatout.create_json(features_obj)
+    formatout.create_json(features_obj, session)
 
 
 if __name__ == "__main__":

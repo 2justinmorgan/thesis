@@ -29,6 +29,10 @@ def get_session(filepath):
         if "session" in element:
             session_id = element
 
+    if len(user) <= 0 or len(session_id) <= 0:
+        sys.stderr.write(f"Unable to get session info\n")
+        sys.exit(1)
+
     return Session(user, session_id)
 
 
