@@ -35,13 +35,6 @@ class TPoint(Point):
         self.y = int(y)
         self.time = float(time)
 
-    @staticmethod
-    def list_to_tpoint(tpoint_list):
-        x = tpoint_list[0]
-        y = tpoint_list[1]
-        time = tpoint_list[2]
-        return TPoint(x, y, time)
-
 
 def print_usage(exit_program):
     print(f"Usage: {__file__.split('/')[-1]} <mouse_data_file>")
@@ -148,9 +141,7 @@ def get_tpoint(csv_line_str):
     # TPoint(544, 594, 291.082)
 
     csv_line_list = csv_line_str.split(',')
-    tpoint_str_list = [csv_line_list[4], csv_line_list[5], csv_line_list[1]]
-    tpoint = TPoint.list_to_tpoint([float(e) for e in tpoint_str_list])
-    return tpoint
+    return TPoint(csv_line_list[4], csv_line_list[5], csv_line_list[1])
 
 
 def init_features_obj():
