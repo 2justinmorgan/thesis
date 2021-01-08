@@ -5,4 +5,5 @@ __pycache__/
 # sym links
 test/gen_features.py
 test/commons.py
+test/defines.py
 test/formatout.py
