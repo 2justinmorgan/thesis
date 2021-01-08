@@ -2,8 +2,12 @@
 *.swp
 __pycache__/
 
+data/clean_mouse_data/test_files
+data/clean_mouse_data/training_files
+
 # sym links
 test/gen_features.py
 test/commons.py
 test/defines.py
 test/formatout.py
+data/clean_mouse_data/clean_data.py
