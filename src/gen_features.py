@@ -4,27 +4,14 @@ import sys
 import copy
 import commons
 import formatout
-from defines import FEATURES, METRICS, Point, TPoint
+import defines
 
+defines.MAIN_FILE = __file__.split('/')[-1]
 
-def print_usage(exit_program):
-    print(f"Usage: {__file__.split('/')[-1]} <mouse_data_file>")
-    if exit_program:
-        sys.exit(0)
-
-
-def check_args(argc, argv):
-    if argc != 2:
-        print_usage(1)
-    return argv[1]
-
-
-def hello(name):
-    return "hello " + str(name)
-
-
-def write_stdout(content):
-    sys.stdout.write(content)
+FEATURES = defines.FEATURES
+METRICS = defines.METRICS
+Point = defines.Point
+TPoint = defines.TPoint
 
 
 def theta(point_a, point_b):
@@ -122,8 +109,16 @@ def insert_stats(features_obj):
         stats_obj["range"] = [min(vals), max(vals)]
 
 
+def hello(name):
+    return "hello " + str(name)
+
+
+def write_stdout(content):
+    sys.stdout.write(content)
+
+
 def main(argc, argv):
-    mouse_data_file_path = check_args(argc, argv)
+    mouse_data_file_path = commons.check_args(argc, argv)
     features_obj = record_features(mouse_data_file_path)
     insert_stats(features_obj)
     formatout.format_print(features_obj)
