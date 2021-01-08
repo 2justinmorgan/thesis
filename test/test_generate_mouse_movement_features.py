@@ -94,51 +94,51 @@ def test_init_features_obj():
     "feature_name,tpoints,expect",
     [
         (
-                "theta",
-                [TPoint(25, 12, 0.33), TPoint(18, 33, 1.4)],
-                pytest.approx(1.2490457723982544)),
+            "theta",
+            [TPoint(25, 12, 0.33), TPoint(18, 33, 1.4)],
+            pytest.approx(1.2490457723982544)),
         (
-                "theta",
-                [TPoint(556, 273, 8.33927), TPoint(556, 255, 8.4599)],
-                pytest.approx(1.5707963267948966)),
+            "theta",
+            [TPoint(556, 273, 8.33927), TPoint(556, 255, 8.4599)],
+            pytest.approx(1.5707963267948966)),
         (
-                "velocity",
-                [TPoint(34, 55, 0.334), TPoint(33, 52, 0.397)],
-                pytest.approx(50.19488349473618)),
+            "velocity",
+            [TPoint(34, 55, 0.334), TPoint(33, 52, 0.397)],
+            pytest.approx(50.19488349473618)),
         (
-                "xvelocity",
-                [TPoint(34, 55, 0.334), TPoint(33, 52, 0.397)],
-                pytest.approx(15.873015873)),
+            "xvelocity",
+            [TPoint(34, 55, 0.334), TPoint(33, 52, 0.397)],
+            pytest.approx(15.873015873)),
         (
-                "yvelocity",
-                [TPoint(34, 55, 0.334), TPoint(33, 52, 0.397)],
-                pytest.approx(47.619047619)),
+            "yvelocity",
+            [TPoint(34, 55, 0.334), TPoint(33, 52, 0.397)],
+            pytest.approx(47.619047619)),
         (
-                "acceleration",
-                [TPoint(2, 4, 1), TPoint(1, 3, 2), TPoint(2, 3, 4), TPoint(4, 8, 8)],
-                pytest.approx(0.009703194369924173)),
+            "acceleration",
+            [TPoint(2, 4, 1), TPoint(1, 3, 2), TPoint(2, 3, 4), TPoint(4, 8, 8)],
+            pytest.approx(0.009703194369924173)),
         (
-                "acceleration",
-                [TPoint(2, 4, 1), TPoint(1, 3, 1), TPoint(2, 3, 1), TPoint(4, 8, 1)],
-                pytest.approx(0)),
+            "acceleration",
+            [TPoint(2, 4, 1), TPoint(1, 3, 1), TPoint(2, 3, 1), TPoint(4, 8, 1)],
+            pytest.approx(0)),
         (
-                "jerk",
-                [
-                    TPoint(3, 6, 0.1), TPoint(2, 4, 0.3), TPoint(1, 3, 0.6), TPoint(5, 4, 1),
-                    TPoint(6, 7, 1.1), TPoint(8, 5, 1.4), TPoint(5, 4, 1.6), TPoint(2, 2, 1.9)],
-                pytest.approx(1.2602714455166364)),
+            "jerk",
+            [
+                TPoint(3, 6, 0.1), TPoint(2, 4, 0.3), TPoint(1, 3, 0.6), TPoint(5, 4, 1),
+                TPoint(6, 7, 1.1), TPoint(8, 5, 1.4), TPoint(5, 4, 1.6), TPoint(2, 2, 1.9)],
+            pytest.approx(1.2602714455166364)),
         (
-                "jerk",
-                [
-                    TPoint(344, 108, 0.99371), TPoint(345, 101, 0.99914), TPoint(347, 93, 1.0038), TPoint(353, 90, 1.02388),
-                    TPoint(355, 90, 1.13884), TPoint(355, 94, 1.177483), TPoint(357, 95, 1.201), TPoint(358, 98, 1.237114)],
-                pytest.approx(131170.79429774)),
+            "jerk",
+            [
+                TPoint(344, 108, 0.99371), TPoint(345, 101, 0.99914), TPoint(347, 93, 1.0038), TPoint(353, 90, 1.02388),
+                TPoint(355, 90, 1.13884), TPoint(355, 94, 1.177483), TPoint(357, 95, 1.201), TPoint(358, 98, 1.237114)],
+            pytest.approx(131170.79429774)),
         (
-                "jerk",
-                [
-                    TPoint(3, 6, 0.1), TPoint(2, 4, 0.1), TPoint(1, 3, 0.1), TPoint(5, 4, .1),
-                    TPoint(6, 7, .1), TPoint(8, 5, .1), TPoint(5, 4, .1), TPoint(2, 2, .1)],
-                pytest.approx(0))
+            "jerk",
+            [
+                TPoint(3, 6, 0.1), TPoint(2, 4, 0.1), TPoint(1, 3, 0.1), TPoint(5, 4, .1),
+                TPoint(6, 7, .1), TPoint(8, 5, .1), TPoint(5, 4, .1), TPoint(2, 2, .1)],
+            pytest.approx(0))
     ])
 def test_get_val(feature_name, tpoints, expect):
     assert gen_features.get_val(feature_name, tpoints) == expect
@@ -150,19 +150,19 @@ def test_get_val(feature_name, tpoints, expect):
         (2, 3, ["third\n", "fourth\n", "fifth\n"]),
         (0, 2, ["first\n", "second\n"]),
         (
-                1,
-                10,
-                [
-                    "second\n",
-                    "third\n",
-                    "fourth\n",
-                    "fifth\n",
-                    "sixth\n",
-                    "seventh\n",
-                    "",
-                    "",
-                    "",
-                    ""])
+            1,
+            10,
+            [
+                "second\n",
+                "third\n",
+                "fourth\n",
+                "fifth\n",
+                "sixth\n",
+                "seventh\n",
+                "",
+                "",
+                "",
+                ""])
     ])
 def test_read_nlines(tmpdir, offset, nlines, expect_file_content):
     temp_file_name = "temp_test_file.txt"
@@ -177,5 +177,3 @@ def test_read_nlines(tmpdir, offset, nlines, expect_file_content):
 
     actual_file_content = gen_features.commons.read_nlines(pytemp_file, nlines)
     assert actual_file_content == expect_file_content
-
-
