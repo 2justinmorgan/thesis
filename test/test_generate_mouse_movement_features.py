@@ -96,11 +96,11 @@ def test_init_features_obj():
         (
                 "theta",
                 [TPoint(25, 12, 0.33), TPoint(18, 33, 1.4)],
-                pytest.approx(3)),
+                pytest.approx(1.2490457723982544)),
         (
                 "theta",
                 [TPoint(556, 273, 8.33927), TPoint(556, 255, 8.4599)],
-                pytest.approx(0)),
+                pytest.approx(1.5707963267948966)),
         (
                 "velocity",
                 [TPoint(34, 55, 0.334), TPoint(33, 52, 0.397)],

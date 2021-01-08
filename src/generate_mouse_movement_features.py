@@ -75,9 +75,7 @@ def get_val(feature_name, tpoints):
         return abs(acceleration_a - acceleration_b) / delta_t if delta_t else 0
 
     if feature_name == "theta":
-        delta_y = abs(tpoints[0].y - tpoints[1].y)
-        delta_x = abs(tpoints[0].x - tpoints[1].x)
-        return delta_y / delta_x if delta_x else 0
+        return theta(tpoints[0], tpoints[1])
 
     return -1
 
