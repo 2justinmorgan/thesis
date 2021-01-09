@@ -140,9 +140,9 @@ def test_get_val(feature_name, tpoints, expect):
     assert genfeatures.get_val(feature_name, tpoints) == expect
 
 
-def test_record_features(tmpdir):
-    temp_file_name = "temp_mouse_data_file.csv"
-    temp_file_content = \
+def mock_mouse_data_file(tmpdir):
+    temp_mouse_data_file_name = "temp_mouse_data_mouse_data_file.csv"
+    temp_mouse_data_file_content = \
         "record timestamp,client timestamp,button,state,x,y\n" \
         "0.232000112534,0.234000000171,NoButton,Move,262,2\n" \
         "0.335999965668,0.342999999877,NoButton,Move,361,97\n" \
@@ -156,11 +156,17 @@ def test_record_features(tmpdir):
         "1.65600013733,1.6540000001,NoButton,Move,110,99\n" \
         "1.8029999733,1.79400000023,NoButton,Move,99,110\n" \
         "1.9240000248,1.91900000023,NoButton,Move,99,114\n"
-    temp_file = tmpdir.join(temp_file_name)
-    temp_file.write(temp_file_content)
-    temp_file_path = str(tmpdir) + '/' + temp_file_name
+    temp_mouse_data_file = tmpdir.join(temp_mouse_data_file_name)
+    temp_mouse_data_file.write(temp_mouse_data_file_content)
+    temp_mouse_data_filepath = str(tmpdir) + '/' + temp_mouse_data_file_name
 
-    actual_features_obj = genfeatures.record_features(temp_file_path)
+    return temp_mouse_data_filepath
+
+
+def test_record_features_returned_object_shape(tmpdir):
+    temp_mouse_data_filepath = mock_mouse_data_file(tmpdir)
+    actual_features_obj = genfeatures.record_features(temp_mouse_data_filepath)
+
     assert len(actual_features_obj) == 6  # there should be 6 FEATURES
 
     for feature in genfeatures.FEATURES:
@@ -171,9 +177,68 @@ def test_record_features(tmpdir):
         assert actual_features_obj[feature].range.low == 0.0
         assert actual_features_obj[feature].range.high == 0.0
 
-    assert len(actual_features_obj["velocity"].records) == 11
-    assert len(actual_features_obj["xvelocity"].records) == 11
-    assert len(actual_features_obj["yvelocity"].records) == 11
-    assert len(actual_features_obj["acceleration"].records) == 9
-    assert len(actual_features_obj["jerk"].records) == 5
-    assert len(actual_features_obj["theta"].records) == 11
+
+def test_record_features_velocity_feature(tmpdir):
+    temp_mouse_data_filepath = mock_mouse_data_file(tmpdir)
+    actual_features_obj = genfeatures.record_features(temp_mouse_data_filepath)
+
+    assert len(actual_features_obj["velocity"].records) == 4
+    assert actual_features_obj["velocity"].records[0] == pytest.approx(1258.7878152696971)
+    assert actual_features_obj["velocity"].records[1] == pytest.approx(1061.1135531890793)
+    assert actual_features_obj["velocity"].records[2] == pytest.approx(12.820512816239315)
+    assert actual_features_obj["velocity"].records[3] == pytest.approx(2178.662465607613)
+
+
+def test_record_features_xvelocity_feature(tmpdir):
+    temp_mouse_data_filepath = mock_mouse_data_file(tmpdir)
+    actual_features_obj = genfeatures.record_features(temp_mouse_data_filepath)
+
+    assert len(actual_features_obj["xvelocity"].records) == 4
+    assert actual_features_obj["xvelocity"].records[0] == pytest.approx(908.256883183739)
+    assert actual_features_obj["xvelocity"].records[1] == pytest.approx(957.4468080930284)
+    assert actual_features_obj["xvelocity"].records[2] == pytest.approx(12.820512816239315)
+    assert actual_features_obj["xvelocity"].records[3] == pytest.approx(2174.3119231744813)
+
+
+def test_record_features_yvelocity_feature(tmpdir):
+    temp_mouse_data_filepath = mock_mouse_data_file(tmpdir)
+    actual_features_obj = genfeatures.record_features(temp_mouse_data_filepath)
+
+    assert len(actual_features_obj["yvelocity"].records) == 4
+    assert actual_features_obj["yvelocity"].records[0] == pytest.approx(871.5596353783354)
+    assert actual_features_obj["yvelocity"].records[1] == pytest.approx(457.44680831111356)
+    assert actual_features_obj["yvelocity"].records[2] == pytest.approx(0.0)
+    assert actual_features_obj["yvelocity"].records[3] == pytest.approx(137.61467868192918)
+
+
+def test_record_features_acceleration_feature(tmpdir):
+    temp_mouse_data_filepath = mock_mouse_data_file(tmpdir)
+    actual_features_obj = genfeatures.record_features(temp_mouse_data_filepath)
+
+    assert len(actual_features_obj["acceleration"].records) == 4
+    assert actual_features_obj["acceleration"].records[0] == pytest.approx(2101.125299682793)
+    assert actual_features_obj["acceleration"].records[1] == pytest.approx(1884.568148013704)
+    assert actual_features_obj["acceleration"].records[2] == pytest.approx(52.544863033942164)
+    assert actual_features_obj["acceleration"].records[3] == pytest.approx(4094.107861466577)
+
+
+def test_record_features_jerk_feature(tmpdir):
+    temp_mouse_data_filepath = mock_mouse_data_file(tmpdir)
+    actual_features_obj = genfeatures.record_features(temp_mouse_data_filepath)
+
+    assert len(actual_features_obj["jerk"].records) == 4
+    assert actual_features_obj["jerk"].records[0] == pytest.approx(546.3725627124735)
+    assert actual_features_obj["jerk"].records[1] == pytest.approx(1156.5696055390795)
+    assert actual_features_obj["jerk"].records[2] == pytest.approx(1227.7334297968214)
+    assert actual_features_obj["jerk"].records[3] == pytest.approx(4026.6489828960184)
+
+
+def test_record_features_theta_feature(tmpdir):
+    temp_mouse_data_filepath = mock_mouse_data_file(tmpdir)
+    actual_features_obj = genfeatures.record_features(temp_mouse_data_filepath)
+
+    assert len(actual_features_obj["theta"].records) == 4
+    assert actual_features_obj["theta"].records[0] == pytest.approx(0.7647825277718445)
+    assert actual_features_obj["theta"].records[1] == pytest.approx(0.4457123126286356)
+    assert actual_features_obj["theta"].records[2] == pytest.approx(0.0)
+    assert actual_features_obj["theta"].records[3] == pytest.approx(0.06320683189746022)
