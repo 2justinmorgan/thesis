@@ -2,6 +2,7 @@ import pytest
 import gen_features as genfeatures
 from gen_features import Point
 from gen_features import TPoint
+from gen_features import Feature
 import importlib
 
 
@@ -11,6 +12,7 @@ def before_each():
     genfeatures = importlib.reload(gen_features)
     Point = genfeatures.Point
     TPoint = genfeatures.TPoint
+    Feature = genfeatures.Feature
 
 
 def test_hello():
@@ -71,11 +73,17 @@ def test_get_tpoint(csv_line_str, expect):
 
 
 def test_init_features_obj():
-    expect = {}
-    for feature in genfeatures.FEATURES:
-        expect[feature] = genfeatures.METRICS
     actual = genfeatures.init_features_obj()
-    assert actual == expect
+    assert len(actual) == 6
+    for feature in genfeatures.FEATURES:
+        assert actual[feature].mean == 0.0
+        assert actual[feature].median == 0.0
+        assert actual[feature].mode == 0.0
+        assert actual[feature].stdev == 0.0
+        assert actual[feature].range.low == 0.0
+        assert actual[feature].range.high == 0.0
+        assert type(actual[feature].records) == list
+        assert len(actual[feature].records) == 0
 
 
 @pytest.mark.parametrize(
@@ -130,3 +138,42 @@ def test_init_features_obj():
     ])
 def test_get_val(feature_name, tpoints, expect):
     assert genfeatures.get_val(feature_name, tpoints) == expect
+
+
+def test_record_features(tmpdir):
+    temp_file_name = "temp_mouse_data_file.csv"
+    temp_file_content = \
+        "record timestamp,client timestamp,button,state,x,y\n" \
+        "0.232000112534,0.234000000171,NoButton,Move,262,2\n" \
+        "0.335999965668,0.342999999877,NoButton,Move,361,97\n" \
+        "0.624000072479,0.436999999918,NoButton,Move,451,140\n" \
+        "0.816999912262,0.827000000048,NoButton,Move,446,140\n" \
+        "0.929000139236,0.93600000022,NoButton,Move,209,125\n" \
+        "1.1930000782,1.20099999988,NoButton,Move,223,124\n" \
+        "1.30400013924,1.31000000006,NoButton,Move,203,115\n" \
+        "1.52500009537,1.4040000001,NoButton,Move,138,91\n" \
+        "1.52500009537,1.5290000001,NoButton,Move,134,90\n" \
+        "1.65600013733,1.6540000001,NoButton,Move,110,99\n" \
+        "1.8029999733,1.79400000023,NoButton,Move,99,110\n" \
+        "1.9240000248,1.91900000023,NoButton,Move,99,114\n"
+    temp_file = tmpdir.join(temp_file_name)
+    temp_file.write(temp_file_content)
+    temp_file_path = str(tmpdir) + '/' + temp_file_name
+
+    actual_features_obj = genfeatures.record_features(temp_file_path)
+    assert len(actual_features_obj) == 6  # there should be 6 FEATURES
+
+    for feature in genfeatures.FEATURES:
+        assert actual_features_obj[feature].mean == 0.0
+        assert actual_features_obj[feature].median == 0.0
+        assert actual_features_obj[feature].mode == 0.0
+        assert actual_features_obj[feature].stdev == 0.0
+        assert actual_features_obj[feature].range.low == 0.0
+        assert actual_features_obj[feature].range.high == 0.0
+
+    assert len(actual_features_obj["velocity"].records) == 11
+    assert len(actual_features_obj["xvelocity"].records) == 11
+    assert len(actual_features_obj["yvelocity"].records) == 11
+    assert len(actual_features_obj["acceleration"].records) == 9
+    assert len(actual_features_obj["jerk"].records) == 5
+    assert len(actual_features_obj["theta"].records) == 11

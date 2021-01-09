@@ -10,6 +10,7 @@ defines.MAIN_FILE = __file__.split('/')[-1]
 
 FEATURES = defines.FEATURES
 METRICS = defines.METRICS
+Feature = defines.Feature
 Point = defines.Point
 TPoint = defines.TPoint
 
@@ -80,8 +81,8 @@ def get_tpoint(csv_line_str):
 
 def init_features_obj():
     features_obj = {}
-    for feature in FEATURES:
-        features_obj[feature] = copy.deepcopy(METRICS)
+    for feature_name in FEATURES:
+        features_obj[feature_name] = Feature(feature_name)
     return features_obj
 
 
@@ -93,7 +94,7 @@ def record_features(mouse_data_file_path):
     for line in mouse_data_file:
         for feature in FEATURES:
             feature_val = get_val(feature, tpoints)
-            features_obj[feature]["all"].append(feature_val)
+            features_obj[feature].add(feature_val)
         tpoints.pop(0)
         tpoints.append(get_tpoint(line))
 

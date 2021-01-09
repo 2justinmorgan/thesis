@@ -40,3 +40,26 @@ class Session:
     def __init__(self, user="", id=""):
         self.user = user
         self.id = id
+
+
+class Range:
+    def __init__(self, low=0.0, high=0.0):
+        self.low = low
+        self.high = high
+
+
+class Feature:
+    name = ""
+    mean = 0.0
+    median = 0.0
+    mode = 0.0
+    stdev = 0.0
+    range = Range()
+    records = None
+
+    def __init__(self, name=""):
+        self.name = name
+        self.records = []
+
+    def add(self, record):
+        self.records.append(record)
