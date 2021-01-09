@@ -49,16 +49,13 @@ class Range:
 
 
 class Feature:
-    name = ""
-    mean = 0.0
-    median = 0.0
-    mode = 0.0
-    stdev = 0.0
-    range = Range()
-    records = None
-
     def __init__(self, name=""):
         self.name = name
+        self.mean = 0.0
+        self.median = 0.0
+        self.mode = 0.0
+        self.stdev = 0.0
+        self.range = Range()
         self.records = []
 
     def add(self, record):

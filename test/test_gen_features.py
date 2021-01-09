@@ -3,13 +3,16 @@ import gen_features as genfeatures
 from gen_features import Point
 from gen_features import TPoint
 from gen_features import Feature
+import defines
 import importlib
 
 
 @pytest.fixture(autouse=True)
 def before_each():
     import gen_features
+    import defines
     genfeatures = importlib.reload(gen_features)
+    defines = importlib.reload(defines)
     Point = genfeatures.Point
     TPoint = genfeatures.TPoint
     Feature = genfeatures.Feature
@@ -82,6 +85,7 @@ def test_init_features_obj():
         assert actual[feature].stdev == 0.0
         assert actual[feature].range.low == 0.0
         assert actual[feature].range.high == 0.0
+        assert isinstance(actual[feature].range, defines.Range)
         assert type(actual[feature].records) == list
         assert len(actual[feature].records) == 0
 
@@ -170,12 +174,15 @@ def test_record_features_returned_object_shape(tmpdir):
     assert len(actual_features_obj) == 6  # there should be 6 FEATURES
 
     for feature in genfeatures.FEATURES:
+        assert actual_features_obj[feature].name == feature
         assert actual_features_obj[feature].mean == 0.0
         assert actual_features_obj[feature].median == 0.0
         assert actual_features_obj[feature].mode == 0.0
         assert actual_features_obj[feature].stdev == 0.0
         assert actual_features_obj[feature].range.low == 0.0
         assert actual_features_obj[feature].range.high == 0.0
+        assert type(actual_features_obj[feature].records) == list
+        assert len(actual_features_obj[feature].records) > 0
 
 
 def test_record_features_velocity_feature(tmpdir):
