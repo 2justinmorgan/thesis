@@ -269,3 +269,17 @@ def test_record_features_theta_feature(tmpdir):
     assert actual_features_obj["theta"].records[1] == pytest.approx(0.4457123126286356)
     assert actual_features_obj["theta"].records[2] == pytest.approx(0.0)
     assert actual_features_obj["theta"].records[3] == pytest.approx(0.06320683189746022)
+
+
+def test_main_mock_spy():
+    genfeatures.commons.check_args = lambda mock_argc, mock_argv: "mouse/data/file/path"
+    genfeatures.commons.get_session = lambda mouse_data_file_path: genfeatures.commons.Session()
+    genfeatures.record_features = lambda mouse_data_file_path: {"this_is_a_features_obj": True}
+    genfeatures.insert_stats = lambda features_obj: None
+    genfeatures.formatout.create_json = lambda features_obj, session: None
+
+    with mock.patch('gen_features.record_features', wraps=genfeatures.record_features) as record_features_mock:
+        argv = ["this_script_name.py", "data/file/path/user01/session_01"]
+        argc = len(argv)
+        genfeatures.main(argc, argv)
+        record_features_mock.assert_called_once()
