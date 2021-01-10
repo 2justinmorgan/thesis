@@ -1,5 +1,6 @@
 import pytest
 import mock
+import statistics
 import gen_features as genfeatures
 from gen_features import Point
 from gen_features import TPoint
@@ -47,6 +48,15 @@ def mock_record_features(tmpdir):
     features_obj = genfeatures.record_features(temp_mouse_data_filepath)
 
     return features_obj
+
+
+def check_if_feature_class_instance_has_all_member_variables(feature_class_instance):
+    obj = feature_class_instance
+    exected_members = ["name", "mean", "median", "mode", "stdev", "range", "records"]
+    actual_members = [attr for attr in dir(obj) if not callable(getattr(obj, attr)) and not attr.startswith("__")]
+    assert len(exected_members) == len(actual_members)
+    for expected_member in exected_members:
+        assert expected_member in actual_members
 
 
 def test_hello():
@@ -109,16 +119,9 @@ def test_get_tpoint(csv_line_str, expect):
 def test_init_features_obj():
     actual_features_obj = genfeatures.init_features_obj()
 
-    def check_if_has_all_member_variables(obj):
-        exected_members = ["name", "mean", "median", "mode", "stdev", "range", "records"]
-        actual_members = [attr for attr in dir(obj) if not callable(getattr(obj, attr)) and not attr.startswith("__")]
-        assert len(exected_members) == len(actual_members)
-        for expected_member in exected_members:
-            assert expected_member in actual_members
-
     assert len(actual_features_obj) == len(defines.FEATURES)
     for feature in genfeatures.FEATURES:
-        check_if_has_all_member_variables(actual_features_obj[feature])
+        check_if_feature_class_instance_has_all_member_variables(actual_features_obj[feature])
         assert actual_features_obj[feature].mean == 0.0
         assert actual_features_obj[feature].median == 0.0
         assert actual_features_obj[feature].mode == 0.0
@@ -283,3 +286,18 @@ def test_main_mock_spy():
         argc = len(argv)
         genfeatures.main(argc, argv)
         record_features_mock.assert_called_once()
+
+
+def test_insert_stats(tmpdir):
+    features_obj = mock_record_features(tmpdir)
+
+    genfeatures.insert_stats(features_obj)
+
+    for feature in features_obj:
+        check_if_feature_class_instance_has_all_member_variables(features_obj[feature])
+        assert features_obj[feature].mean == pytest.approx(statistics.fmean(features_obj[feature].records))
+        assert features_obj[feature].median == pytest.approx(statistics.median(features_obj[feature].records))
+        assert features_obj[feature].mode == pytest.approx(statistics.mode(features_obj[feature].records))
+        assert features_obj[feature].stdev == pytest.approx(statistics.stdev(features_obj[feature].records))
+        assert features_obj[feature].range.low == pytest.approx(min(i for i in features_obj[feature].records if i > 0))
+        assert features_obj[feature].range.high == pytest.approx(max(features_obj[feature].records))
