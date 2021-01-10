@@ -1,4 +1,5 @@
 import sys
+import json
 import defines
 
 Session = defines.Session
@@ -56,3 +57,7 @@ def safe_open(file_path):
         sys.exit(1)
     read_nlines(f, 1)
     return f
+
+
+def class_obj_to_dict(class_obj):
+    return json.loads(json.dumps(class_obj, default=lambda o: getattr(o, '__dict__', str(o))))
