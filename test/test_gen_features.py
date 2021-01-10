@@ -18,6 +18,36 @@ def before_each():
     Feature = genfeatures.Feature
 
 
+def mock_mouse_data_file(tmpdir):
+    temp_mouse_data_file_name = "temp_mouse_data_mouse_data_file.csv"
+    temp_mouse_data_file_content = \
+        "record timestamp,client timestamp,button,state,x,y\n" \
+        "0.232000112534,0.234000000171,NoButton,Move,262,2\n" \
+        "0.335999965668,0.342999999877,NoButton,Move,361,97\n" \
+        "0.624000072479,0.436999999918,NoButton,Move,451,140\n" \
+        "0.816999912262,0.827000000048,NoButton,Move,446,140\n" \
+        "0.929000139236,0.93600000022,NoButton,Move,209,125\n" \
+        "1.1930000782,1.20099999988,NoButton,Move,223,124\n" \
+        "1.30400013924,1.31000000006,NoButton,Move,203,115\n" \
+        "1.52500009537,1.4040000001,NoButton,Move,138,91\n" \
+        "1.52500009537,1.5290000001,NoButton,Move,134,90\n" \
+        "1.65600013733,1.6540000001,NoButton,Move,110,99\n" \
+        "1.8029999733,1.79400000023,NoButton,Move,99,110\n" \
+        "1.9240000248,1.91900000023,NoButton,Move,99,114\n"
+    temp_mouse_data_file = tmpdir.join(temp_mouse_data_file_name)
+    temp_mouse_data_file.write(temp_mouse_data_file_content)
+    temp_mouse_data_filepath = str(tmpdir) + '/' + temp_mouse_data_file_name
+
+    return temp_mouse_data_filepath
+
+
+def mock_record_features(tmpdir):
+    temp_mouse_data_filepath = mock_mouse_data_file(tmpdir)
+    features_obj = genfeatures.record_features(temp_mouse_data_filepath)
+
+    return features_obj
+
+
 def test_hello():
     assert genfeatures.hello("Mike") == "hello Mike"
 
@@ -76,18 +106,27 @@ def test_get_tpoint(csv_line_str, expect):
 
 
 def test_init_features_obj():
-    actual = genfeatures.init_features_obj()
-    assert len(actual) == 6
+    actual_features_obj = genfeatures.init_features_obj()
+
+    def check_if_has_all_member_variables(obj):
+        exected_members = ["name", "mean", "median", "mode", "stdev", "range", "records"]
+        actual_members = [attr for attr in dir(obj) if not callable(getattr(obj, attr)) and not attr.startswith("__")]
+        assert len(exected_members) == len(actual_members)
+        for expected_member in exected_members:
+            assert expected_member in actual_members
+
+    assert len(actual_features_obj) == len(defines.FEATURES)
     for feature in genfeatures.FEATURES:
-        assert actual[feature].mean == 0.0
-        assert actual[feature].median == 0.0
-        assert actual[feature].mode == 0.0
-        assert actual[feature].stdev == 0.0
-        assert actual[feature].range.low == 0.0
-        assert actual[feature].range.high == 0.0
-        assert isinstance(actual[feature].range, defines.Range)
-        assert type(actual[feature].records) == list
-        assert len(actual[feature].records) == 0
+        check_if_has_all_member_variables(actual_features_obj[feature])
+        assert actual_features_obj[feature].mean == 0.0
+        assert actual_features_obj[feature].median == 0.0
+        assert actual_features_obj[feature].mode == 0.0
+        assert actual_features_obj[feature].stdev == 0.0
+        assert actual_features_obj[feature].range.low == 0.0
+        assert actual_features_obj[feature].range.high == 0.0
+        assert isinstance(actual_features_obj[feature].range, defines.Range)
+        assert type(actual_features_obj[feature].records) == list
+        assert len(actual_features_obj[feature].records) == 0
 
 
 @pytest.mark.parametrize(
@@ -142,29 +181,6 @@ def test_init_features_obj():
     ])
 def test_get_val(feature_name, tpoints, expect):
     assert genfeatures.get_val(feature_name, tpoints) == expect
-
-
-def mock_mouse_data_file(tmpdir):
-    temp_mouse_data_file_name = "temp_mouse_data_mouse_data_file.csv"
-    temp_mouse_data_file_content = \
-        "record timestamp,client timestamp,button,state,x,y\n" \
-        "0.232000112534,0.234000000171,NoButton,Move,262,2\n" \
-        "0.335999965668,0.342999999877,NoButton,Move,361,97\n" \
-        "0.624000072479,0.436999999918,NoButton,Move,451,140\n" \
-        "0.816999912262,0.827000000048,NoButton,Move,446,140\n" \
-        "0.929000139236,0.93600000022,NoButton,Move,209,125\n" \
-        "1.1930000782,1.20099999988,NoButton,Move,223,124\n" \
-        "1.30400013924,1.31000000006,NoButton,Move,203,115\n" \
-        "1.52500009537,1.4040000001,NoButton,Move,138,91\n" \
-        "1.52500009537,1.5290000001,NoButton,Move,134,90\n" \
-        "1.65600013733,1.6540000001,NoButton,Move,110,99\n" \
-        "1.8029999733,1.79400000023,NoButton,Move,99,110\n" \
-        "1.9240000248,1.91900000023,NoButton,Move,99,114\n"
-    temp_mouse_data_file = tmpdir.join(temp_mouse_data_file_name)
-    temp_mouse_data_file.write(temp_mouse_data_file_content)
-    temp_mouse_data_filepath = str(tmpdir) + '/' + temp_mouse_data_file_name
-
-    return temp_mouse_data_filepath
 
 
 def test_record_features_returned_object_shape(tmpdir):
