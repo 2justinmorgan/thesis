@@ -104,11 +104,11 @@ def record_features(mouse_data_file_path):
 def insert_stats(features_obj):
     for feature in features_obj:
         records = features_obj[feature].records
-        features_obj[feature].mean = statistics.fmean(records)
-        features_obj[feature].median = statistics.median(records)
-        features_obj[feature].mode = statistics.mode(records)
-        features_obj[feature].stdev = statistics.stdev(records)
-        features_obj[feature].range = defines.Range(min(i for i in records if i > 0), max(records))
+        features_obj[feature].stats.mean = statistics.fmean(records)
+        features_obj[feature].stats.median = statistics.median(records)
+        features_obj[feature].stats.mode = statistics.mode(records)
+        features_obj[feature].stats.stdev = statistics.stdev(records)
+        features_obj[feature].stats.range = defines.Range(min(i for i in records if i > 0), max(records))
 
 
 def hello(name):

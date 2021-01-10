@@ -48,14 +48,19 @@ class Range:
         self.high = high
 
 
+class Stats:
+    def __init__(self, mean=0.0, median=0.0, mode=0.0, stdev=0.0, range=Range()):
+        self.mean = mean
+        self.median = median
+        self.mode = mode
+        self.stdev = stdev
+        self.range = range
+
+
 class Feature:
     def __init__(self, name=""):
         self.name = name
-        self.mean = 0.0
-        self.median = 0.0
-        self.mode = 0.0
-        self.stdev = 0.0
-        self.range = Range()
+        self.stats = Stats()
         self.records = []
 
     def add(self, record):

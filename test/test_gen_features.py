@@ -50,9 +50,27 @@ def mock_record_features(tmpdir):
     return features_obj
 
 
+def check_if_range_class_instance_has_all_member_variables(range_class_instance):
+    obj = range_class_instance
+    exected_members = ["low", "high"]
+    actual_members = [attr for attr in dir(obj) if not callable(getattr(obj, attr)) and not attr.startswith("__")]
+    assert len(exected_members) == len(actual_members)
+    for expected_member in exected_members:
+        assert expected_member in actual_members
+
+
+def check_if_stats_class_instance_has_all_member_variables(stats_class_instance):
+    obj = stats_class_instance
+    exected_members = ["mean", "median", "mode", "stdev", "range"]
+    actual_members = [attr for attr in dir(obj) if not callable(getattr(obj, attr)) and not attr.startswith("__")]
+    assert len(exected_members) == len(actual_members)
+    for expected_member in exected_members:
+        assert expected_member in actual_members
+
+
 def check_if_feature_class_instance_has_all_member_variables(feature_class_instance):
     obj = feature_class_instance
-    exected_members = ["name", "mean", "median", "mode", "stdev", "range", "records"]
+    exected_members = ["name", "stats", "records"]
     actual_members = [attr for attr in dir(obj) if not callable(getattr(obj, attr)) and not attr.startswith("__")]
     assert len(exected_members) == len(actual_members)
     for expected_member in exected_members:
@@ -122,13 +140,17 @@ def test_init_features_obj():
     assert len(actual_features_obj) == len(defines.FEATURES)
     for feature in genfeatures.FEATURES:
         check_if_feature_class_instance_has_all_member_variables(actual_features_obj[feature])
-        assert actual_features_obj[feature].mean == 0.0
-        assert actual_features_obj[feature].median == 0.0
-        assert actual_features_obj[feature].mode == 0.0
-        assert actual_features_obj[feature].stdev == 0.0
-        assert actual_features_obj[feature].range.low == 0.0
-        assert actual_features_obj[feature].range.high == 0.0
-        assert isinstance(actual_features_obj[feature].range, defines.Range)
+        check_if_stats_class_instance_has_all_member_variables(actual_features_obj[feature].stats)
+        assert str(type(actual_features_obj[feature])) == "<class 'defines.Feature'>"  # not sure why not isinstance
+        assert isinstance(actual_features_obj[feature].stats, defines.Stats)
+        assert isinstance(actual_features_obj[feature].stats.range, defines.Range)
+        assert actual_features_obj[feature].name == feature
+        assert actual_features_obj[feature].stats.mean == 0.0
+        assert actual_features_obj[feature].stats.median == 0.0
+        assert actual_features_obj[feature].stats.mode == 0.0
+        assert actual_features_obj[feature].stats.stdev == 0.0
+        assert actual_features_obj[feature].stats.range.low == 0.0
+        assert actual_features_obj[feature].stats.range.high == 0.0
         assert type(actual_features_obj[feature].records) == list
         assert len(actual_features_obj[feature].records) == 0
 
@@ -195,17 +217,21 @@ def test_record_features_returned_object_shape(tmpdir):
         init_features_obj_mock.assert_called_once()
 
     assert len(actual_features_obj) == len(defines.FEATURES)
-
     for feature in genfeatures.FEATURES:
+        check_if_feature_class_instance_has_all_member_variables(actual_features_obj[feature])
+        check_if_stats_class_instance_has_all_member_variables(actual_features_obj[feature].stats)
+        assert str(type(actual_features_obj[feature])) == "<class 'defines.Feature'>"  # not sure why not isinstance
+        assert isinstance(actual_features_obj[feature].stats, defines.Stats)
+        assert isinstance(actual_features_obj[feature].stats.range, defines.Range)
         assert actual_features_obj[feature].name == feature
-        assert actual_features_obj[feature].mean == 0.0
-        assert actual_features_obj[feature].median == 0.0
-        assert actual_features_obj[feature].mode == 0.0
-        assert actual_features_obj[feature].stdev == 0.0
-        assert actual_features_obj[feature].range.low == 0.0
-        assert actual_features_obj[feature].range.high == 0.0
+        assert actual_features_obj[feature].stats.mean == 0.0
+        assert actual_features_obj[feature].stats.median == 0.0
+        assert actual_features_obj[feature].stats.mode == 0.0
+        assert actual_features_obj[feature].stats.stdev == 0.0
+        assert actual_features_obj[feature].stats.range.low == 0.0
+        assert actual_features_obj[feature].stats.range.high == 0.0
         assert type(actual_features_obj[feature].records) == list
-        assert len(actual_features_obj[feature].records) > 0
+        assert len(actual_features_obj[feature].records) == 4
 
 
 def test_record_features_velocity_feature(tmpdir):
@@ -295,9 +321,11 @@ def test_insert_stats(tmpdir):
 
     for feature in features_obj:
         check_if_feature_class_instance_has_all_member_variables(features_obj[feature])
-        assert features_obj[feature].mean == pytest.approx(statistics.fmean(features_obj[feature].records))
-        assert features_obj[feature].median == pytest.approx(statistics.median(features_obj[feature].records))
-        assert features_obj[feature].mode == pytest.approx(statistics.mode(features_obj[feature].records))
-        assert features_obj[feature].stdev == pytest.approx(statistics.stdev(features_obj[feature].records))
-        assert features_obj[feature].range.low == pytest.approx(min(i for i in features_obj[feature].records if i > 0))
-        assert features_obj[feature].range.high == pytest.approx(max(features_obj[feature].records))
+        check_if_stats_class_instance_has_all_member_variables(features_obj[feature].stats)
+        stats = features_obj[feature].stats
+        assert stats.mean == pytest.approx(statistics.fmean(features_obj[feature].records))
+        assert stats.median == pytest.approx(statistics.median(features_obj[feature].records))
+        assert stats.mode == pytest.approx(statistics.mode(features_obj[feature].records))
+        assert stats.stdev == pytest.approx(statistics.stdev(features_obj[feature].records))
+        assert stats.range.low == pytest.approx(min(i for i in features_obj[feature].records if i > 0))
+        assert stats.range.high == pytest.approx(max(features_obj[feature].records))
