@@ -1,7 +1,6 @@
 import sys
 import math
 import statistics
-import copy
 import commons
 import formatout
 import defines
@@ -9,9 +8,7 @@ import defines
 defines.MAIN_FILE = __file__.split('/')[-1]
 
 FEATURES = defines.FEATURES
-METRICS = defines.METRICS
 Feature = defines.Feature
-Point = defines.Point
 TPoint = defines.TPoint
 
 

@@ -2,11 +2,11 @@ import pytest
 import mock
 import statistics
 import gen_features as genfeatures
-from gen_features import Point
+from gen_features import defines
 from gen_features import TPoint
-from gen_features import Feature
-import defines
+Point = genfeatures.defines.Point
 import importlib
+
 
 
 @pytest.fixture(autouse=True)
@@ -14,10 +14,9 @@ def before_each():
     import gen_features
     import defines
     genfeatures = importlib.reload(gen_features)
-    defines = importlib.reload(defines)
-    Point = genfeatures.Point
+    defines = importlib.reload(genfeatures)
+    Point = genfeatures.defines.Point
     TPoint = genfeatures.TPoint
-    Feature = genfeatures.Feature
 
 
 def mock_mouse_data_file(tmpdir):

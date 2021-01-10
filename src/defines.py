@@ -12,15 +12,6 @@ FEATURES = [
     "theta"
 ]
 
-METRICS = {
-    "all": [],
-    "stats": {
-        "stdev": 0.0,
-        "mean": 0.0,
-        "range": []
-    }
-}
-
 
 class Locker:
     __locked = False
