@@ -1,4 +1,5 @@
 import pytest
+import mock
 import gen_features as genfeatures
 from gen_features import Point
 from gen_features import TPoint
@@ -185,9 +186,12 @@ def test_get_val(feature_name, tpoints, expect):
 
 def test_record_features_returned_object_shape(tmpdir):
     temp_mouse_data_filepath = mock_mouse_data_file(tmpdir)
-    actual_features_obj = genfeatures.record_features(temp_mouse_data_filepath)
 
-    assert len(actual_features_obj) == 6  # there should be 6 FEATURES
+    with mock.patch('gen_features.init_features_obj', wraps=genfeatures.init_features_obj) as init_features_obj_mock:
+        actual_features_obj = genfeatures.record_features(temp_mouse_data_filepath)
+        init_features_obj_mock.assert_called_once()
+
+    assert len(actual_features_obj) == len(defines.FEATURES)
 
     for feature in genfeatures.FEATURES:
         assert actual_features_obj[feature].name == feature
