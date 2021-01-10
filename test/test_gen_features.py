@@ -1,12 +1,11 @@
 import pytest
 import mock
+import importlib
 import statistics
 import gen_features as genfeatures
 from gen_features import defines
 from gen_features import TPoint
 Point = genfeatures.defines.Point
-import importlib
-
 
 
 @pytest.fixture(autouse=True)
@@ -42,11 +41,28 @@ def mock_mouse_data_file(tmpdir):
     return temp_mouse_data_filepath
 
 
-def mock_record_features(tmpdir):
+def mock_record_features(tmpdir=None):
+    if not tmpdir:
+        return genfeatures.init_features_obj()
+
     temp_mouse_data_filepath = mock_mouse_data_file(tmpdir)
     features_obj = genfeatures.record_features(temp_mouse_data_filepath)
 
     return features_obj
+
+
+def mock_main_and_get_inner_mocked_function(mocked_function_name="none"):
+    genfeatures.commons.check_args = lambda mock_argc, mock_argv: "mouse/data/file/path"
+    genfeatures.commons.get_session = lambda mouse_data_file_path: genfeatures.commons.Session()
+    genfeatures.record_features = lambda mouse_data_file_path: mock_record_features()
+    genfeatures.insert_stats = lambda features_obj: None
+    genfeatures.formatout.create_json = lambda features_obj, session: None
+
+    with mock.patch(f"gen_features.{mocked_function_name}") as function_mock:
+        argv = ["this_script_name.py", "data/file/path/user01/session_01"]
+        argc = len(argv)
+        genfeatures.main(argc, argv)
+        return function_mock
 
 
 def check_if_range_class_instance_has_all_member_variables(range_class_instance):
@@ -299,18 +315,12 @@ def test_record_features_theta_feature(tmpdir):
     assert actual_features_obj["theta"].records[3] == pytest.approx(0.06320683189746022)
 
 
-def test_main_mock_spy():
-    genfeatures.commons.check_args = lambda mock_argc, mock_argv: "mouse/data/file/path"
-    genfeatures.commons.get_session = lambda mouse_data_file_path: genfeatures.commons.Session()
-    genfeatures.record_features = lambda mouse_data_file_path: {"this_is_a_features_obj": True}
-    genfeatures.insert_stats = lambda features_obj: None
-    genfeatures.formatout.create_json = lambda features_obj, session: None
+def test_main_mock_and_spy():
+    record_features_mock = mock_main_and_get_inner_mocked_function(mocked_function_name="record_features")
+    record_features_mock.assert_called_once()
 
-    with mock.patch('gen_features.record_features', wraps=genfeatures.record_features) as record_features_mock:
-        argv = ["this_script_name.py", "data/file/path/user01/session_01"]
-        argc = len(argv)
-        genfeatures.main(argc, argv)
-        record_features_mock.assert_called_once()
+    insert_stats_mock = mock_main_and_get_inner_mocked_function(mocked_function_name="insert_stats")
+    insert_stats_mock.assert_called_once()
 
 
 def test_insert_stats(tmpdir):
