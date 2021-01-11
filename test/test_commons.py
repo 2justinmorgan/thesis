@@ -75,7 +75,8 @@ def test_get_session(filepath, expect):
     [
         (35.22142, True, 2),
         (41882.002, True, 5),
-        (0.0024, True, 0),
+        (4.19921, True, 1),
+        (0.90024, True, 0),
         (300110128, True, 9),
         (0.0, True, 0),
         (1882, False, 0),
@@ -87,3 +88,19 @@ def test_get_session(filepath, expect):
 )
 def test_num_digits(float_num, to_left_of_decimal, expected_num_digits):
     assert cms.num_digits(float_num, to_left_of_decimal=to_left_of_decimal) == expected_num_digits
+
+
+@pytest.mark.parametrize(
+    "float_num,expected_num_digits_to_right",
+    [
+        (0.038, 1),
+        (0.35, 0),
+        (0.0001003844, 3),
+        (0.000000000000, 0),
+        (1.0081, 2),
+        (200.0, 0),
+        (90233.0000018003, 5)
+    ]
+)
+def test_num_zero_decimal_digits(float_num, expected_num_digits_to_right):
+    assert cms.num_zero_decimal_digits(float_num) == expected_num_digits_to_right

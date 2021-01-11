@@ -1,6 +1,7 @@
 import sys
 import math
 import statistics
+import copy
 import commons
 import formatout
 import defines
@@ -99,23 +100,26 @@ def record_features(mouse_data_file_path):
 
 
 def soften_records(floats_list):
+    softened_list = copy.deepcopy(floats_list)
     i = 0
-    while i < len(floats_list):
-        print(i, floats_list)
-        float_num = round(floats_list[i], 6)
+    while i < len(softened_list):
+        float_num = round(softened_list[i], 6)
+
         if float_num <= 0:
-            floats_list.pop(i)
+            softened_list.pop(i)
             continue
 
-        left_n = commons.num_digits(float_num)
-        if left_n > 1:
-            float_num = round(float_num, -1 * (left_n - 1))
+        num_left_digits = commons.num_digits(float_num)
+        num_leading_zero_right_digits = commons.num_zero_decimal_digits(float_num)
+        if num_left_digits > 0:
+            float_num = round(float_num, -1 * (num_left_digits - 2))
         else:
-            float_num = round(float_num, 2)
-        floats_list[i] = float_num
+            float_num = round(float_num, (num_leading_zero_right_digits + 2))
+
+        softened_list[i] = float_num
         i += 1
 
-    return floats_list
+    return softened_list
 
 
 def get_mode(floats_list):
@@ -124,26 +128,28 @@ def get_mode(floats_list):
     max_frequency = 0
     mode = 0
     for float_num in clean_floats_list:
-        float_str = str(float_num)
-        if float_str not in frequencies:
-            frequencies[float_str] = 0
+        float_key = round(float_num, 6)
+        if float_key not in frequencies:
+            frequencies[float_key] = 0
             continue
-        frequencies[float_str] += 1
-        if frequencies[float_str] > max_frequency:
-            max_frequency = frequencies[float_str]
+        frequencies[float_key] += 1
+        if frequencies[float_key] > max_frequency:
+            max_frequency = frequencies[float_key]
             mode = float_num
 
     return mode
 
 
 def insert_stats(features_obj):
+    rnd = 7
     for feature in features_obj:
         records = features_obj[feature].records
-        features_obj[feature].stats.mean = statistics.fmean(records)
-        features_obj[feature].stats.median = statistics.median(records)
-        features_obj[feature].stats.mode = statistics.mode([round(e, 2) for e in records if e > 0])
-        features_obj[feature].stats.stdev = statistics.stdev(records)
-        features_obj[feature].stats.range = defines.Range(min(i for i in records if i > 0), max(records))
+        features_obj[feature].stats.mean = round(statistics.fmean(records), rnd)
+        features_obj[feature].stats.median = round(statistics.median(records), rnd)
+        features_obj[feature].stats.mode = round(get_mode(records), rnd)
+        features_obj[feature].stats.stdev = round(statistics.stdev(records), rnd)
+        positive_numbers = [r for r in records if r > 0]
+        features_obj[feature].stats.range = defines.Range(round(min(positive_numbers), rnd), round(max(records), rnd))
 
 
 def hello(name):
@@ -159,10 +165,6 @@ def main(argc, argv):
     session = commons.get_session(mouse_data_file_path)
 
     features_obj = record_features(mouse_data_file_path)
-    for f in features_obj:
-        print(f)
-        print(features_obj[f].records[:50])
-        print("\n\n")
     insert_stats(features_obj)
 
     #formatout.format_print(features_obj)

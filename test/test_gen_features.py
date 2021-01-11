@@ -317,14 +317,17 @@ def test_main_mock_and_spy():
 
 
 def test_insert_stats(tmpdir):
-    def num_digits_to_right(number):
-        n = 0
-        while number - int(number) > 0:
-            number = round(number * 10, 9)
-            n += 1
-        return n
-
     features_obj = mock_record_features(tmpdir)
+
+    # based solely on the "tmpdir" test at the mock_mouse_data_file func
+    expected_modes = {
+        "velocity": 0,
+        "xvelocity": 0,
+        "yvelocity": 0,
+        "acceleration": 0,
+        "jerk": 1200,
+        "theta": 0
+    }
 
     genfeatures.insert_stats(features_obj)
 
@@ -334,19 +337,35 @@ def test_insert_stats(tmpdir):
         stats = features_obj[feature].stats
         assert stats.mean == pytest.approx(statistics.fmean(features_obj[feature].records))
         assert stats.median == pytest.approx(statistics.median(features_obj[feature].records))
-        assert stats.mode == statistics.mode([round(e, 2) for e in features_obj[feature].records if e > 0])
-        assert num_digits_to_right(stats.mode) <= 2
+        assert stats.mode == expected_modes[feature]
         assert stats.stdev == pytest.approx(statistics.stdev(features_obj[feature].records))
         assert stats.range.low == pytest.approx(min(i for i in features_obj[feature].records if i > 0))
         assert stats.range.high == pytest.approx(max(features_obj[feature].records))
 
 
 @pytest.mark.parametrize(
+    "records,expected",
+    [
+        (
+            [17299.94271, 53.1279, 992.188, 400224.738802, 0.0, 0.0022731332],
+            [17000.0, 53, 990.0, 400000, 0.0023]),
+        (
+            [32815405.738801, 4190.2312, 90488.505, 75.18001, 1.2361, 0.000376],
+            [33000000.0, 4200, 90000.0, 75, 1.2, 0.00038]
+        )
+    ]
+)
+def test_soften_records(records, expected):
+    assert genfeatures.soften_records(records) == expected
+
+
+@pytest.mark.parametrize(
     "floats_list,expected_mode",
     [
-        ([92.11, 36.0025, 0.0, 0.0, 254.3177, 132.02, 0.0, 45.11, 709.4843, 84.412, 53.0095, 0.0], 50),
-        ([1.8267, 1.85112, 33.11, 1.829, 1.8228, 750.939, 1.8109, 0.0, 1.8249, 1.8527, 1.8251, 37.5, 99.01], 1.83),
-        ([4002.12289, 12.009, 5218901.1222, 0.0, 0.0, 0.0, 350.72317, 23.021, 582.99, 16.9923, 7013.51], 20)
+        ([92.11, 714.0025, 0.0, 254.3177, 132.02, 0.0, 45.11, 709.4843, 84.412, 53.0095, 0.0], 710.0),
+        ([1.7267, 1.85112, 304.11, 1.759, 1.8228, 300.939, 1.8109, 0.0, 1.8549, 1.8527, 1.7251, 307.5, 99.01], 1.8),
+        ([4002.12289, 12.009, 5218901.1222, 0.0, 0.0, 0.0, 350.72317, 23.021, 582.99, 16.9923, 7013.51, 576.01], 580.0),
+        ([2011.334, 8274.27, 1972.00428, 2100.91, 8257.991, 0.0, 1939.72023, 8450.112, 1.255, 8349], 8300)
     ]
 )
 def test_get_mode(floats_list, expected_mode):

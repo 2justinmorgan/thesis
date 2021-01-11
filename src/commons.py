@@ -1,4 +1,5 @@
 import sys
+import os
 import json
 import defines
 
@@ -35,6 +36,14 @@ def get_session(filepath):
         sys.exit(1)
 
     return Session(user, session_id)
+
+
+def get_user_obj(target_filepath):
+    if not os.path.isfile(target_filepath):
+        user_file = open(target_filepath, "w")
+        json.dump({}, user_file)
+        user_file.close()
+    return json.load(open(target_filepath, "r"))
 
 
 def read_nlines(file_obj, n):
@@ -74,6 +83,22 @@ def num_digits(float_num, to_left_of_decimal=True):
         float_num = round(float_num*10, 9-num_digits_to_the_right)
         num_digits_to_the_right += 1
     return num_digits_to_the_right
+
+
+def num_zero_decimal_digits(float_num):
+    if float_num == 0 or float_num == int(float_num):
+        return 0
+
+    decimal_number = round(abs(float_num - int(float_num)), 6)
+    whole_number = int(decimal_number)
+    num_zero_decimal_digits_to_the_right = -1
+
+    while whole_number <= 0:
+        decimal_number *= 10
+        whole_number = int(decimal_number)
+        num_zero_decimal_digits_to_the_right += 1
+
+    return num_zero_decimal_digits_to_the_right
 
 
 def rkey(key, d):
