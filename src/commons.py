@@ -59,5 +59,19 @@ def safe_open(file_path):
     return f
 
 
-def class_obj_to_dict(class_obj):
-    return json.loads(json.dumps(class_obj, default=lambda o: getattr(o, '__dict__', str(o))))
+def rkey(key, d):
+    for k in d:
+        if isinstance(d[k], dict):
+            rkey(key, d[k])
+    if key in d:
+        d.pop(key, None)
+
+
+def class_obj_to_dict(class_obj, keys_to_remove=None):
+    d = json.loads(json.dumps(class_obj, default=lambda o: getattr(o, '__dict__', str(o))))
+
+    keys_to_remove = keys_to_remove if keys_to_remove else []
+    for key in keys_to_remove:
+        rkey(key, d)
+
+    return d
