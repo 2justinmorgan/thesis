@@ -9,8 +9,7 @@ import defines
 defines.MAIN_FILE = __file__.split('/')[-1]
 
 FEATURES = defines.FEATURES
-METRICS = defines.METRICS
-Point = defines.Point
+Feature = defines.Feature
 TPoint = defines.TPoint
 
 
@@ -80,8 +79,8 @@ def get_tpoint(csv_line_str):
 
 def init_features_obj():
     features_obj = {}
-    for feature in FEATURES:
-        features_obj[feature] = copy.deepcopy(METRICS)
+    for feature_name in FEATURES:
+        features_obj[feature_name] = Feature(feature_name)
     return features_obj
 
 
@@ -92,21 +91,65 @@ def record_features(mouse_data_file_path):
 
     for line in mouse_data_file:
         for feature in FEATURES:
-            feature_val = get_val(feature, tpoints)
-            features_obj[feature]["all"].append(feature_val)
+            feature_val = round(get_val(feature, tpoints), 6)
+            features_obj[feature].add(feature_val)
         tpoints.pop(0)
         tpoints.append(get_tpoint(line))
 
     return features_obj
 
 
+def soften_records(floats_list):
+    softened_list = copy.deepcopy(floats_list)
+    i = 0
+    while i < len(softened_list):
+        float_num = round(softened_list[i], 6)
+
+        if float_num <= 0:
+            softened_list.pop(i)
+            continue
+
+        num_left_digits = commons.num_digits(float_num)
+        num_leading_zero_right_digits = commons.num_zero_decimal_digits(float_num)
+        if num_left_digits > 0:
+            float_num = round(float_num, -1 * (num_left_digits - 2))
+        else:
+            float_num = round(float_num, (num_leading_zero_right_digits + 2))
+
+        softened_list[i] = float_num
+        i += 1
+
+    return softened_list
+
+
+def get_mode(floats_list):
+    clean_floats_list = soften_records(floats_list)
+    frequencies = {}
+    max_frequency = 0
+    mode = 0
+    for float_num in clean_floats_list:
+        float_key = round(float_num, 6)
+        if float_key not in frequencies:
+            frequencies[float_key] = 0
+            continue
+        frequencies[float_key] += 1
+        if frequencies[float_key] > max_frequency:
+            max_frequency = frequencies[float_key]
+            mode = float_num
+
+    return mode
+
+
 def insert_stats(features_obj):
+    rnd = 7
     for feature in features_obj:
-        vals = features_obj[feature]["all"]
-        stats_obj = features_obj[feature]["stats"]
-        stats_obj["stdev"] = statistics.stdev(vals)
-        stats_obj["mean"] = statistics.fmean(vals)
-        stats_obj["range"] = [min(vals), max(vals)]
+        records = features_obj[feature].records
+        features_obj[feature].stats.mean = round(statistics.fmean(records), rnd)
+        features_obj[feature].stats.median = round(statistics.median(records), rnd)
+        features_obj[feature].stats.mode = round(get_mode(records), rnd)
+        features_obj[feature].stats.stdev = round(statistics.stdev(records), rnd)
+        positive_numbers = [r for r in records if r > 0]
+        features_obj[feature].stats.range = defines.Range(round(min(positive_numbers), rnd), round(max(records), rnd))
 
 
 def hello(name):
@@ -124,7 +167,7 @@ def main(argc, argv):
     features_obj = record_features(mouse_data_file_path)
     insert_stats(features_obj)
 
-    # formatout.format_print(features_obj)
+    #formatout.format_print(features_obj)
     formatout.create_json(features_obj, session)
 
 

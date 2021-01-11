@@ -1,4 +1,6 @@
 import sys
+import os
+import json
 import defines
 
 Session = defines.Session
@@ -36,6 +38,14 @@ def get_session(filepath):
     return Session(user, session_id)
 
 
+def get_user_obj(target_filepath):
+    if not os.path.isfile(target_filepath):
+        user_file = open(target_filepath, "w")
+        json.dump({}, user_file)
+        user_file.close()
+    return json.load(open(target_filepath, "r"))
+
+
 def read_nlines(file_obj, n):
     lines_list = [""] * n
     for i in range(n):
@@ -56,3 +66,54 @@ def safe_open(file_path):
         sys.exit(1)
     read_nlines(f, 1)
     return f
+
+
+def num_digits(float_num, to_left_of_decimal=True):
+    float_num = round(float_num, 6)
+
+    if to_left_of_decimal:
+        num_digits_to_the_left = 0
+        while int(float_num) >= 1:
+            float_num *= 0.1
+            num_digits_to_the_left += 1
+        return num_digits_to_the_left
+
+    num_digits_to_the_right = 0
+    while float_num - int(float_num) > 0:
+        float_num = round(float_num*10, 9-num_digits_to_the_right)
+        num_digits_to_the_right += 1
+    return num_digits_to_the_right
+
+
+def num_zero_decimal_digits(float_num):
+    if float_num == 0 or float_num == int(float_num):
+        return 0
+
+    decimal_number = round(abs(float_num - int(float_num)), 6)
+    whole_number = int(decimal_number)
+    num_zero_decimal_digits_to_the_right = -1
+
+    while whole_number <= 0:
+        decimal_number *= 10
+        whole_number = int(decimal_number)
+        num_zero_decimal_digits_to_the_right += 1
+
+    return num_zero_decimal_digits_to_the_right
+
+
+def rkey(key, d):
+    for k in d:
+        if isinstance(d[k], dict):
+            rkey(key, d[k])
+    if key in d:
+        d.pop(key, None)
+
+
+def class_obj_to_dict(class_obj, keys_to_remove=None):
+    d = json.loads(json.dumps(class_obj, default=lambda o: getattr(o, '__dict__', str(o))))
+
+    keys_to_remove = keys_to_remove if keys_to_remove else []
+    for key in keys_to_remove:
+        rkey(key, d)
+
+    return d

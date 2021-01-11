@@ -3,6 +3,7 @@ import os
 import copy
 import json
 import defines
+import commons
 
 RECORDED_FEATURES_DIR = defines.RECORDED_FEATURES_DIR
 
@@ -23,27 +24,19 @@ def format_print(features_obj):
         print()
 
 
-def get_user_obj(target_filepath):
-    if not os.path.isfile(target_filepath):
-        user_file = open(target_filepath, "w")
-        json.dump({}, user_file)
-        user_file.close()
-    return json.load(open(target_filepath, "r"))
-
-
 def create_json(features_obj, session):
     if not os.path.isdir(RECORDED_FEATURES_DIR):
         sys.stdout.write(f"Unable to output \"{session.id}\" features for user \"{session.user}\"\n")
         return
 
-    subset_features_obj = {}
+    stats_obj = {}
     for feature in defines.FEATURES:
-        subset_features_obj[feature] = copy.deepcopy(features_obj[feature]["stats"])
+        stats_obj[feature] = commons.class_obj_to_dict(features_obj[feature].stats, keys_to_remove=["_Locker__locked"])
 
     target_filepath = f"{RECORDED_FEATURES_DIR}/{session.user}.json"
 
-    output_obj = get_user_obj(target_filepath)
-    output_obj[session.id] = copy.deepcopy(subset_features_obj)
+    output_obj = commons.get_user_obj(target_filepath)
+    output_obj[session.id] = copy.deepcopy(stats_obj)
 
     outfile = open(target_filepath, "w")
     json.dump(output_obj, outfile, indent=2)
