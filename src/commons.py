@@ -59,6 +59,23 @@ def safe_open(file_path):
     return f
 
 
+def num_digits(float_num, to_left_of_decimal=True):
+    float_num = round(float_num, 6)
+
+    if to_left_of_decimal:
+        num_digits_to_the_left = 0
+        while int(float_num) >= 1:
+            float_num *= 0.1
+            num_digits_to_the_left += 1
+        return num_digits_to_the_left
+
+    num_digits_to_the_right = 0
+    while float_num - int(float_num) > 0:
+        float_num = round(float_num*10, 9-num_digits_to_the_right)
+        num_digits_to_the_right += 1
+    return num_digits_to_the_right
+
+
 def rkey(key, d):
     for k in d:
         if isinstance(d[k], dict):

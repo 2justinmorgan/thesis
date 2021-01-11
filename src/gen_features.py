@@ -90,7 +90,7 @@ def record_features(mouse_data_file_path):
 
     for line in mouse_data_file:
         for feature in FEATURES:
-            feature_val = get_val(feature, tpoints)
+            feature_val = round(get_val(feature, tpoints), 6)
             features_obj[feature].add(feature_val)
         tpoints.pop(0)
         tpoints.append(get_tpoint(line))
@@ -98,12 +98,50 @@ def record_features(mouse_data_file_path):
     return features_obj
 
 
+def soften_records(floats_list):
+    i = 0
+    while i < len(floats_list):
+        print(i, floats_list)
+        float_num = round(floats_list[i], 6)
+        if float_num <= 0:
+            floats_list.pop(i)
+            continue
+
+        left_n = commons.num_digits(float_num)
+        if left_n > 1:
+            float_num = round(float_num, -1 * (left_n - 1))
+        else:
+            float_num = round(float_num, 2)
+        floats_list[i] = float_num
+        i += 1
+
+    return floats_list
+
+
+def get_mode(floats_list):
+    clean_floats_list = soften_records(floats_list)
+    frequencies = {}
+    max_frequency = 0
+    mode = 0
+    for float_num in clean_floats_list:
+        float_str = str(float_num)
+        if float_str not in frequencies:
+            frequencies[float_str] = 0
+            continue
+        frequencies[float_str] += 1
+        if frequencies[float_str] > max_frequency:
+            max_frequency = frequencies[float_str]
+            mode = float_num
+
+    return mode
+
+
 def insert_stats(features_obj):
     for feature in features_obj:
         records = features_obj[feature].records
         features_obj[feature].stats.mean = statistics.fmean(records)
         features_obj[feature].stats.median = statistics.median(records)
-        features_obj[feature].stats.mode = statistics.mode(records)
+        features_obj[feature].stats.mode = statistics.mode([round(e, 2) for e in records if e > 0])
         features_obj[feature].stats.stdev = statistics.stdev(records)
         features_obj[feature].stats.range = defines.Range(min(i for i in records if i > 0), max(records))
 
@@ -121,9 +159,13 @@ def main(argc, argv):
     session = commons.get_session(mouse_data_file_path)
 
     features_obj = record_features(mouse_data_file_path)
+    for f in features_obj:
+        print(f)
+        print(features_obj[f].records[:50])
+        print("\n\n")
     insert_stats(features_obj)
 
-    # formatout.format_print(features_obj)
+    #formatout.format_print(features_obj)
     formatout.create_json(features_obj, session)
 
 

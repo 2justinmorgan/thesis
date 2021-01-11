@@ -312,7 +312,7 @@ def test_record_features_theta_feature(tmpdir):
     assert actual_features_obj["theta"].records[0] == pytest.approx(0.7647825277718445)
     assert actual_features_obj["theta"].records[1] == pytest.approx(0.4457123126286356)
     assert actual_features_obj["theta"].records[2] == pytest.approx(0.0)
-    assert actual_features_obj["theta"].records[3] == pytest.approx(0.06320683189746022)
+    assert actual_features_obj["theta"].records[3] == pytest.approx(0.063207)
 
 
 def test_main_mock_and_spy():
@@ -324,6 +324,13 @@ def test_main_mock_and_spy():
 
 
 def test_insert_stats(tmpdir):
+    def num_digits_to_right(number):
+        n = 0
+        while number - int(number) > 0:
+            number = round(number * 10, 9)
+            n += 1
+        return n
+
     features_obj = mock_record_features(tmpdir)
 
     genfeatures.insert_stats(features_obj)
@@ -334,7 +341,20 @@ def test_insert_stats(tmpdir):
         stats = features_obj[feature].stats
         assert stats.mean == pytest.approx(statistics.fmean(features_obj[feature].records))
         assert stats.median == pytest.approx(statistics.median(features_obj[feature].records))
-        assert stats.mode == pytest.approx(statistics.mode(features_obj[feature].records))
+        assert stats.mode == statistics.mode([round(e, 2) for e in features_obj[feature].records if e > 0])
+        assert num_digits_to_right(stats.mode) <= 2
         assert stats.stdev == pytest.approx(statistics.stdev(features_obj[feature].records))
         assert stats.range.low == pytest.approx(min(i for i in features_obj[feature].records if i > 0))
         assert stats.range.high == pytest.approx(max(features_obj[feature].records))
+
+
+@pytest.mark.parametrize(
+    "floats_list,expected_mode",
+    [
+        ([92.11, 36.0025, 0.0, 0.0, 254.3177, 132.02, 0.0, 45.11, 709.4843, 84.412, 53.0095, 0.0], 50),
+        ([1.8267, 1.85112, 33.11, 1.829, 1.8228, 750.939, 1.8109, 0.0, 1.8249, 1.8527, 1.8251, 37.5, 99.01], 1.83),
+        ([4002.12289, 12.009, 5218901.1222, 0.0, 0.0, 0.0, 350.72317, 23.021, 582.99, 16.9923, 7013.51], 20)
+    ]
+)
+def test_get_mode(floats_list, expected_mode):
+    assert genfeatures.get_mode(floats_list) == pytest.approx(expected_mode)
