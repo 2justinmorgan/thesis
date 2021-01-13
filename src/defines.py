@@ -1,7 +1,8 @@
 import commons
 
+HOME_DIR = "/home/jmorga27/Thesis"
 MOUSE_DATA_FILE_ARGV_TITLE = "<mouse_data_file>"
-RECORDED_FEATURES_DIR = "../data/recorded_features"
+RECORDED_SESSIONS_DIR = f"{HOME_DIR}/data/recorded_features/sessions"
 MAIN_FILE = ""  # defined in script with main func
 
 FEATURES = [

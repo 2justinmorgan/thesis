@@ -21,6 +21,16 @@ def check_args(argc, argv):
     return argv[1]
 
 
+def is_dir(path, exit_on_fail=True, exit_code=1):
+    valid = os.path.isdir(path)
+    if not valid:
+        sys.stderr.write(f"{path} not found\n")
+        if exit_on_fail:
+            sys.exit(exit_code)
+
+    return valid
+
+
 def init_features_obj():
     features_obj = {}
     for feature_name in defines.FEATURES:

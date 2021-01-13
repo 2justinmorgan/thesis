@@ -157,8 +157,7 @@ def main(argc, argv):
     record_features(session)
     insert_stats(session.features)
 
-    #formatout.format_print(features_obj)
-    formatout.create_json(session)
+    formatout.store(session)
 
 
 if __name__ == "__main__":
