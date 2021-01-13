@@ -102,20 +102,20 @@ def num_digits(float_num, to_left_of_decimal=True):
     return num_digits_to_the_right
 
 
-def num_zero_decimal_digits(float_num):
+def num_leading_zero_decimal_digits(float_num):
     if float_num == 0 or float_num == int(float_num):
         return 0
 
     decimal_number = round(abs(float_num - int(float_num)), 6)
     whole_number = int(decimal_number)
-    num_zero_decimal_digits_to_the_right = -1
+    num_leading_zero_decimal_digits_to_the_right = -1
 
     while whole_number <= 0:
         decimal_number *= 10
         whole_number = int(decimal_number)
-        num_zero_decimal_digits_to_the_right += 1
+        num_leading_zero_decimal_digits_to_the_right += 1
 
-    return num_zero_decimal_digits_to_the_right
+    return num_leading_zero_decimal_digits_to_the_right
 
 
 def rkey(key, d):

@@ -89,6 +89,15 @@ def record_features(session):
         tpoints.append(get_tpoint(line))
 
 
+def sig_round(float_num, num_sig_digits=2):
+    num_left_digits = commons.num_digits(float_num, to_left_of_decimal=True)
+    num_leading_zero_decimal_digits = commons.num_leading_zero_decimal_digits(float_num)
+    if num_left_digits > 0:
+        return round(float_num, -1 * (num_left_digits - num_sig_digits))
+    else:
+        return round(float_num, (num_leading_zero_decimal_digits + num_sig_digits))
+
+
 def soften_records(floats_list):
     softened_list = copy.deepcopy(floats_list)
     i = 0
@@ -99,14 +108,7 @@ def soften_records(floats_list):
             softened_list.pop(i)
             continue
 
-        num_left_digits = commons.num_digits(float_num)
-        num_leading_zero_right_digits = commons.num_zero_decimal_digits(float_num)
-        if num_left_digits > 0:
-            float_num = round(float_num, -1 * (num_left_digits - 2))
-        else:
-            float_num = round(float_num, (num_leading_zero_right_digits + 2))
-
-        softened_list[i] = float_num
+        softened_list[i] = sig_round(float_num)
         i += 1
 
     return softened_list

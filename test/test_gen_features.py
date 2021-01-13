@@ -56,7 +56,7 @@ def mock_main_and_get_inner_mocked_function(mocked_function_name="none"):
     genfeatures.commons.get_session = lambda mouse_data_file_path: genfeatures.commons.Session()
     genfeatures.record_features = lambda mouse_data_file_path: mock_record_features(genfeatures.defines.Session())
     genfeatures.insert_stats = lambda features_obj: None
-    genfeatures.formatout.create_json = lambda session: None
+    genfeatures.formatout.store = lambda session: None
 
     with mock.patch(f"gen_features.{mocked_function_name}") as function_mock:
         argv = ["this_script_name.py", "data/file/path/user01/session_01"]

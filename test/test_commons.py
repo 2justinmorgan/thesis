@@ -126,4 +126,4 @@ def test_num_digits(float_num, to_left_of_decimal, expected_num_digits):
     ]
 )
 def test_num_zero_decimal_digits(float_num, expected_num_digits_to_right):
-    assert cms.num_zero_decimal_digits(float_num) == expected_num_digits_to_right
+    assert cms.num_leading_zero_decimal_digits(float_num) == expected_num_digits_to_right
