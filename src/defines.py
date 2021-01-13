@@ -1,3 +1,4 @@
+import commons
 
 MOUSE_DATA_FILE_ARGV_TITLE = "<mouse_data_file>"
 RECORDED_FEATURES_DIR = "../data/recorded_features"
@@ -46,10 +47,12 @@ class TPoint(Point, Locker):
 
 
 class Session(Locker):
-    def __init__(self, user="", id="", _inherited=False):
+    def __init__(self, user="", id="", input_data_filepath="", _inherited=False):
         super().__init__()
         self.user = user
         self.id = id
+        self.input_data_filepath = input_data_filepath
+        self.features = commons.init_features_obj()
         self.setlock(_inherited)
 
 

@@ -24,14 +24,14 @@ def format_print(features_obj):
         print()
 
 
-def create_json(features_obj, session):
+def create_json(session):
     if not os.path.isdir(RECORDED_FEATURES_DIR):
         sys.stdout.write(f"Unable to output \"{session.id}\" features for user \"{session.user}\"\n")
         return
 
     stats_obj = {}
     for feature in defines.FEATURES:
-        stats_obj[feature] = commons.class_obj_to_dict(features_obj[feature].stats, keys_to_remove=["_Locker__locked"])
+        stats_obj[feature] = commons.class_obj_to_dict(session.features[feature].stats, keys_to_remove=["_Locker__locked"])
 
     target_filepath = f"{RECORDED_FEATURES_DIR}/{session.user}.json"
 

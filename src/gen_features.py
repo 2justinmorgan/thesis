@@ -77,26 +77,16 @@ def get_tpoint(csv_line_str):
     return TPoint(csv_line_list[4], csv_line_list[5], csv_line_list[1])
 
 
-def init_features_obj():
-    features_obj = {}
-    for feature_name in FEATURES:
-        features_obj[feature_name] = Feature(feature_name)
-    return features_obj
-
-
-def record_features(mouse_data_file_path):
-    mouse_data_file = commons.safe_open(mouse_data_file_path)
-    features_obj = init_features_obj()
+def record_features(session):
+    mouse_data_file = commons.safe_open(session.input_data_filepath)
     tpoints = [get_tpoint(e) for e in commons.read_nlines(mouse_data_file, 8)]
 
     for line in mouse_data_file:
         for feature in FEATURES:
             feature_val = round(get_val(feature, tpoints), 6)
-            features_obj[feature].add(feature_val)
+            session.features[feature].add(feature_val)
         tpoints.pop(0)
         tpoints.append(get_tpoint(line))
-
-    return features_obj
 
 
 def soften_records(floats_list):
@@ -164,11 +154,11 @@ def main(argc, argv):
     mouse_data_file_path = commons.check_args(argc, argv)
     session = commons.get_session(mouse_data_file_path)
 
-    features_obj = record_features(mouse_data_file_path)
-    insert_stats(features_obj)
+    record_features(session)
+    insert_stats(session.features)
 
     #formatout.format_print(features_obj)
-    formatout.create_json(features_obj, session)
+    formatout.create_json(session)
 
 
 if __name__ == "__main__":

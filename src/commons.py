@@ -21,6 +21,13 @@ def check_args(argc, argv):
     return argv[1]
 
 
+def init_features_obj():
+    features_obj = {}
+    for feature_name in defines.FEATURES:
+        features_obj[feature_name] = defines.Feature(feature_name)
+    return features_obj
+
+
 def get_session(filepath):
     filepath_lst = filepath.split('/')
     user = ""
@@ -35,7 +42,7 @@ def get_session(filepath):
         sys.stderr.write(f"Unable to get session info\n")
         sys.exit(1)
 
-    return Session(user, session_id)
+    return Session(user=user, id=session_id, input_data_filepath=filepath)
 
 
 def get_user_obj(target_filepath):
