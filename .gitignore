@@ -4,6 +4,7 @@ __pycache__/
 
 data/clean_mouse_data/test_files
 data/clean_mouse_data/training_files
+data/recorded_features/mapped_sessions.json
 
 # sym links
 test/gen_features.py
