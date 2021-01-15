@@ -57,30 +57,10 @@ class Session(Locker):
         self.setlock(_inherited)
 
 
-class Range(Locker):
-    def __init__(self, low=0.0, high=0.0, _inherited=False):
-        super().__init__()
-        self.low = low
-        self.high = high
-        self.setlock(_inherited)
-
-
-class Stats(Locker):
-    def __init__(self, mean=0.0, median=0.0, mode=0.0, stdev=0.0, range=Range(), _inherited=False):
-        super().__init__()
-        self.mean = mean
-        self.median = median
-        self.mode = mode
-        self.stdev = stdev
-        self.range = range
-        self.setlock(_inherited)
-
-
 class Feature(Locker):
     def __init__(self, name="", _inherited=False):
         super().__init__()
         self.name = name
-        self.stats = Stats()
         self.records = []
         self.setlock(_inherited)
 

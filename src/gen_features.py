@@ -132,18 +132,6 @@ def get_mode(floats_list):
     return mode
 
 
-def insert_stats(features_obj):
-    rnd = 7
-    for feature in features_obj:
-        records = features_obj[feature].records
-        features_obj[feature].stats.mean = round(statistics.fmean(records), rnd)
-        features_obj[feature].stats.median = round(statistics.median(records), rnd)
-        features_obj[feature].stats.mode = round(get_mode(records), rnd)
-        features_obj[feature].stats.stdev = round(statistics.stdev(records), rnd)
-        positive_numbers = [r for r in records if r > 0]
-        features_obj[feature].stats.range = defines.Range(round(min(positive_numbers), rnd), round(max(records), rnd))
-
-
 def hello(name):
     return "hello " + str(name)
 
@@ -157,7 +145,6 @@ def main(argc, argv):
     session = commons.get_session(mouse_data_file_path)
 
     record_features(session)
-    insert_stats(session.features)
 
     formatout.store(session)
 

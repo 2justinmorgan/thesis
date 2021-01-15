@@ -66,17 +66,8 @@ def test_init_features_obj():
     assert len(actual_features_obj) == len(cms.defines.FEATURES)
     for feature in cms.defines.FEATURES:
         helper_test_funcs.check_if_feature_class_instance_has_all_member_variables(actual_features_obj[feature])
-        helper_test_funcs.check_if_stats_class_instance_has_all_member_variables(actual_features_obj[feature].stats)
         assert str(type(actual_features_obj[feature])) == "<class 'defines.Feature'>"  # not sure why not isinstance
-        assert isinstance(actual_features_obj[feature].stats, cms.defines.Stats)
-        assert isinstance(actual_features_obj[feature].stats.range, cms.defines.Range)
         assert actual_features_obj[feature].name == feature
-        assert actual_features_obj[feature].stats.mean == 0.0
-        assert actual_features_obj[feature].stats.median == 0.0
-        assert actual_features_obj[feature].stats.mode == 0.0
-        assert actual_features_obj[feature].stats.stdev == 0.0
-        assert actual_features_obj[feature].stats.range.low == 0.0
-        assert actual_features_obj[feature].stats.range.high == 0.0
         assert type(actual_features_obj[feature].records) == list
         assert len(actual_features_obj[feature].records) == 0
 

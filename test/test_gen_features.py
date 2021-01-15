@@ -55,7 +55,6 @@ def mock_main_and_get_inner_mocked_function(mocked_function_name="none"):
     genfeatures.commons.check_args = lambda mock_argc, mock_argv: "mouse/data/file/path"
     genfeatures.commons.get_session = lambda mouse_data_file_path: genfeatures.commons.Session()
     genfeatures.record_features = lambda mouse_data_file_path: mock_record_features(genfeatures.defines.Session())
-    genfeatures.insert_stats = lambda features_obj: None
     genfeatures.formatout.store = lambda session: None
 
     with mock.patch(f"gen_features.{mocked_function_name}") as function_mock:
@@ -178,17 +177,8 @@ def test_record_features_created_features_object_shape(tmpdir):
     assert len(session.features) == len(defines.FEATURES)
     for feature in genfeatures.FEATURES:
         helper_test_funcs.check_if_feature_class_instance_has_all_member_variables(session.features[feature])
-        helper_test_funcs.check_if_stats_class_instance_has_all_member_variables(session.features[feature].stats)
         assert str(type(session.features[feature])) == "<class 'defines.Feature'>"  # not sure why not isinstance
-        assert isinstance(session.features[feature].stats, defines.Stats)
-        assert isinstance(session.features[feature].stats.range, defines.Range)
         assert session.features[feature].name == feature
-        assert session.features[feature].stats.mean == 0.0
-        assert session.features[feature].stats.median == 0.0
-        assert session.features[feature].stats.mode == 0.0
-        assert session.features[feature].stats.stdev == 0.0
-        assert session.features[feature].stats.range.low == 0.0
-        assert session.features[feature].stats.range.high == 0.0
         assert type(session.features[feature].records) == list
         assert len(session.features[feature].records) == 4
 
@@ -274,37 +264,6 @@ def test_record_features_theta_feature(tmpdir):
 def test_main_mock_and_spy():
     record_features_mock = mock_main_and_get_inner_mocked_function(mocked_function_name="record_features")
     record_features_mock.assert_called_once()
-
-    insert_stats_mock = mock_main_and_get_inner_mocked_function(mocked_function_name="insert_stats")
-    insert_stats_mock.assert_called_once()
-
-
-def test_insert_stats(tmpdir):
-    session = genfeatures.defines.Session()
-    mock_record_features(session, tmpdir=tmpdir)
-
-    # based solely on the "tmpdir" test at the mock_mouse_data_file func
-    expected_modes = {
-        "velocity": 0,
-        "xvelocity": 0,
-        "yvelocity": 0,
-        "acceleration": 0,
-        "jerk": 1200,
-        "theta": 0
-    }
-
-    genfeatures.insert_stats(session.features)
-
-    for feature in session.features:
-        helper_test_funcs.check_if_feature_class_instance_has_all_member_variables(session.features[feature])
-        helper_test_funcs.check_if_stats_class_instance_has_all_member_variables(session.features[feature].stats)
-        stats = session.features[feature].stats
-        assert stats.mean == pytest.approx(statistics.fmean(session.features[feature].records))
-        assert stats.median == pytest.approx(statistics.median(session.features[feature].records))
-        assert stats.mode == expected_modes[feature]
-        assert stats.stdev == pytest.approx(statistics.stdev(session.features[feature].records))
-        assert stats.range.low == pytest.approx(min(i for i in session.features[feature].records if i > 0))
-        assert stats.range.high == pytest.approx(max(session.features[feature].records))
 
 
 @pytest.mark.parametrize(
