@@ -1,8 +1,8 @@
 
-gen_features_script_filepath="../src/gen_features.py";
+gen_features_script_filepath="../../src/gen_features.py";
 clean_data_dirs=( \
-	"./clean_mouse_data/test_files" \
-	"./clean_mouse_data/training_files");
+	"../clean_mouse_data/test_files" \
+	"../clean_mouse_data/training_files");
 
 if [[ ! -f $gen_features_script_filepath ]]; then
 	>&2 echo "$gen_features_script_filepath script not found";

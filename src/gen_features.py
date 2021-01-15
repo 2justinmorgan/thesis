@@ -77,26 +77,25 @@ def get_tpoint(csv_line_str):
     return TPoint(csv_line_list[4], csv_line_list[5], csv_line_list[1])
 
 
-def init_features_obj():
-    features_obj = {}
-    for feature_name in FEATURES:
-        features_obj[feature_name] = Feature(feature_name)
-    return features_obj
-
-
-def record_features(mouse_data_file_path):
-    mouse_data_file = commons.safe_open(mouse_data_file_path)
-    features_obj = init_features_obj()
+def record_features(session):
+    mouse_data_file = commons.safe_open(session.input_data_filepath)
     tpoints = [get_tpoint(e) for e in commons.read_nlines(mouse_data_file, 8)]
 
     for line in mouse_data_file:
         for feature in FEATURES:
             feature_val = round(get_val(feature, tpoints), 6)
-            features_obj[feature].add(feature_val)
+            session.features[feature].add_record(feature_val)
         tpoints.pop(0)
         tpoints.append(get_tpoint(line))
 
-    return features_obj
+
+def sig_round(float_num, num_sig_digits=2):
+    num_left_digits = commons.num_digits(float_num, to_left_of_decimal=True)
+    num_leading_zero_decimal_digits = commons.num_leading_zero_decimal_digits(float_num)
+    if num_left_digits > 0:
+        return round(float_num, -1 * (num_left_digits - num_sig_digits))
+    else:
+        return round(float_num, (num_leading_zero_decimal_digits + num_sig_digits))
 
 
 def soften_records(floats_list):
@@ -109,14 +108,7 @@ def soften_records(floats_list):
             softened_list.pop(i)
             continue
 
-        num_left_digits = commons.num_digits(float_num)
-        num_leading_zero_right_digits = commons.num_zero_decimal_digits(float_num)
-        if num_left_digits > 0:
-            float_num = round(float_num, -1 * (num_left_digits - 2))
-        else:
-            float_num = round(float_num, (num_leading_zero_right_digits + 2))
-
-        softened_list[i] = float_num
+        softened_list[i] = sig_round(float_num)
         i += 1
 
     return softened_list
@@ -140,18 +132,6 @@ def get_mode(floats_list):
     return mode
 
 
-def insert_stats(features_obj):
-    rnd = 7
-    for feature in features_obj:
-        records = features_obj[feature].records
-        features_obj[feature].stats.mean = round(statistics.fmean(records), rnd)
-        features_obj[feature].stats.median = round(statistics.median(records), rnd)
-        features_obj[feature].stats.mode = round(get_mode(records), rnd)
-        features_obj[feature].stats.stdev = round(statistics.stdev(records), rnd)
-        positive_numbers = [r for r in records if r > 0]
-        features_obj[feature].stats.range = defines.Range(round(min(positive_numbers), rnd), round(max(records), rnd))
-
-
 def hello(name):
     return "hello " + str(name)
 
@@ -164,11 +144,9 @@ def main(argc, argv):
     mouse_data_file_path = commons.check_args(argc, argv)
     session = commons.get_session(mouse_data_file_path)
 
-    features_obj = record_features(mouse_data_file_path)
-    insert_stats(features_obj)
+    record_features(session)
 
-    #formatout.format_print(features_obj)
-    formatout.create_json(features_obj, session)
+    formatout.store(session)
 
 
 if __name__ == "__main__":

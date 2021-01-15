@@ -2,6 +2,7 @@ import pytest
 import mock
 import importlib
 import statistics
+import helper_test_funcs
 import gen_features as genfeatures
 from gen_features import defines
 from gen_features import TPoint
@@ -10,6 +11,7 @@ Point = genfeatures.defines.Point
 
 @pytest.fixture(autouse=True)
 def before_each():
+    import helper_test_funcs
     import gen_features
     import defines
     genfeatures = importlib.reload(gen_features)
@@ -41,55 +43,25 @@ def mock_mouse_data_file(tmpdir):
     return temp_mouse_data_filepath
 
 
-def mock_record_features(tmpdir=None):
+def mock_record_features(session, tmpdir=None):
     if not tmpdir:
-        return genfeatures.init_features_obj()
+        return
 
-    temp_mouse_data_filepath = mock_mouse_data_file(tmpdir)
-    features_obj = genfeatures.record_features(temp_mouse_data_filepath)
-
-    return features_obj
+    session.input_data_filepath = mock_mouse_data_file(tmpdir)
+    genfeatures.record_features(session)
 
 
 def mock_main_and_get_inner_mocked_function(mocked_function_name="none"):
     genfeatures.commons.check_args = lambda mock_argc, mock_argv: "mouse/data/file/path"
     genfeatures.commons.get_session = lambda mouse_data_file_path: genfeatures.commons.Session()
-    genfeatures.record_features = lambda mouse_data_file_path: mock_record_features()
-    genfeatures.insert_stats = lambda features_obj: None
-    genfeatures.formatout.create_json = lambda features_obj, session: None
+    genfeatures.record_features = lambda mouse_data_file_path: mock_record_features(genfeatures.defines.Session())
+    genfeatures.formatout.store = lambda session: None
 
     with mock.patch(f"gen_features.{mocked_function_name}") as function_mock:
         argv = ["this_script_name.py", "data/file/path/user01/session_01"]
         argc = len(argv)
         genfeatures.main(argc, argv)
         return function_mock
-
-
-def check_if_range_class_instance_has_all_member_variables(range_class_instance):
-    obj = range_class_instance
-    exected_members = ["low", "high"]
-    actual_members = [attr for attr in dir(obj) if not callable(getattr(obj, attr)) and not attr.startswith("_")]
-    assert len(exected_members) == len(actual_members)
-    for expected_member in exected_members:
-        assert expected_member in actual_members
-
-
-def check_if_stats_class_instance_has_all_member_variables(stats_class_instance):
-    obj = stats_class_instance
-    exected_members = ["mean", "median", "mode", "stdev", "range"]
-    actual_members = [attr for attr in dir(obj) if not callable(getattr(obj, attr)) and not attr.startswith("_")]
-    assert len(exected_members) == len(actual_members)
-    for expected_member in exected_members:
-        assert expected_member in actual_members
-
-
-def check_if_feature_class_instance_has_all_member_variables(feature_class_instance):
-    obj = feature_class_instance
-    exected_members = ["name", "stats", "records"]
-    actual_members = [attr for attr in dir(obj) if not callable(getattr(obj, attr)) and not attr.startswith("_")]
-    assert len(exected_members) == len(actual_members)
-    for expected_member in exected_members:
-        assert expected_member in actual_members
 
 
 def test_hello():
@@ -149,27 +121,6 @@ def test_get_tpoint(csv_line_str, expect):
     assert actual.time == expect.time
 
 
-def test_init_features_obj():
-    actual_features_obj = genfeatures.init_features_obj()
-
-    assert len(actual_features_obj) == len(defines.FEATURES)
-    for feature in genfeatures.FEATURES:
-        check_if_feature_class_instance_has_all_member_variables(actual_features_obj[feature])
-        check_if_stats_class_instance_has_all_member_variables(actual_features_obj[feature].stats)
-        assert str(type(actual_features_obj[feature])) == "<class 'defines.Feature'>"  # not sure why not isinstance
-        assert isinstance(actual_features_obj[feature].stats, defines.Stats)
-        assert isinstance(actual_features_obj[feature].stats.range, defines.Range)
-        assert actual_features_obj[feature].name == feature
-        assert actual_features_obj[feature].stats.mean == 0.0
-        assert actual_features_obj[feature].stats.median == 0.0
-        assert actual_features_obj[feature].stats.mode == 0.0
-        assert actual_features_obj[feature].stats.stdev == 0.0
-        assert actual_features_obj[feature].stats.range.low == 0.0
-        assert actual_features_obj[feature].stats.range.high == 0.0
-        assert type(actual_features_obj[feature].records) == list
-        assert len(actual_features_obj[feature].records) == 0
-
-
 @pytest.mark.parametrize(
     "feature_name,tpoints,expect",
     [
@@ -217,130 +168,102 @@ def test_get_val(feature_name, tpoints, expect):
     assert genfeatures.get_val(feature_name, tpoints) == pytest.approx(expect)
 
 
-def test_record_features_returned_object_shape(tmpdir):
+def test_record_features_created_features_object_shape(tmpdir):
     temp_mouse_data_filepath = mock_mouse_data_file(tmpdir)
+    session = genfeatures.defines.Session(input_data_filepath=temp_mouse_data_filepath)
 
-    with mock.patch('gen_features.init_features_obj', wraps=genfeatures.init_features_obj) as init_features_obj_mock:
-        actual_features_obj = genfeatures.record_features(temp_mouse_data_filepath)
-        init_features_obj_mock.assert_called_once()
+    genfeatures.record_features(session)
 
-    assert len(actual_features_obj) == len(defines.FEATURES)
+    assert len(session.features) == len(defines.FEATURES)
     for feature in genfeatures.FEATURES:
-        check_if_feature_class_instance_has_all_member_variables(actual_features_obj[feature])
-        check_if_stats_class_instance_has_all_member_variables(actual_features_obj[feature].stats)
-        assert str(type(actual_features_obj[feature])) == "<class 'defines.Feature'>"  # not sure why not isinstance
-        assert isinstance(actual_features_obj[feature].stats, defines.Stats)
-        assert isinstance(actual_features_obj[feature].stats.range, defines.Range)
-        assert actual_features_obj[feature].name == feature
-        assert actual_features_obj[feature].stats.mean == 0.0
-        assert actual_features_obj[feature].stats.median == 0.0
-        assert actual_features_obj[feature].stats.mode == 0.0
-        assert actual_features_obj[feature].stats.stdev == 0.0
-        assert actual_features_obj[feature].stats.range.low == 0.0
-        assert actual_features_obj[feature].stats.range.high == 0.0
-        assert type(actual_features_obj[feature].records) == list
-        assert len(actual_features_obj[feature].records) == 4
+        helper_test_funcs.check_if_feature_class_instance_has_all_member_variables(session.features[feature])
+        assert str(type(session.features[feature])) == "<class 'defines.Feature'>"  # not sure why not isinstance
+        assert session.features[feature].name == feature
+        assert type(session.features[feature].records) == list
+        assert len(session.features[feature].records) == 4
 
 
 def test_record_features_velocity_feature(tmpdir):
     temp_mouse_data_filepath = mock_mouse_data_file(tmpdir)
-    actual_features_obj = genfeatures.record_features(temp_mouse_data_filepath)
+    session = genfeatures.defines.Session(input_data_filepath=temp_mouse_data_filepath)
 
-    assert len(actual_features_obj["velocity"].records) == 4
-    assert actual_features_obj["velocity"].records[0] == pytest.approx(1258.7878152696971)
-    assert actual_features_obj["velocity"].records[1] == pytest.approx(1061.1135531890793)
-    assert actual_features_obj["velocity"].records[2] == pytest.approx(12.820512816239315)
-    assert actual_features_obj["velocity"].records[3] == pytest.approx(2178.662465607613)
+    genfeatures.record_features(session)
+
+    assert len(session.features["velocity"].records) == 4
+    assert session.features["velocity"].records[0] == pytest.approx(1258.7878152696971)
+    assert session.features["velocity"].records[1] == pytest.approx(1061.1135531890793)
+    assert session.features["velocity"].records[2] == pytest.approx(12.820512816239315)
+    assert session.features["velocity"].records[3] == pytest.approx(2178.662465607613)
 
 
 def test_record_features_xvelocity_feature(tmpdir):
     temp_mouse_data_filepath = mock_mouse_data_file(tmpdir)
-    actual_features_obj = genfeatures.record_features(temp_mouse_data_filepath)
+    session = genfeatures.defines.Session(input_data_filepath=temp_mouse_data_filepath)
 
-    assert len(actual_features_obj["xvelocity"].records) == 4
-    assert actual_features_obj["xvelocity"].records[0] == pytest.approx(908.256883183739)
-    assert actual_features_obj["xvelocity"].records[1] == pytest.approx(957.4468080930284)
-    assert actual_features_obj["xvelocity"].records[2] == pytest.approx(12.820512816239315)
-    assert actual_features_obj["xvelocity"].records[3] == pytest.approx(2174.3119231744813)
+    genfeatures.record_features(session)
+
+    assert len(session.features["xvelocity"].records) == 4
+    assert session.features["xvelocity"].records[0] == pytest.approx(908.256883183739)
+    assert session.features["xvelocity"].records[1] == pytest.approx(957.4468080930284)
+    assert session.features["xvelocity"].records[2] == pytest.approx(12.820512816239315)
+    assert session.features["xvelocity"].records[3] == pytest.approx(2174.3119231744813)
 
 
 def test_record_features_yvelocity_feature(tmpdir):
     temp_mouse_data_filepath = mock_mouse_data_file(tmpdir)
-    actual_features_obj = genfeatures.record_features(temp_mouse_data_filepath)
+    session = genfeatures.defines.Session(input_data_filepath=temp_mouse_data_filepath)
 
-    assert len(actual_features_obj["yvelocity"].records) == 4
-    assert actual_features_obj["yvelocity"].records[0] == pytest.approx(871.5596353783354)
-    assert actual_features_obj["yvelocity"].records[1] == pytest.approx(457.44680831111356)
-    assert actual_features_obj["yvelocity"].records[2] == pytest.approx(0.0)
-    assert actual_features_obj["yvelocity"].records[3] == pytest.approx(137.61467868192918)
+    genfeatures.record_features(session)
+
+    assert len(session.features["yvelocity"].records) == 4
+    assert session.features["yvelocity"].records[0] == pytest.approx(871.5596353783354)
+    assert session.features["yvelocity"].records[1] == pytest.approx(457.44680831111356)
+    assert session.features["yvelocity"].records[2] == pytest.approx(0.0)
+    assert session.features["yvelocity"].records[3] == pytest.approx(137.61467868192918)
 
 
 def test_record_features_acceleration_feature(tmpdir):
     temp_mouse_data_filepath = mock_mouse_data_file(tmpdir)
-    actual_features_obj = genfeatures.record_features(temp_mouse_data_filepath)
+    session = genfeatures.defines.Session(input_data_filepath=temp_mouse_data_filepath)
 
-    assert len(actual_features_obj["acceleration"].records) == 4
-    assert actual_features_obj["acceleration"].records[0] == pytest.approx(2101.125299682793)
-    assert actual_features_obj["acceleration"].records[1] == pytest.approx(1884.568148013704)
-    assert actual_features_obj["acceleration"].records[2] == pytest.approx(52.544863033942164)
-    assert actual_features_obj["acceleration"].records[3] == pytest.approx(4094.107861466577)
+    genfeatures.record_features(session)
+
+    assert len(session.features["acceleration"].records) == 4
+    assert session.features["acceleration"].records[0] == pytest.approx(2101.125299682793)
+    assert session.features["acceleration"].records[1] == pytest.approx(1884.568148013704)
+    assert session.features["acceleration"].records[2] == pytest.approx(52.544863033942164)
+    assert session.features["acceleration"].records[3] == pytest.approx(4094.107861466577)
 
 
 def test_record_features_jerk_feature(tmpdir):
     temp_mouse_data_filepath = mock_mouse_data_file(tmpdir)
-    actual_features_obj = genfeatures.record_features(temp_mouse_data_filepath)
+    session = genfeatures.defines.Session(input_data_filepath=temp_mouse_data_filepath)
 
-    assert len(actual_features_obj["jerk"].records) == 4
-    assert actual_features_obj["jerk"].records[0] == pytest.approx(546.3725627124735)
-    assert actual_features_obj["jerk"].records[1] == pytest.approx(1156.5696055390795)
-    assert actual_features_obj["jerk"].records[2] == pytest.approx(1227.7334297968214)
-    assert actual_features_obj["jerk"].records[3] == pytest.approx(4026.6489828960184)
+    genfeatures.record_features(session)
+
+    assert len(session.features["jerk"].records) == 4
+    assert session.features["jerk"].records[0] == pytest.approx(546.3725627124735)
+    assert session.features["jerk"].records[1] == pytest.approx(1156.5696055390795)
+    assert session.features["jerk"].records[2] == pytest.approx(1227.7334297968214)
+    assert session.features["jerk"].records[3] == pytest.approx(4026.6489828960184)
 
 
 def test_record_features_theta_feature(tmpdir):
     temp_mouse_data_filepath = mock_mouse_data_file(tmpdir)
-    actual_features_obj = genfeatures.record_features(temp_mouse_data_filepath)
+    session = genfeatures.defines.Session(input_data_filepath=temp_mouse_data_filepath)
 
-    assert len(actual_features_obj["theta"].records) == 4
-    assert actual_features_obj["theta"].records[0] == pytest.approx(0.7647825277718445)
-    assert actual_features_obj["theta"].records[1] == pytest.approx(0.4457123126286356)
-    assert actual_features_obj["theta"].records[2] == pytest.approx(0.0)
-    assert actual_features_obj["theta"].records[3] == pytest.approx(0.063207)
+    genfeatures.record_features(session)
+
+    assert len(session.features["theta"].records) == 4
+    assert session.features["theta"].records[0] == pytest.approx(0.7647825277718445)
+    assert session.features["theta"].records[1] == pytest.approx(0.4457123126286356)
+    assert session.features["theta"].records[2] == pytest.approx(0.0)
+    assert session.features["theta"].records[3] == pytest.approx(0.063207)
 
 
 def test_main_mock_and_spy():
     record_features_mock = mock_main_and_get_inner_mocked_function(mocked_function_name="record_features")
     record_features_mock.assert_called_once()
-
-    insert_stats_mock = mock_main_and_get_inner_mocked_function(mocked_function_name="insert_stats")
-    insert_stats_mock.assert_called_once()
-
-
-def test_insert_stats(tmpdir):
-    features_obj = mock_record_features(tmpdir)
-
-    # based solely on the "tmpdir" test at the mock_mouse_data_file func
-    expected_modes = {
-        "velocity": 0,
-        "xvelocity": 0,
-        "yvelocity": 0,
-        "acceleration": 0,
-        "jerk": 1200,
-        "theta": 0
-    }
-
-    genfeatures.insert_stats(features_obj)
-
-    for feature in features_obj:
-        check_if_feature_class_instance_has_all_member_variables(features_obj[feature])
-        check_if_stats_class_instance_has_all_member_variables(features_obj[feature].stats)
-        stats = features_obj[feature].stats
-        assert stats.mean == pytest.approx(statistics.fmean(features_obj[feature].records))
-        assert stats.median == pytest.approx(statistics.median(features_obj[feature].records))
-        assert stats.mode == expected_modes[feature]
-        assert stats.stdev == pytest.approx(statistics.stdev(features_obj[feature].records))
-        assert stats.range.low == pytest.approx(min(i for i in features_obj[feature].records if i > 0))
-        assert stats.range.high == pytest.approx(max(features_obj[feature].records))
 
 
 @pytest.mark.parametrize(

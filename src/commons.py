@@ -21,6 +21,29 @@ def check_args(argc, argv):
     return argv[1]
 
 
+def is_path(path, exit_on_fail=False, exit_code=1):
+    valid = os.path.isdir(path) or os.path.isfile(path)
+    if not valid:
+        sys.stderr.write(f"{path} not found\n")
+        if exit_on_fail:
+            sys.exit(exit_code)
+
+    return valid
+
+
+def line_count(filepath):
+    if not is_path(filepath):
+        return 0
+    return sum(1 for l in open(filepath))
+
+
+def init_features_obj(num_of_records=0):
+    features = {}
+    for feature_name in defines.FEATURES:
+        features[feature_name] = defines.Feature(feature_name, num_of_records=num_of_records)
+    return features
+
+
 def get_session(filepath):
     filepath_lst = filepath.split('/')
     user = ""
@@ -35,7 +58,7 @@ def get_session(filepath):
         sys.stderr.write(f"Unable to get session info\n")
         sys.exit(1)
 
-    return Session(user, session_id)
+    return Session(user=user, id=session_id, input_data_filepath=filepath)
 
 
 def get_user_obj(target_filepath):
@@ -85,20 +108,20 @@ def num_digits(float_num, to_left_of_decimal=True):
     return num_digits_to_the_right
 
 
-def num_zero_decimal_digits(float_num):
+def num_leading_zero_decimal_digits(float_num):
     if float_num == 0 or float_num == int(float_num):
         return 0
 
     decimal_number = round(abs(float_num - int(float_num)), 6)
     whole_number = int(decimal_number)
-    num_zero_decimal_digits_to_the_right = -1
+    num_leading_zero_decimal_digits_to_the_right = -1
 
     while whole_number <= 0:
         decimal_number *= 10
         whole_number = int(decimal_number)
-        num_zero_decimal_digits_to_the_right += 1
+        num_leading_zero_decimal_digits_to_the_right += 1
 
-    return num_zero_decimal_digits_to_the_right
+    return num_leading_zero_decimal_digits_to_the_right
 
 
 def rkey(key, d):

@@ -1,4 +1,5 @@
 import pytest
+import helper_test_funcs
 import commons as cms
 from commons import Session
 import importlib
@@ -6,6 +7,7 @@ import importlib
 
 @pytest.fixture(autouse=True)
 def before_each():
+    import helper_test_funcs
     import commons
     cms = importlib.reload(commons)
     Session = cms.Session
@@ -58,6 +60,18 @@ def test_read_nlines(tmpdir, offset, nlines, expect_file_content):
     assert actual_file_content == expect_file_content
 
 
+def test_init_features_obj():
+    actual_features_obj = cms.init_features_obj()
+
+    assert len(actual_features_obj) == len(cms.defines.FEATURES)
+    for feature in cms.defines.FEATURES:
+        helper_test_funcs.check_if_feature_class_instance_has_all_member_variables(actual_features_obj[feature])
+        assert str(type(actual_features_obj[feature])) == "<class 'defines.Feature'>"  # not sure why not isinstance
+        assert actual_features_obj[feature].name == feature
+        assert type(actual_features_obj[feature].records) == list
+        assert len(actual_features_obj[feature].records) == 0
+
+
 @pytest.mark.parametrize(
     "filepath,expect",
     [
@@ -103,4 +117,4 @@ def test_num_digits(float_num, to_left_of_decimal, expected_num_digits):
     ]
 )
 def test_num_zero_decimal_digits(float_num, expected_num_digits_to_right):
-    assert cms.num_zero_decimal_digits(float_num) == expected_num_digits_to_right
+    assert cms.num_leading_zero_decimal_digits(float_num) == expected_num_digits_to_right

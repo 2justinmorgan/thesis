@@ -1,6 +1,8 @@
+import commons
 
+HOME_DIR = "/home/jmorga27/Thesis"
 MOUSE_DATA_FILE_ARGV_TITLE = "<mouse_data_file>"
-RECORDED_FEATURES_DIR = "../data/recorded_features"
+RECORDED_SESSIONS_DIR = f"{HOME_DIR}/data/recorded_features/sessions"
 MAIN_FILE = ""  # defined in script with main func
 
 FEATURES = [
@@ -46,39 +48,23 @@ class TPoint(Point, Locker):
 
 
 class Session(Locker):
-    def __init__(self, user="", id="", _inherited=False):
+    def __init__(self, user="", id="", input_data_filepath="", _inherited=False):
         super().__init__()
         self.user = user
         self.id = id
-        self.setlock(_inherited)
-
-
-class Range(Locker):
-    def __init__(self, low=0.0, high=0.0, _inherited=False):
-        super().__init__()
-        self.low = low
-        self.high = high
-        self.setlock(_inherited)
-
-
-class Stats(Locker):
-    def __init__(self, mean=0.0, median=0.0, mode=0.0, stdev=0.0, range=Range(), _inherited=False):
-        super().__init__()
-        self.mean = mean
-        self.median = median
-        self.mode = mode
-        self.stdev = stdev
-        self.range = range
+        self.input_data_filepath = input_data_filepath
+        self.features = commons.init_features_obj(num_of_records=commons.line_count(input_data_filepath) - 9)
         self.setlock(_inherited)
 
 
 class Feature(Locker):
-    def __init__(self, name="", _inherited=False):
+    def __init__(self, name="", num_of_records=0, _inherited=False):
         super().__init__()
         self.name = name
-        self.stats = Stats()
-        self.records = []
+        self.records = [0.0]*num_of_records
+        self.records_counter = 0
         self.setlock(_inherited)
 
-    def add(self, record):
-        self.records.append(record)
+    def add_record(self, record):
+        self.records[self.records_counter] = record
+        self.records_counter += 1
