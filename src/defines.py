@@ -53,16 +53,18 @@ class Session(Locker):
         self.user = user
         self.id = id
         self.input_data_filepath = input_data_filepath
-        self.features = commons.init_features_obj()
+        self.features = commons.init_features_obj(num_of_records=commons.line_count(input_data_filepath) - 9)
         self.setlock(_inherited)
 
 
 class Feature(Locker):
-    def __init__(self, name="", _inherited=False):
+    def __init__(self, name="", num_of_records=0, _inherited=False):
         super().__init__()
         self.name = name
-        self.records = []
+        self.records = [0.0]*num_of_records
+        self.records_counter = 0
         self.setlock(_inherited)
 
-    def add(self, record):
-        self.records.append(record)
+    def add_record(self, record):
+        self.records[self.records_counter] = record
+        self.records_counter += 1

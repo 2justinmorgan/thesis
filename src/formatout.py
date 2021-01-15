@@ -3,7 +3,7 @@ import commons
 
 
 def store(session):
-    commons.is_dir(defines.RECORDED_SESSIONS_DIR)
+    commons.is_path(defines.RECORDED_SESSIONS_DIR, exit_on_fail=True, exit_code=1)
 
     for feature in session.features:
         outfile = open(f"{defines.RECORDED_SESSIONS_DIR}/{session.id}_{feature}", "w")

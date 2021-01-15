@@ -21,8 +21,8 @@ def check_args(argc, argv):
     return argv[1]
 
 
-def is_dir(path, exit_on_fail=True, exit_code=1):
-    valid = os.path.isdir(path)
+def is_path(path, exit_on_fail=False, exit_code=1):
+    valid = os.path.isdir(path) or os.path.isfile(path)
     if not valid:
         sys.stderr.write(f"{path} not found\n")
         if exit_on_fail:
@@ -31,11 +31,17 @@ def is_dir(path, exit_on_fail=True, exit_code=1):
     return valid
 
 
-def init_features_obj():
-    features_obj = {}
+def line_count(filepath):
+    if not is_path(filepath):
+        return 0
+    return sum(1 for l in open(filepath))
+
+
+def init_features_obj(num_of_records=0):
+    features = {}
     for feature_name in defines.FEATURES:
-        features_obj[feature_name] = defines.Feature(feature_name)
-    return features_obj
+        features[feature_name] = defines.Feature(feature_name, num_of_records=num_of_records)
+    return features
 
 
 def get_session(filepath):
