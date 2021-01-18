@@ -47,7 +47,7 @@ func TestTempFile(t *testing.T) {
 }
 
 func TestCheckArgsReturnsPassedInArgvFilePath(t *testing.T) {
-	t.Run("test1", func(t *testing.T) {
+	t.Run("test0", func(t *testing.T) {
 		tmpFilePath := createTempFile([]byte("this is random file content"))
 
 		argv := []string{"./program_binary_name", tmpFilePath}

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"featuresgenerator/defines"
+	"featuresgenerator/commons"
 )
 
 func printUsage() {
@@ -29,7 +29,7 @@ func checkArgs(argc int, argv []string) string {
 }
 
 func main() {
-	fmt.Println("the defines var, ThisVar, has a value:", defines.ThisVar)
 	inputFilePath := checkArgs(len(os.Args), os.Args)
-	_ = inputFilePath
+	session := commons.GetSession(inputFilePath)
+	_ = session
 }

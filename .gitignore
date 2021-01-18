@@ -15,3 +15,4 @@ src/featuresgenerator/featuresgenerator
 # sym links
 test/featuresgenerator/featuresgenerator.go
 test/featuresgenerator/defines
+test/featuresgenerator/commons
