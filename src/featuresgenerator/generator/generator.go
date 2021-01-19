@@ -2,10 +2,34 @@
 package generator
 
 import (
+	"fmt"
+	"os"
 	"math"
 	"strings"
+	"strconv"
 	"featuresgenerator/defines"
 )
+
+// GetTPoint returns the (x, y, time) values of a single line of the input csv file
+func GetTPoint(csvLine string) defines.TPoint {
+	// description: record timestamp,client timestamp,button,state,x,y
+	// input (str):
+	// 291.082999945,291.082,NoButton,Move,544,594
+	// output (TPoint):
+	// TPoint(544, 594, 291.082)
+
+	csvLineList := strings.Split(csvLine, ",")
+	x, err := strconv.Atoi(csvLineList[4])
+	y, err := strconv.Atoi(csvLineList[5])
+	time, err := strconv.ParseFloat(csvLineList[1], 64)
+
+	if err != nil { 
+		fmt.Fprintf(os.Stderr, "%s\n", err)
+		os.Exit(1)
+	}
+
+    return defines.TPoint{Point: defines.Point{X: x, Y: y}, Time: time}
+}
 
 // GetTheta returns the angle traversed from pointA to pointB
 func GetTheta(pointA defines.Point, pointB defines.Point) (theta float64) {

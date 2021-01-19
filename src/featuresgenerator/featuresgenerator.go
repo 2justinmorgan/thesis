@@ -30,6 +30,7 @@ func checkArgs(argc int, argv []string) string {
 
 func main() {
 	inputFilePath := checkArgs(len(os.Args), os.Args)
+
 	session := commons.GetSession(inputFilePath)
 	_ = session
 }

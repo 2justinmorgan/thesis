@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"testing"
 	"math"
+	"github.com/google/go-cmp/cmp"
 	"featuresgenerator/defines"
 	"featuresgenerator/generator"
 )
@@ -14,6 +15,31 @@ func floatEqual(a float64, b float64) (isEqual bool) {
 		return false
 	}
 	return true
+}
+
+func TestGetTPoint(t *testing.T) {
+	type Point = defines.Point
+	type TPoint = defines.TPoint
+
+	var testCases = []struct {
+		csvLine string
+		expectedTPoint defines.TPoint
+	}{
+
+		{"10,20,Left,Pressed,1452,948", TPoint{Point: Point{X: 1452, Y: 948}, Time: 20}},
+		{"291.082999945,291.082,NoButton,Move,544,594", TPoint{Point: Point{X: 544, Y: 594}, Time: 291.082}},
+	}
+
+	for i, testCase := range testCases {
+		testName := fmt.Sprintf("test%d",i);
+		t.Run(testName, func(t *testing.T) {
+			actualTPoint := generator.GetTPoint(testCase.csvLine)
+
+			if !cmp.Equal(actualTPoint, testCase.expectedTPoint) {
+				t.Errorf("\"%+v\" != \"%+v\"", actualTPoint, testCase.expectedTPoint);
+			}
+		})
+	}
 }
 
 func TestGetTheta(t *testing.T) {
