@@ -16,3 +16,4 @@ src/featuresgenerator/featuresgenerator
 test/featuresgenerator/featuresgenerator.go
 test/featuresgenerator/defines
 test/featuresgenerator/commons
+test/featuresgenerator/generator

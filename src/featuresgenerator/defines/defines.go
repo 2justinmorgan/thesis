@@ -1,3 +1,4 @@
+
 package defines
 
 // GetFeaturesNames returns a str slice of the features to be generated
@@ -10,6 +11,18 @@ func GetFeaturesNames() (features []string) {
 		"jerk",
 		"theta",
 	}
+}
+
+// Point contains (x, y) coordinates, and is used as the base composition of a TPoint
+type Point struct {
+	X int
+	Y int
+}
+
+// TPoint is a Point with a time attribute
+type TPoint struct {
+	Point
+	Time float64
 }
 
 // Session pertains to the passed-in session mouse data input file
