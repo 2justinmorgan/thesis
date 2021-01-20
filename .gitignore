@@ -2,14 +2,18 @@
 *.swp
 __pycache__/
 
+pkg/
+
+data/clean_mouse_data/clean_data.py
 data/clean_mouse_data/test_files
 data/clean_mouse_data/training_files
 data/recorded_features/mapped_sessions.json
 data/recorded_features/sessions
 
+src/featuresgenerator/featuresgenerator
+
 # sym links
-test/gen_features.py
-test/commons.py
-test/defines.py
-test/formatout.py
-data/clean_mouse_data/clean_data.py
+test/featuresgenerator/featuresgenerator.go
+test/featuresgenerator/defines
+test/featuresgenerator/commons
+test/featuresgenerator/generator
