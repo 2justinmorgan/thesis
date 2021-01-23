@@ -1,6 +1,7 @@
 
 *.swp
 .~lock*
+*~
 __pycache__/
 
 pkg/
