@@ -1,5 +1,7 @@
 
 *.swp
+.~lock*
+*~
 __pycache__/
 
 pkg/
@@ -18,6 +20,7 @@ test/featuresgenerator/defines
 test/featuresgenerator/commons
 test/featuresgenerator/generator
 
+doc/latex*
 doc/thesis/thesis.pdf
 doc/linefy
 
