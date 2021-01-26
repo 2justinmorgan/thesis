@@ -1,9 +1,9 @@
 ﻿
-\chapter{Introduction}
+\chapter{Introduction}\label{ch:introduction}
 This thesis paper outlines research of web bot and botnet detection schemes, addresses their strengths and weaknesses, as well as introduces a novel approach to detect bots and botnet attacks.
 The work in this thesis includes an unsupervised machine learning algorithm to solve the dilemma of detecting sophisticated web bots masqueraded as humans. This section will provide a context of the dilemma and explain the motivation behind the novel approach. %, as well as list the scientific contributions.
 
-\section{Context}
+\section{Context}\label{sec:context}
 Web bots, otherwise known as bots, are human-imitating programs created with the intention of reducing the amount of simple and repetitive tasks a human would have to do, while performing these tasks at a speed much faster than a human can perform.
 Some examples of these tasks may include searching for specific items, with a given criteria, through many items on an ecommerce site such as Amazon.
 Another example can be the action of downloading lists textual data on a web page that would require the user to do so manually.
@@ -24,7 +24,7 @@ Regardless, bots can be used maliciously and irresponsibly, thus introducing a n
 Efforts to detect these bots have proven to be successful~\cite{akamai_bot_detection}~\cite{Hamidzadeh2018}~\cite{ZABIHIMAYVAN2017129}.
 However, due to the increasing sophistication of bots, said detection schemes are often bypassed and deemed obsolete~\cite{ROVETTA2020102577}~\cite{STEVANOVIC2013698}~\cite{10.1109/DSN.2013.6575366}.
 
-\section{Motivation for Clustering}
+\section{Motivation for Clustering}\label{sec:motivation-for-clustering}
 Distil Networks classifies ~\cite{bad_bot_report} bot sophistication levels as follows:
 \begin{itemize}
     \item \textbf{Simple}
