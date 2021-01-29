@@ -30,6 +30,19 @@ Content goes here~\cite{botonus}
 Content goes here~\cite{ROVETTA2020102577}
 
 \section{Outlier Detection}\label{sec:outlier-detection}
+There exists a few methods of outlier detection in bot and human user profiles.
+Traditional \textbf{statistical outlier detection methods} are univariate.
+Such techniques measure a particular atribute in a data distribution, while examining the degree of that value's outlierness.
+The parameters, either known or unknown, the number of expected outliers, and the types of expected outliers are the focus of a statistical method.
+Commons statistical measures, for example mean and standard deviation, can help find outliers in datasets.
+For \textbf{density-based outlier detection methods}, the data points, and their relations to neighbors, are an integral metric to identifying outliers.
+By definition, a datapoint is considered an outlier if there aren't many datapoints, or neighbors, near it.
+One common algorithm, local outlier factor, measures the density of a datapoint withing a given k-number of datapoint pertaining to the nearest neighbors of a datapoint
+Through this approach, outliers are identified as datapoints that have a substantially lower density that its neighbors.
+A drawback to this approach, as well as other similar approaches, is that it's only capable of measuring the outlierness of a single datapoint, while it's incapable of identifying clusters of outliers.
+Similarly, \textbf{distance-based outlier detection methods} is a method that may apply the local outlier factor.
+A key benefit to the distance-based method is its ability to detect single datapoint outliers, as well as clusters of outliers.
+
 The implementation~\cite{particle_swarm} uses outlier detection with a particle swarm optimization algorithm, hierarchical particle swarm based clustering, to detect web bots among human users.
 Web bots are said to be examples of outliers since they are able to index a large number of pages in a short amount of time, contrary to human users.
 There were two modules included in this work: a clustering module and an outlier detection module.
