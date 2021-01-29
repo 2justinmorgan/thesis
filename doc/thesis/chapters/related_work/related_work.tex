@@ -30,5 +30,14 @@ Content goes here~\cite{botonus}
 Content goes here~\cite{ROVETTA2020102577}
 
 \section{Outlier Detection}\label{sec:outlier-detection}
-Content goes here~\cite{particle_swarm}
+The implementation~\cite{particle_swarm} uses outlier detection with a particle swarm optimization algorithm, hierarchical particle swarm based clustering, to detect web bots among human users.
+Web bots are said to be examples of outliers since they are able to index a large number of pages in a short amount of time, contrary to human users.
+There were two modules included in this work: a clustering module and an outlier detection module.
+Both modules work simultaneously to label suspecting outliers, while the clustering module performs clustering in a hierarchical agglomerative manner.
+Meanwhile, the outlier detection removes user profiles, that are labeled as suspecting outliers, from succeeding clusters.
+
+This implementation was tested by using a dataset of user profiles that mimic a bots' behavior, as well as dataset without any ground truth, meaning the dataset contained user profiles without labels of their botness.
+Three different metrics were used to predict the botness of user profiles: average intra-cluster distance, maximum intra-cluster distance, and the intersection of the average and maximum intra-cluster distances.
+The results have shown that, by using the average and maximum intra-cluster distance metrics, bots are detectable when they are "significantly different from [a] legitimate web user" ~\cite{particle_swarm}.
+
 Content goes here~\cite{optimized_outlier_bot_detection}
