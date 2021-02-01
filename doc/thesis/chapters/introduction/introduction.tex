@@ -24,6 +24,18 @@ Regardless, bots can be used maliciously and irresponsibly, thus introducing a n
 Efforts to detect these bots have proven to be successful~\cite{akamai_bot_detection}~\cite{Hamidzadeh2018}~\cite{ZABIHIMAYVAN2017129}.
 However, due to the increasing sophistication of bots, said detection schemes are often bypassed and deemed obsolete~\cite{ROVETTA2020102577}~\cite{STEVANOVIC2013698}~\cite{10.1109/DSN.2013.6575366}.
 
+\section{Behavioral User Metrics}\label{sec:behavrioral-user-metrics}
+When using a destop or laptop device, humans use a mouse or touchpad peripheral device to interact and navigate the graphical user interface.
+During this navigation, a human user applies their own unique strategy and style, thus leaving traces or signature traits pertaining to and identifying that user.
+Feature profiles generated, by human computer interaction-based researchers, are used and quantified in attempt to successfully differentiate and verify users~\cite{human_computer_interaction_based_intrusion_detection}.
+This thesis work applies a similar strategy of differentiating users.
+Since users are differentiable based on their behavioral metrics, and since sophisticated web bots are closely mimicking the behavior of human users, differentiating users by clustering the feature profiles of their behavioral metrics should be a means to separate users, bot or not, without any need for labeling or precursory knowledge of the behavior of potential bot users.
+Users, or the feature metrics pertaining to a user's session, are differentiated into separate clusters that provide website administrators a user-specific network request log that is not IP address-specific.
+Having this ability enables website administrators to make more informed decisions about the botness of users, or the clusters of similar behavioral metrics.
+
+Human computer interaction-based biometrics researchers verify users by classifying their mouse and keyboard behavior~\cite{human_computer_interaction_based_intrusion_detection}.
+Additionally, the user provides these biometrics inadvertently, without interfering with the UX experience or causing user friction.
+
 \section{Motivation for Clustering}\label{sec:motivation-for-clustering}
 Distil Networks classifies ~\cite{bad_bot_report} bot sophistication levels as follows:
 \begin{itemize}
@@ -41,3 +53,4 @@ The objective of this approach is to develop a detection algorithm that is effec
 By clustering the behavioral metrics of users, or visitors of a website, detecting of the "botness" of said users will be similar to the nature of how users are tracked on websites that require login credentials upon entry.
 If users can be differentiated based solely on their behavior, and not by relying on the client and IP info available in the server logs, than said users can be monitored as if they were logged-in to the website.
 Having the ability to monitor users at this micro-level, without bias of any IP or proxy anonymity, enables website administrators to make more informed decisions about the web botness of users.
+﻿
