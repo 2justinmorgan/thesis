@@ -11,6 +11,7 @@ data/clean_mouse_data/test_files
 data/clean_mouse_data/training_files
 data/recorded_features/mapped_sessions.json
 data/recorded_features/sessions
+data/ISOT_dataset/datasets/
 
 src/featuresgenerator/featuresgenerator
 

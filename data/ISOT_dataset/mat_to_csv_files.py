@@ -1,9 +1,12 @@
 
 import sys
+import os
 import ntpath
 import csv
 import scipy.io
 import numpy as np
+
+TARGET_DIR = "./datasets"
 
 
 def usage():
@@ -32,8 +35,13 @@ def write_csv_files(users_dict):
         if type(users_dict[user_name]) != np.ndarray:
             continue
 
+        set_name = user_name.split('_')[0]
+        if not os.path.isdir(f"{TARGET_DIR}/{set_name}"):
+            sys.stderr.write(f"{TARGET_DIR}/{set_name} dir not found")
+            sys.exit(1)
+
         print(f"{user_name}")
-        csv_file = open(f"{user_name}.csv", "w")
+        csv_file = open(f"{TARGET_DIR}/{set_name}/{user_name}.csv", "w")
         csv_file.write(f"type-of-action,traveled-distance,elapsed-time,direction-of-movement\n")
         for row in users_dict[user_name]:
             csv_file.write("%s," % row[0])
