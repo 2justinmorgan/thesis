@@ -11,5 +11,17 @@ However, this "log-in, then use website" method causes user friction~\cite{how_r
 An example of this could be requiring a user to click/check "I'm not a robot" on older versions of reCAPTCHA.
 In conclusion, this project presents an unsupervised, clustering method to autonomously identify users, as if they were to log in to an account, providing a means to make more informed decisions of the "web bot-ness" of visitors on a website.
 
+\section{Objective}\label{sec:objective}
+The objective of this project is to present a novel approach for website administrators to detect web bots.
+Supervised learning is a common ML approach to detect web bots.
+In fact, most ML approaches to robot detection apply supervised learning~\cite{10.1145/3339252.3339267}.
+This sort of approach consists of training a classifier, i.e.
+a function mapping an input, which are usually feature vectors describing sessions, to an output, a session’s class labels, based on a training dataset, which includes labelled training samples.
+The ability of the inferred function to determine correct class labels for new, unseen samples is assessed on a test dataset.
+Many supervised learning techniques demonstrated their efficiency in classification of bots and humans, e.g., decision trees support vector machine, neural networks , and k-Nearest Neighbours.
+All supervised learning approaches, however, share a common disadvantage, related to a difficulty with preparation of a reliable training dataset, in particular with assigning accurate class labels to sessions of camouflaged robots~\cite{ROVETTA2020102577}.
+In conclusion, since web bots are increasing in sophistication, meaning they are behaving more like humans in terms of mouse and HTTP request behavior~\cite{10.1109/DSN.2013.6575366}~\cite{7371507}, obtaining accurate training data that represents such complex web bots has been an issue.
+This, combined with the anonymity of proxies that scramble the IP addresses of web bots, has motivated this project.
+
 \section{Dataset}\label{sec:dataset}
 This is the section
