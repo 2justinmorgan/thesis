@@ -24,4 +24,26 @@ In conclusion, since web bots are increasing in sophistication, meaning they are
 This, combined with the anonymity of proxies that scramble the IP addresses of web bots, has motivated this project.
 
 \section{Dataset}\label{sec:dataset}
-This is the section
+In order to cluster users based on their mouse movement behavior, data of their mouse movement must be obtained.
+By using JavaScript's mousemove event listener, the coordinates of a user's mouse can be determined and recorded while a user is in session.
+On average, a computers mouse position is polled 125 times per second~\cite{mouse_dpi_and_polling_rate_explained}~\cite{mouse_dpi_and_usb_polling_rate}.
+This means that if a 10 second user session is recorded, there should be an average of 1,250 mouse position records of any single user browsing a website.
+These records can be stored on the user's computer, most likely in the browser via a JavaScript variable, then periodically sent to the server for which the website is hosted.
+From this input, the web bot and botnet detection scheme will begin.
+
+For testing and analysis purposes, a predefined dataset of users were used in this research.
+The Balabit Mouse Challenge Dataset~\cite{balabit_dataset} was the primary dataset used in this research.
+This dataset includes timing and positioning information of a web user's mouse pointer.
+The authors of the dataset advertise that it can be used for authentication and identification purposes.
+Researchers with focus on creating and evaluating the performance of behavioral biometric algorithms, which in this case draws from the mouse movement metrics of a user, are an intended audience for this publicly accessible dataset.
+Originating from a data science competition on datapallet.io, the dataset is helpful to researchers and experts in the fields of IT security and datascience.
+
+The competition for which the Balabit dataset originates from included a challenge of protecting users from unauthorized accesses into their accounts.
+When users would login to their account, located on a remote server, recording their mouse movement behavior was a necessary step in an effort to increase account security.
+Supposing that the method for which a user moves their mouse was unique to that user, a sort of biometric identifier can be obtained for account user authenticity.
+If the mouse movement characteristics of a user, in a particular session, does not match the recorded and expected characteristics of the account holder, than that user in the particular session is said to be an unauthorized accessor.
+In order to apply such a intrusion detection schema, a supervised learning-based model would need to be built and utilized.
+However, this research does not intend on detecting unauthorized accessors, nor does it intend on using supervised learning in its implementation.
+
+Although the Balabit dataset was intended to be used for creating and evaluating supervised learning-based models, the dataset still contains valuable user profiles and session recordings.
+

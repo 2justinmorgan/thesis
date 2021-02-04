@@ -1,0 +1,120 @@
+2/3/2021
+
+Mouse DPI and Polling Rates Explained: Do They Matter for Gaming?
+
+How-To Geek
+Mouse DPI and Polling Rates Explained: Do They Matter for Gaming?
+CHRIS HOFFMAN @chrisbhoffman UPDATED JUL 3, 2017, 4:26 PM EST | 4 MIN READ
+
+Gaming mice are advertised with high DPIs and polling rates. But what do these specifications actually mean, and are higher values really useful?
+RELATED: How to Choose the Right Gaming Mouse
+These specifications generally matter most to gamers, which is why you tend to see the values prominently displayed in advertising and on packaging for gaming mice. You don't need high precision or the fastest reaction time possible when browsing the web or working on a spreadsheet. And you don't really even need to worry much about it unless you're playing the kinds of games where a competitive edge matters. Arguably, though, a mouse with good precision also can be important to graphic artists and designers. So, let's take a look at what these specifications mean.
+https://www.howtogeek.com/182702/mouse-dpi-and-polling-rates-explained-do-they-matter-for-gaming/#:~:text=A mouse's polling rate is,second--or e... 1/7
+
+2/3/2021
+
+Mouse DPI and Polling Rates Explained: Do They Matter for Gaming?
+
+Optical Mice Basics
+There was a time when a computer mouse contained a rubber ball that rolled (and picked up dirt) as you moved it across a mouse pad. The movement of the ball was picked up by mechanical rollers that translated the mouse's movement into something your computer could understand. Those days are over, and today we have optical and laser mice.
+
+https://www.howtogeek.com/182702/mouse-dpi-and-polling-rates-explained-do-they-matter-for-gaming/#:~:text=A mouse's polling rate is,second--or e... 2/7
+
+2/3/2021
+
+Mouse DPI and Polling Rates Explained: Do They Matter for Gaming?
+
+Modern optical mice contain a light-- usually a red one--and a little
+
+camera. As you move the mouse around, the light shines on the
+
+surface below the mouse and the camera takes hundreds of pictures
+
+per second. The mouse compares the pictures and determines the
+
+direction you're moving the mouse. The mouse then sends this
+
+movement data to your computer as mouse input, and the computer
+
+moves the cursor across your screen. Laser mice function similarly,
+
+but use infrared light instead of visible light.
+
+DPI Explained
+
+Dots per inch (DPI) is a measurement of how sensitive a mouse is. The higher a mouse's DPI, the farther the cursor on your screen will move when you move the mouse. A mouse with a higher DPI setting detects and reacts to smaller movements.
+A higher DPI isn't always better. You don't want your mouse cursor to fly all the way across the screen when you move your mouse a little bit. On the other hand, a higher DPI setting helps your mouse detect and respond to smaller movements so you can point at things more accurately. For example, let's say you're playing a first-person shooter game. When zooming in with a sniper rifle and trying to aim precisely at small targets, a high DPI could be valuable by allowing you to smoothly aim with small mouse movements. When playing the game normally without a zoomed-in sniper rifle, this high DPI may be too sensitive. This is why many high-end gaming mouse have buttons that you can flick to switch between DPI settings on the fly when playing a game.
+
+https://www.howtogeek.com/182702/mouse-dpi-and-polling-rates-explained-do-they-matter-for-gaming/#:~:text=A mouse's polling rate is,second--or e... 3/7
+
+2/3/2021
+
+Mouse DPI and Polling Rates Explained: Do They Matter for Gaming?
+
+You can also see why more sensitive mice are attractive to designers that need to make minute adjustments in their designs. DPI is different from the typical mouse sensitivity setting. DPI refers to a mouse's hardware capabilities, while sensitivity is just a software setting. For example, let's say you have a very cheap mouse with low DPI and you crank up the sensitivity. If you tried to aim at small targets, you'll see the mouse cursor jump around as you move it. The mouse hardware isn't as sensitive, so it doesn't detect the smaller movements. Your operating system just compensates by moving your cursor farther when it does detect a movement, so the movement isn't as smooth.
+A high DPI mouse can also be paired with a low sensitivity setting, so the cursor won't fly across the screen when you move it but the movement will stay smooth.
+https://www.howtogeek.com/182702/mouse-dpi-and-polling-rates-explained-do-they-matter-for-gaming/#:~:text=A mouse's polling rate is,second--or e... 4/7
+
+2/3/2021
+
+Mouse DPI and Polling Rates Explained: Do They Matter for Gaming?
+
+High DPI mice are more useful if you have a higher-resolution
+
+monitor. If you're playing a game on a low-resolution 1366×768
+
+laptop screen, you don't necessarily need that high DPI. On the other
+
+hand, if you're playing a game on a 3840×2160 4K monitor, a higher
+
+DPI lets you move your mouse cursor across the screen smoothly
+
+without having to drag your mouse across your entire desk.
+
+Polling Rate Explained
+
+A mouse's polling rate is how often it reports its position to a computer. Polling rate is measured in Hz. If a mouse has a 125 Hz polling rate, it reports its position to the computer 125 times every second--or every 8 milliseconds. A 500 Hz rate means that the mouse is reporting its position to the computer every 2 milliseconds.
+A higher polling rate can decrease the lag that occurs between when you move your mouse and when the movement shows up on your screen. On the other hand, a higher polling rate will use more CPU resources as the CPU has to query the mouse for its position more often.
+A mouse that officially supports a higher polling rate will generally allow you to select a polling rate in its control panel. Some mice may have hardware switches to adjust their polling rate on the fly, too.
+
+Are Higher DPI and Polling Rates Better?
+
+DPI and polling rates are a subject of great debate. Everyone has an opinion, and even some gaming mouse manufacturers have said that DPI is a fairly irrelevant specification to talk about. An extremely high DPI would cause the mouse cursor to fly across your entire screen when you nudge the mouse. For this reason, a higher DPI isn't necessarily a good thing. The ideal DPI depends on the game you're playing, the resolution of your screen, and how you prefer using your mouse.
+
+https://www.howtogeek.com/182702/mouse-dpi-and-polling-rates-explained-do-they-matter-for-gaming/#:~:text=A mouse's polling rate is,second--or e... 5/7
+
+2/3/2021
+
+Mouse DPI and Polling Rates Explained: Do They Matter for Gaming?
+
+A higher polling rate could be useful, but the difference between 500
+
+Hz and 1000 Hz will be hard to notice. A higher polling rate also uses
+
+more CPU resources, so setting the polling rate too high will just
+
+waste CPU resources for no benefit. This isn't necessarily a problem
+
+with modern hardware, but there's no point in manufacturers
+
+releasing mice with over 1000 Hz polling rates.
+
+Higher DPI and polling rates may be useful, but they're not everything. There's a good chance you'll find yourself decreasing the DPI below the maximum value after buying a pricy gaming mouse. You definitely don't need the mouse with the highest DPI and polling rate settings. These specifications aren't a simple measurement of performance like the speed of a CPU--they're more complicated than that. And, there are a lot of other factors important in choosing a good gaming mouse, including things like size, weight, grip style, and button placement.
+Image Credit: Sam DeLong on Flickr, Andy Melton on Flickr,   on Flickr
+CHRIS HOFFMAN
+Chris Hoffman is Editor in Chief of How-To Geek. He's written about technology for nearly a decade and was a PCWorld columnist for two years. Chris has written for The New York Times, been interviewed as a technology expert on TV stations like Miami's NBC 6, and had his work covered by news outlets like the BBC. Since 2011, Chris has written over 2,000 articles that have been read more than 500 million times---and that's just here at How-To Geek. READ
+FULL BIO »
+
+The above article may contain affiliate links, which help support How-To Geek.
+
+https://www.howtogeek.com/182702/mouse-dpi-and-polling-rates-explained-do-they-matter-for-gaming/#:~:text=A mouse's polling rate is,second--or e... 6/7
+
+2/3/2021
+
+Mouse DPI and Polling Rates Explained: Do They Matter for Gaming?
+
+How-To Geek is where you turn when you want experts to explain technology. Since we launched in 2006, our articles have been read more than 1 billion times. Want to know more?
+
+https://www.howtogeek.com/182702/mouse-dpi-and-polling-rates-explained-do-they-matter-for-gaming/#:~:text=A mouse's polling rate is,second--or e... 7/7
+
+

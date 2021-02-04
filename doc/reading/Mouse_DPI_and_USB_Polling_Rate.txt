@@ -1,0 +1,592 @@
+2/3/2021
+
+Mouse DPI and USB Polling Rate
+CODING HORROR
+programming and human factors
+
+GoJS is a fast and powerful JavaScript and TypeScript diagramming library.
+ads via Carbon
+C++ Engineer TileDB, Inc.
+Cambridge, MA $130K - $160K
+REMOTE c++ data-structures
+Senior Software Engineer - Android (Remote Considered) Shield AI
+San Diego, CA REMOTE kotlin opengl-es
+
+02 Apr 2007
+Mouse DPI and USB Polling Rate
+Despite my heavy computer use, I rarely experience hand or wrist pain. I consider myself fortunate. However, my mouse hand has been aching a bit lately. In light of my this, I decided it was time to change things up on the mouse front. I currently use the Logitech MX518 mouse at work and the Logitech G5 mouse at home. Both have the same roughly egg-like shape. I've never been completely satis ed with this shape, but it was the best of the available options at the time.
+A little research turned up an excellent new alternative: the Microsoft Habu mouse. The Habu is roughly the same size and shape as the classic Intellimouse Explorer, which is one of my all-time favorites.
+
+RESOURCES
+About Me discourse.org stackexchange.com Learn Markdown Recommended Reading
+
+ Subscribe in a reader  Subscribe via email
+
+https://blog.codinghorror.com/mouse-dpi-and-usb-polling-rate/#:~:text=The default USB polling rate,rate via software or hardware.
+
+1/18
+
+2/3/2021
+Coding Horror has been continuously published since 2004
+Copyright Je Atwood © 2021 Logo image © 1993 Steven C. McConnell Proudly published with  Ghost
+
+Mouse DPI and USB Polling Rate
+The Habu is a collaboration between Microsoft and Razer. Razer is best known for their freakishly shaped high-end gaming mice, which I've never been a fan of. Fortunately, the Habu seems to have inherited the best traits from its parents: the classic body of the Intellimouse Explorer, with the sophisticated brains of a Razer gaming mouse. I thought I'd disable the blue LEDs straight away, but as a kid who grew up with the movie TRON, the retro blue outline look is growing on me.
+
+The Habu has all the key features I personally look for in a mouse:
+Wired High resolution LED or laser Conveniently placed forward and back thumb buttons On-the- y adjustable DPI in hardware
+
+https://blog.codinghorror.com/mouse-dpi-and-usb-polling-rate/#:~:text=The default USB polling rate,rate via software or hardware.
+
+2/18
+
+2/3/2021
+
+Mouse DPI and USB Polling Rate
+The Habu delivers resolution in spades; it o ers four levels selectable via the small buttons behind the mouse wheel: 400, 800, 1600 or 2000 DPI. On top of that, the Habu has one truly unique feature: it stores all of its settings in onboard ash memory. It's the rst mouse I've ever owned with rmware. Once you've con gured the settings to taste, you can unplug the mouse, bring it to another computer, and those settings will be retained.
+If, like me, you've invested in a high resolution mouse, there's one additional trick you should know to get the most out of it. The default USB polling rate is 125 Hz, which means the mouse cursor can only be updated every 8 milliseconds. But it is possible to increase the USB polling rate via software or hardware.
+
+Polling rate 125 Hz 250 Hz 500 Hz
+1000 Hz
+
+Response time 8 ms 4 ms 2 ms 1 ms
+
+It's no coincidence that the Razer Habu and the latest Logitech mice automatically increase the USB polling rate in hardware. Whenever you plug them in, you'll bene t from the higher polling rate. Here's a screenshot of the Habu driver settings; you can select both your preferred DPI and polling rate, and write that into the mouse
+rmware permanently.
+
+https://blog.codinghorror.com/mouse-dpi-and-usb-polling-rate/#:~:text=The default USB polling rate,rate via software or hardware.
+
+3/18
+
+2/3/2021
+
+Mouse DPI and USB Polling Rate
+You can check your current mouse's USB polling rate via a utility like the Direct Input mouse rate tool.
+
+Low-end mice and wireless interfaces may not be able to exceed the default 125 Hz USB polling rate, but you won't know until you try. To change your USB polling rate in software, refer to the following guides.
+How to change the USB polling rate in Windows Vista How to change the USB polling rate in Windows XP or Windows 2003 How to change the USB polling rate in Linux
+If you own a reasonably nice mouse, and the mouse rate tool reports 125 Hz movement, I recommend bumping up the USB polling rate in software. Turning the polling rate all the way up to 1000 Hz probably isn't necessary. But if you're sensitive to cursor smoothness at all, I can practically guarantee you will feel the di erence between 125 Hz and 500 Hz.
+If you think all this talk of high DPI mice and USB polling rates is obsessive, trust me, it's merely the tip of the iceberg. ESReality developed an entire test rig for scienti cally benchmarking mice, and legions of twitch game players pore over every minute detail of their mouse settings.
+
+NEXT
+
+PREVIOUS
+
+https://blog.codinghorror.com/mouse-dpi-and-usb-polling-rate/#:~:text=The default USB polling rate,rate via software or hardware.
+
+4/18
+
+2/3/2021
+
+Mouse DPI and USB Polling Rate
+
+Pick a License, Any License
+
+Software Projects as Rock Climbing
+
+Written by Je Atwood
+Indoor enthusiast. Co-founder of Stack Over ow and Discourse. Disclaimer: I have no idea what I'm talking about. Find me here: http://twitter.com/codinghorror
+
+Continue Discussion
+
+55 replies
+
+Jani
+
+Apr '07
+
+A small correction: the onboard memory in the Habu is not unique. It was first available on the Razer Copperhead, which I coincidentally happen to own. It's also in Razer's latest mouse "DeathAdder".
+
+And yes, I was kind of baffled when I got the Copperhead and realized it actually had firmware that I could update.
+
+Nick
+
+Apr '07
+
+Why are the DPI and polling rate selectable? Is there a plausible reason you would ever select a lower one over a higher one? I'm honestly curious - especially if the DPI selector is in such an accessible position.
+
+steffenj
+Why wired? Please explain.
+
+Apr '07
+
+I've had my share with wireless mice, dating back to early 90's. Back then, when the batteries were low, the mouse tended to hop around occasionally. That was annoying enough to change batteries early.
+
+However, cables tend to get in the way or roll down the table, requiring more effort from you to pull on the string while moving the mouse. I always fix my mouse cable on the table somehow, duct tape or an appropriate weight. Also, cables are chronically too short.
+
+https://blog.codinghorror.com/mouse-dpi-and-usb-polling-rate/#:~:text=The default USB polling rate,rate via software or hardware.
+
+5/18
+
+2/3/2021
+
+Mouse DPI and USB Polling Rate
+At home i have a cordless Logitech. This thing is awesome in terms of update speed and handling. It also comes with 2 set of rechargeables and an USB recharger/infrared sensor. Never had any latency problems. Only thing still is: batteries still go dead after some time. So, occasionally I'm surprised that the mouse just stopped and blame it on my computer, despite the LEDs on the mouse warning me about battery status.
+The recharge stands where you put the mouse in is completely worthless once the batteries are dead - it means not being able to work while the mouse charges. However, that might just be the time where you would be forced to use keyboard-only .
+
+Mike
+
+Apr '07
+
+I've often tried fixing my USB polling rate in the past, but for some reason, XP won't let me. When I try to use the program "usbmrs11" it will tell me "Could not find a valid sequence! Please use Windows' original `usbport.sys'!". I've tried in both Safe mode and normal mode.
+
+And I've never found a solution to this problem.
+
+tcliu
+
+Apr '07
+
+Mike: Sounds like it is trying to patch the USB driver.
+
+KR17
+
+Apr '07
+
+Are there any undesirable side effects to changing the USB polling rate, such as incompatibility with other peripherals or increased overhead due to excessive wasted polling?
+
+Fabian
+
+Apr '07
+
+steffenj, don't feed the troll. It has been a very long debate about wired/wireless mouse.
+
+Gamers and high-end user generally preferes wired mouse for their very fast responses. Like Jeff explains, you prolly won't be able to put the poling rate at 500 mhz with a wireless mouse.
+
+Dan Cosh
+https://blog.codinghorror.com/mouse-dpi-and-usb-polling-rate/#:~:text=The default USB polling rate,rate via software or hardware.
+
+Apr '07
+6/18
+
+2/3/2021
+
+Mouse DPI and USB Polling Rate
+Dan_Cosh
+
+Apr 07
+
+I looked at that mouse not that long ago. It seemed to be a real good deal for a mouse with specs like that. Problem I faced was, do I game enough to make it worth while. After all, a moluse like that is built for gaming, if you are not going to do so with it, you may as well get a 10 cheap mouse. Would say it is worth while getting a `gaming' mosue for everday use?
+
+Great stuff dood. Been reading for the last month now, can't see my self stopping anytime soon. The comparion of software development and playing a game, seems so obvius when said like that.
+
+Steve
+
+Apr '07
+
+I recommend learning to be ambidextrous with the mouse. It took me about 2 weeks to become completely used to working left handed. After that i can switch hands effortlessly. I do not switch the buttons however (there is a config menu for lefthanded use).
+
+Nathan
+
+Apr '07
+
+My right wrist started aching a few years ago due to heavy mouse usage. It got to the point where it kept me from doing a bench press at the gym. At that point I taught myself to mouse with my left hand and the right wrist healed fairly quickly. Nowadays, I use my left hand to mouse at work and my right at home and I haven't had a problem since.
+
+BrendanD
+
+Apr '07
+
+The problem with increasing the USB polling rate is that it
+
+will decrease your overall USB throughput for that USB
+
+host controller. USB frames occur at 1000Hz (this is why
+
+the maximum rate of the polling is 1000Hz). Mice are
+
+generally USB low-speed devices, which means they use
+
+long bit widths than full-speed or high-speed devices. So
+
+they use up more of the USB frame for their
+
+communications relative to the amount of data that they
+
+send. This will take a chunk out of the available bandwidth
+
+to devices like USB mass storage devices or networking
+
+devices. And increasing the polling rate just increases the
+
+bandwidth usage. To avoid this, you may want to find out if
+
+your computer has multiple USB host controllers on board
+
+https://blog.codinghorror.com/mouse-dpi-and-usb-polling-rate/#:~:text=The default USB polling rate,rate via software or hardware.
+
+7/18
+
+2/3/2021
+
+y Mouse DPI and USB Polling Rate (as opposed to just multiple ports that all connect to the same controller) and dedicate one to low-speed devices like mice, keyboards, and game controllers.
+Another option is to use a mouse that is USB full-speed.
+
+KevinL
+
+Apr '07
+
+I'll agree with Sean on the trackball front. I switched to a trackball years ago, and find it annoying when I'm using someone else's computer with a mouse. However, sometimes their confusion at trying to use my trackball is worth it - I mean, there's a big ball on the side of the device, do you really think sliding it around the table is going to do anything?
+
+Mark_Focas
+
+Apr '07
+
+I agree with Alek Davis, a better mouse may be part of a solution, but better to look at other solutions too.
+
+a lot of chinese knick knack shops have soe balls, I don't know what they're called, I call them `Chinese balls', they usually have a picture of the sub on one, the moon on the other, or ying-yang symbols. They are hard, and have some meetal chime inside. You hold them both in one hand and roll them around, and it provides a fantastic exercise that exercises a full range of movement.
+
+I have recommended these to a few friends who were developing RSI symptoms, and all have noticed quick improvements.
+
+NJBrad
+
+Apr '07
+
+I've been using a Logitech G7 for over a year now and love it for wireless, very sensitive game control. It comes with hardware speed control, 2 rechargeable batteries. I now have 3 (1 home, 2 work), and have equiped all programmers on my team with them. the only drawback is the lack of configurable buttons. I think it has one thumb, and scroll side-to-side. I never use the buttons since I would rather use a key board
+
+kenji
+be careful with your hand!
+https://blog.codinghorror.com/mouse-dpi-and-usb-polling-rate/#:~:text=The default USB polling rate,rate via software or hardware.
+
+Apr '07
+8/18
+
+2/3/2021
+
+Mouse DPI and USB Polling Rate
+changing the mouse is not the solution
+
+joev
+
+Apr '07
+
+I'm sad that there's such little interest in trackballs. I know lots of programmers who swear by the Logitech TrackMan Marble series, the one with the ping-pong sized thumbball. I bought mine so long ago I can't read the "Logitech" logo on it any more. When I went to look for another for home, they changed the design slightly, and the ball has a lot more friction than my old one. I don't know of any other manufacturer that has a similar design- most others have the "Missile Command"-style trackball, which is probably geared more towards graphic designers.
+
+ChrisB
+
+Apr '07
+
+What? You still use a mouse? You'll take my Trackball Explorer away from me when you pry it from my cold dead fingers.
+
+Karthik
+
+Apr '07
+
+I blogged a while ago about some other great products that have smoothed out my mouse quite a bit. Click the link to check out my post.
+
+Eam
+Kenji: Hey baby.
+
+Apr '07
+
+Changing the mouse can't hurt. If the new thing fits his hand better and is more responsive, there's going to be a (hopefully) significant amount of reduced strain. It seems to me he's taken care of the more important factors already (chair, desk, and keyboard), so this is the next logical step.
+
+Of course, you can get all the fancy-pants hardware you want, but you'll still mess up your hands if you don't give them some rest.
+
+MarketG
+The RollerMouse Pro pwn3s all http://www.contourdesign.com/rollermouse/
+https://blog.codinghorror.com/mouse-dpi-and-usb-polling-rate/#:~:text=The default USB polling rate,rate via software or hardware.
+
+Apr '07
+9/18
+
+2/3/2021
+
+Mouse DPI and USB Polling Rate
+
+codinghorror
+
+Apr '07
+
+there's a big ball on the side of the device, do you really think sliding it around the table is going to do anything?
+
+Really? That's hilarious! Reminds me of Star Trek IV with Scotty speaking to the mouse...
+
+The problem with increasing the USB polling rate is that it will decrease your overall USB throughput for that USB host controller
+
+I don't recommend going to 1000 Hz in software. I think the best choice is probably 500 Hz. It's unlikely you would notice a jump from 1ms to 2ms, but going from 8ms to 2ms is definitely worth it.
+
+Of course an even better choice is to get a mouse like the Habu or G5/G7 that natively uses the higher polling rates. No changes required...
+
+marksalot
+
+Apr '07
+
+Wow... I had looked at that mouse in passing but didn't realize that it was a collaboration with Razer, I just may have to get one now.
+
+I went through a quest of sorts a few months ago. After finding out about the ability to increase the USB polling rate, I thought there must be some kind of utility out there that could make the mouse movement in XP be a little bit smoother, it has always seemed to me that MacOS has had uber nice mouse movement, where I can easily point to one pixel with the tip of the mouse.
+
+I found one person, Aion, who made a driver(?) called MouAccel(http://esreality.hexus.net/?a=postid=1268470) that takes over the entire mouse system in XP, and he had a couple different setups. One of the configurations makes the mouse act like the Quake 3 ballistics in every application... a really amazing piece of work, but none of the different profiles it comes with really satisfied me for daily use. He does provide the source code and I hope somebody takes over his project and makes a GUI with sliders to adjust the ballistics
+
+AnthonyS
+https://blog.codinghorror.com/mouse-dpi-and-usb-polling-rate/#:~:text=The default USB polling rate,rate via software or hardware.
+
+Apr '07
+
+10/18
+
+2/3/2021
+
+Mouse DPI and USB Polling Rate
+I'm a serious gamer and developer, and I gotta say that I love the Logitech G7 gaming mouse for work and play. It's wireless (but hear me out!), and it does 500 reports per second just like the Habu. With wide, teflon feet, man is it smooth, especially on a gaming mousepad like the SteelPad 5L.
+At first, I thought the only downside was battery life. It is an odd mouse. It comes with two quick swap battery packs, so one is always in use and the other is charging in the base station. When one dies (don't worry, you get a warning light well in advance, but just in case), you can hot swap in about 5 seconds. Later, a friend who works at Logitech informed me that these packs are intentionally small to bring down the weight of the mouse. This does two things, makes for high responsiveness (low inertia) and seriously helps with repetitive stress injury.
+The precision is awesome with a 2000 dpi laser, and it also does the hot resolution changing that interests you. Very nice for sniping in-game or as I've found for pixel precision in Photoshop. You will also need to drop the resolution when a non-gamer comes to visit your desk and tries to point at anything on your screen.
+I don't recommend products online very often, but I am very passionate about this mouse. It has improved my work and gaming productivity and health dramatically.
+Cheers and thanks for the tasty site!
+
+Fwol
+
+Apr '07
+
+I'm a little bit concerned with the fact that to change the polling rate, you need to patch a driver... Is there no setting somewhere for this?
+
+codinghorror
+
+Apr '07
+
+On wired vs. wireless mice: wired mice are less complex, perform better, and have lower prices. I just don't need wireless functionality in a mouse. I can't even recall the last time the mouse cord got in my way. What problem does it solve for me?
+
+Same concern with wireless keyboards. When was the last time the keyboard cord caused me a problem, or got in my way? Never
+https://blog.codinghorror.com/mouse-dpi-and-usb-polling-rate/#:~:text=The default USB polling rate,rate via software or hardware.
+
+11/18
+
+2/3/2021
+
+Mouse DPI and USB Polling Rate
+way? Never.
+I'm not anti-wireless, but make sure you need wireless before buying it.
+Wireless headphones, on the other hand, might be a great investment for me as I am FOREVER getting tangled in my headphone cord. It drives me nuts!
+http://www.codinghorror.com/blog/archives/000463.html
+
+Alek_Davis
+
+Apr '07
+
+Jeff, if your hand is aching, you need to do more than changing a mouse; otherwise, you may end up with an injury. Although, it does not sound macho (what? a mouse can injure a grown man?), it is a reality. My right hand started aching about three years ago, so I went to see a therapist and ergo specialist at work, and they recommended a few simple exercises as well as changing hands when using the mouse. Operating the mouse with my left hand felt awkward initially, but after a couple of days, I got used to it (I use my left hand most of the time now). After a few weeks, the pain diminished, and I hardly have any issues these days (whenever I feel uncomfortable, I just repeat the exercises). BTW, my coworker ignored the hand pain for a while, and she ended up with a permanent damage; now she often wears a cast on her arm to minimize the pain. I'm not making this up. Depending on the way you work, you may need additional recommendations, but please take it seriously.
+
+Jae
+
+Apr '07
+
+Okay, as a veteran gamer, and a laptop user, I'm going to recommend the following things:
+
+1. Wireless headset. If you're like me, every time you adjust in your seat, you half yank the wired headset off your head. If you can, make sure it's a USBbased headset.
+
+2. Microsoft Intellimouse for $10. Because it really really really doesn't matter what kind of mouse you have, the server's pings/lag are going to be the determining factor as to whether or not you got that headshot.
+
+Other than that, you really don't need anything special or
+https://blog.codinghorror.com/mouse-dpi-and-usb-polling-rate/#:~:text=The default USB polling rate,rate via software or hardware.
+
+12/18
+
+2/3/2021
+
+Mouse DPI and,UySB Polling Ryate
+
+y gp
+
+fancy above and beyond whatever hardware you're going
+
+to use. You already know what specs you want from your
+
+hardware, and I'm not about to dive in the nVidia vs. ATI
+
+debate (which is almost essentially the PC vs. Mac debate
+
+all over again). More or less, you're just looking at making
+
+your experience comfortable.
+
+Nick
+
+Apr '07
+
+Okay, I see the point about USB polling rate. What about mouse DPI, though? Why would you ever set it to anything but the maximum your mouse supports, let alone often enough to warrant a button right there on the mouse?
+
+codinghorror
+
+Apr '07
+
+Nick, mostly because it gives you a one-button way to change sensitivity "on the fly" at the hardware level without having to delve into Control Panel, Mouse, etc.
+
+Setting a certain DPI as default in the mouse firmware might be helpful, too, so you don't have to jack up the sensitivity in the control panel every time you hook up a mouse.
+
+CharlesP
+
+Apr '07
+
+If you have USB, you have firmware. Cord or batteries? For me batteries are more trouble than the cord (buying, stocking, changing, disposing, running out). Tried a trackball once, never liked it. Same with touchpads on laptops. They are even worse. I am looking for a laptop that has a parking slot for the mouse, and maybe an automatic cord winder. How about an RFID mouse? No batteries, no cord. Could it be done? Still need a string to tie it to the laptop though.
+
+jgreeno
+
+Apr '07
+
+If you up the polling rate from 125Hz to 1000Hz, wouldn't that mean that you're doing the math on mouse coordinates 8x as much as normal? Wouldn't that have at least a nominal impact on processor speed? Just curious if I'm thinking about this right.
+
+kenji
+https://blog.codinghorror.com/mouse-dpi-and-usb-polling-rate/#:~:text=The default USB polling rate,rate via software or hardware.
+
+Apr '07
+
+13/18
+
+2/3/2021
+
+Mouse DPI and USB Polling Rate
+Alek Davis is right He said exactly what I mean to say. Just take care of your hand. It's the component you can't replace.
+
+a1147
+
+Apr '07
+
+I used to alternate hands to help reduce usage and avoid pain. Eventually I just got a vertical mouse instead of everything has been fine. I tried a gyro mouse also, but didn't like that as much, although it was faster than trackballs at least.
+
+there's a big ball on the side of the device, do you really think sliding it around the table is going to do anything?
+
+I've seen combination devices that are both a mouse and a trackball at once.
+
+rabidw
+
+Apr '07
+
+The eyeMouse or maybee iMouse. A set of really cool sunglasses with built in low power IR laser that tracks the movement of your eyeball and the mouse cursor follows.
+
+Want to click, just wriggle your nose like on Bewitched. Double click? Wriggle your nose twice...
+
+Can you imagine going into a busy office and watching all those people wriggling their noses.
+
+Or, the new stress related illness, carpal nasal syndrome...
+
+Mike
+Jeff,
+
+Apr '07
+
+Long time reader, first post. I especially began liking this site when you referred to my all-time favorite keyboard as the "Keyboard of the Gods".
+
+Because of that, I am going to buy one of these mice. I bought a wireless mouse for my laptop, but for my home pc, wireless makes no sense on a desk that isn't going anywhere. Gonna try the duct tape trick too - good advice. Maybe some clear tape would look less ghetto?
+
+https://blog.codinghorror.com/mouse-dpi-and-usb-polling-rate/#:~:text=The default USB polling rate,rate via software or hardware.
+
+14/18
+
+2/3/2021
+
+Mouse DPI and USB Polling Rate
+
+DanielP
+
+Apr '07
+
+As a gamer and software developer, I have several tricks to reducing hand/wrist stress:
+
+1. Mouse left at work, mouse right at home. It helps that I'm left handed and grew up mousing right.
+
+2. Use trackballs when possible. I use the fabulous but sadly discontinued a href=http://www.amazon.com/Microsoft-D68-00007Trackball-Explorer/dp/B00005853Ztrackball explorer/a at home, and a 2-button Dell optical USB mouse at work. It helps that the twitchiest games I play nowadays are MMOs. There was a time when I used a laser mouse for twitch gaming and the trackball for all else. My laser mouse (MX500) had a battery failure a year ago and I haven't bothered to fix it since. Still using the trackball.
+
+3. Split key keyboards, gel wrist pads.
+
+Daniel
+
+Apr '07
+
+I've noticed that your article completely missing the point to polling rates (so does all modern mouse advertising). Your standard USB mouse like the Microsoft Wheel Mouse Optical 1.1 is a 400dpi sensor with a 8bit controller, at ~1.1m/s the 8bit buffer overflows before 8ms so programmers figured out a way of flushing the buffer quicker, this is all it is for, not reduced latency (if you can feel the latency it could be Angle snapping, prediction or jitter caused by overloading the controller). Low Sens pro gamers can get near 2m/s.
+
+P.S. I found an actual benchmark, Mouse Score 2007, that tests mice properly, for things like buffer overload, jitter, and malfunctioning at high speeds and explains these things in more detail.
+
+Gamer4All
+
+Jun '07
+
+Under a technicality for those that ask why would you use a gaming mouse for everyday:
+
+1. Once you get comfortable with a mouse, you will be so used to it, that anything else feels weird to use. I have played with your average factory mouse then I
+https://blog.codinghorror.com/mouse-dpi-and-usb-polling-rate/#:~:text=The default USB polling rate,rate via software or hardware.
+
+15/18
+
+2/3/2021
+
+Mouse DPI and USB Polling Rate
+have played with your average factory mouse, then I have played with a gaming mouse, once I got used to the gaming mouse's response, I was hooked. I refused to switch back.
+2)To Nick: The DPI being changed is a good thing, It is essentially the sensitivity of your mouse, If you lower the dpi, the slower it will move, the higher, and watch out speed racer - For the guys over 40 here
+3. Yes, it is possible to permanently damage your hand by a mouse, sadly. If you want to prevent this, a gaming mouse will help you, due to the fact that most are more ergo designed now, but it still is recommended to take about 10 minutes every hour to cool off your hand and eyes.
+~Happy Hunting for your mouse, By the way, this guy above me should be banned, in my opinion. Since he is most likely a 12 year old snot nosed brat, I wont stoop to his maturity and get into a gamers war with him. At 18, I better set a good example for the future!
+
+BuG
+
+Aug '07
+
+i got a habu too. took 3 hours to get the firmware and software to get cozy (known problem for 1.0 firmware) but once i got the firmware up (one easy patch.) the mouse is the BEST mouse ive ever used.
+
+ice
+
+Oct '07
+
+now...just to get things a bit wierd...how about joining in the pentablet? just wierd that i can't get it to work for my games though...used a4tech's keyboard combo Wireless (but now i replaced the mouse since the one that came in with the combo kept clicking even without me clicking it...) but now my sister got me to use her wacom...and my mouse been stuck in the corner of my table since...
+
+ice
+
+Oct '07
+
+hmmm...after doing the tweak for the mouse...i'm not
+
+toosure...but i think it also twaeked my desktop...i
+
+definitely feel a 10-15% inchrease in responsiveness to
+
+desktop use (browser opening, file transfer...) well must be
+
+because i've installed the proper drivers for my keyboard
+
+and mouse? before it was just running on HUD device
+
+https://blog.codinghorror.com/mouse-dpi-and-usb-polling-rate/#:~:text=The default USB polling rate,rate via software or hardware.
+
+16/18
+
+2/3/2021
+
+Mouse DPI and USB Polling Rate
+driver...but now...i definitely expereience a fater pc (at least 10-15%-wise)...also tried this tweak if it inreases my usb output a bit...because my psp wasnt charging on the usb before...since it was as said on lowe power output...
+
+FurryLungs
+
+Dec '07
+
+I had achey wrist through using a cheapo mouse/keyboard a few years ago and decided to go down the path of the ergonomic keyboard (Microsoft Natural Elite) and a Logitech Marble mouse, this sorted me out. However the trackball was/is only 400 dpi which was fine for general use but I felt it was holding me back in FPS gaming (original Enemy Territories)so after masses of research I went and got a Habu. After the initial problems with version 1.0 firmware I've never looked back, a wonderful comfy bit of kit. I run it at 1000mhz and 1600dpi and now I've only myself to blame for not gettin those headshots
+
+SABR
+
+Jan '08
+
+get the lachesis from razer... 4000 dpi and easy user friendly fermware... its quite expensive tho (80$)
+
+dilly_bar
+
+Feb '08
+
+I also have a Habu mouse, well my second one ( the first one, some buttons stopped working. Anyways like Mike, who posted nearer the beginning, the program usbmr11 will not work. I am assuming that even though my Habu mouse will allow a high polling rate that XP won't allow it... true or not. When I use a mouse rate checker it still tells me that the poll rate is 125 hz or near and abouts.
+
+dilly_bar
+
+Feb '08
+
+I should edit what I said above. The program isn't working for me. I know it's worked for others :(. I guess the properly phrased question should be this. If this program doesn't work on my OS, will the Habu software find a way around this or will it be unable to because of XP defaults? Thanks
+
+zeep
+
+Mar '08
+
+https://blog.codinghorror.com/mouse-dpi-and-usb-polling-rate/#:~:text=The default USB polling rate,rate via software or hardware.
+
+17/18
+
+2/3/2021
+
+Mouse DPI and USB Polling Rate
+
+https://blog.codinghorror.com/mouse-dpi-and-usb-polling-rate/#:~:text=The default USB polling rate,rate via software or hardware.
+
+18/18
+
+
