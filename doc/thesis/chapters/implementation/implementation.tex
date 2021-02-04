@@ -1,0 +1,15 @@
+﻿
+\chapter{Implementation}\label{ch:implementation}
+This project will utilize an approach that begins by identifying users, which include human and bot users, based solely on their mouse movement behavior~\cite{intrustion_detection_using_mouse_dynamics}.
+Specifically, this project presents a user differentiation method based on mouse behavior metrics, such as movement angle, movement velocity, scroll velocity, etc., instead of relying on client IP addresses present in the server logs.
+Further study could include metrics that are also used in previously implemented web bot detection schemes.
+But this project will start with just the mouse behavior metrics.
+The presented approach in this project implies that, upon identifying users based on their mouse use behavior, decisions to declare userX, which is a single cluster, as a human or a bot are reinforced by empirical evidence of web traffic patterns corresponding to userX.
+This approach could be an improvement to the inaccuracies present in previous supervised learning-based web bot detection schemes.
+Additionally, this "identify users first, then classify as human or bot" method is similar to the current industry standard of websites requiring all visitors to log into an account for further use of their website; which reinforces decisions to declare account-holderX as a human or a bot, regardless of the IP address of account-holderX.
+However, this "log-in, then use website" method causes user friction~\cite{how_recaptcha_is_improving_user_experience}, a concept introduced and considered by the latest "covert" versions of reCAPTCHA, that implies the inconveniences a user must experience to prove they are human and not a bot.
+An example of this could be requiring a user to click/check "I'm not a robot" on older versions of reCAPTCHA.
+In conclusion, this project presents an unsupervised, clustering method to autonomously identify users, as if they were to log in to an account, providing a means to make more informed decisions of the "web bot-ness" of visitors on a website.
+
+\section{Dataset}\label{sec:dataset}
+This is the section
