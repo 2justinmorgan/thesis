@@ -25,12 +25,10 @@ This, combined with the anonymity of proxies that scramble the IP addresses of w
 
 \section{Dataset}\label{sec:dataset}
 In order to cluster users based on their mouse movement behavior, data of their mouse movement must be obtained.
-By using JavaScript's mousemove event listener, the coordinates of a user's mouse can be determined and recorded while a user is in session.
-On average, a computers mouse position is polled 125 times per second~\cite{mouse_dpi_and_polling_rate_explained}~\cite{mouse_dpi_and_usb_polling_rate}.
-This means that if a 10 second user session is recorded, there should be an average of 1,250 mouse position records of any single user browsing a website.
-These records can be stored on the user's computer, most likely in the browser via a JavaScript variable, then periodically sent to the server for which the website is hosted.
-From this input, the web bot and botnet detection scheme will begin.
+An ideal scenario for this research would be to record the mouse movement of a high number of users, while navigating a specified user interface, thus creating a mouse movement recordings dataset.
+But there are alternatives that maintain the validity of this research.
 
+\subsection{Balabit Dataset}\label{subsec:balabit-dataset}
 For testing and analysis purposes, a predefined dataset of users were used in this research.
 The Balabit Mouse Challenge Dataset~\cite{balabit_dataset} was the primary dataset used in this research.
 This dataset includes timing and positioning information of a web user's mouse pointer.
@@ -46,4 +44,24 @@ In order to apply such a intrusion detection schema, a supervised learning-based
 However, this research does not intend on detecting unauthorized accessors, nor does it intend on using supervised learning in its implementation.
 
 Although the Balabit dataset was intended to be used for creating and evaluating supervised learning-based models, the dataset still contains valuable user profiles and session recordings.
+These user profiles are defined by a series of session recordings that are labeled with a single user of an account.
+There are about 100 to 200 sessions recordings, spread over 10 users, with an average of 15 minutes of recording time per session.
+Session recordings are split into two sets: training and testing.
+This is for supervised learning uses.
+For this research, all session files were combined into one set that is to be clustered and analyzed.
+A session record is a csv file containing these fields~\cite{balabit_dataset}:
+\begin{itemize}
+    \item \textit{record timestamp}: elapsed time (in seconds) since the start of the session as recorded by the network monitoring device used in the creation of the Balabit dataset
+    \item \textit{client timestamp}: elapsed time (in seconds) since the start of the session as recorded by the RDP client used by each of the 10 users
+    \item \textit{button}: the current condition of the mouse buttons
+    \item \textit{state}: additional information about the current state of the mouse
+    \item \textit{x}: the x coordinate (in pixels) of the mouse cursor on the screen
+    \item \textit{y}: the y coordinate (in pixels) of the mouse cursor on the screen
+\end{itemize}
 
+\subsection{Realtime Dataset}\label{subsec:realtime-dataset}
+By using JavaScript's mousemove event listener, the coordinates of a user's mouse can be determined and recorded while a user is in session.
+On average, a computers mouse position is polled 125 times per second~\cite{mouse_dpi_and_polling_rate_explained}~\cite{mouse_dpi_and_usb_polling_rate}.
+This means that if a 10 second user session is recorded, there should be an average of 1,250 mouse position records of any single user browsing a website.
+These records can be stored on the user's computer, most likely in the browser via a JavaScript variable, then periodically sent to the server for which the website is hosted.
+From this input, the web bot and botnet detection scheme will begin.
