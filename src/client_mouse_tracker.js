@@ -2,7 +2,7 @@
 var records;
 
 function flushRecords(recordsBufferSize) {
-    return {
+    records = {
         times: Array(recordsBufferSize).fill(0.0),
         xPositions: Array(recordsBufferSize).fill(0),
         yPositions: Array(recordsBufferSize).fill(0),
@@ -18,7 +18,7 @@ function postAndFlushRecords(recordsBufferSize) {
         xPositions: records.xPositions.slice(0,records.counter),
         yPositions: records.yPositions.slice(0,records.counter)
     });
-    records = flushRecords(recordsBufferSize);
+    flushRecords(recordsBufferSize);
 }
 
 function log(elapsedTimeInSeconds, x, y, recordsBufferSize) {
@@ -40,7 +40,7 @@ function initBufferTimeout(timeLimitInSeconds, recordsBufferSize) {
 function init() {
     const startTime = Date.now();
     const recordsBufferSize = 2500;
-    records = flushRecords(recordsBufferSize);
+    flushRecords(recordsBufferSize);
     onmousemove = event => log((Date.now()-startTime)/1000, event.clientX, event.clientY);
     initBufferTimeout(10, recordsBufferSize);
 }
