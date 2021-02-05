@@ -76,8 +76,30 @@ An example of a session record looks like:
 %duplicate session_0335985747
 
 \subsection{Realtime Dataset}\label{subsec:realtime-dataset}
+In a realtime environment, where the user differentiating algorithm is deployed, mouse movement data would come from the browser on the user's computer.
 By using JavaScript's mousemove event listener, the coordinates of a user's mouse can be determined and recorded while a user is in session.
 On average, a computers mouse position is polled 125 times per second~\cite{mouse_dpi_and_polling_rate_explained}~\cite{mouse_dpi_and_usb_polling_rate}.
 This means that if a 10 second user session is recorded, there should be an average of 1,250 mouse position records of any single user browsing a website.
+Records can be in a csv format:
+\begin{itemize}
+    \item \textbf{time}: elapsed time (in seconds) since the start of the session as recorded by the user's browser
+    \item \textbf{x}: the x coordinate (in pixels) of the mouse cursor on the screen
+    \item \textbf{y}: the y coordinate (in pixels) of the mouse cursor on the screen
+\end{itemize}
+A typical recorded session of a user's mouse movement metrics would look like:
+\begin{center}
+    \begin{tabular}{ |c|c|c| }
+        \hline
+        \textbf{time} & \textbf{x} & \textbf{y} \\
+        \hline
+        0.0 & 241 & 93 \\
+        0.008121 & 278 & 77 \\
+        0.015828 & 291 & 54 \\
+        0.026942 & 302 & 48 \\
+        0.037201 & 317 & 50 \\
+        \ldots & \ldots & \ldots \\
+        \hline
+    \end{tabular}
+\end{center}
 These records can be stored on the user's computer, most likely in the browser via a JavaScript variable, then periodically sent to the server for which the website is hosted.
-From this input, the web bot and botnet detection scheme will begin.
+From this input, on the server, the web bot and botnet detection scheme will begin.
