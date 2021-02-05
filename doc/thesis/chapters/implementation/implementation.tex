@@ -51,13 +51,29 @@ This is for supervised learning uses.
 For this research, all session files were combined into one set that is to be clustered and analyzed.
 A session record is a csv file containing these fields~\cite{balabit_dataset}:
 \begin{itemize}
-    \item \textit{record timestamp}: elapsed time (in seconds) since the start of the session as recorded by the network monitoring device used in the creation of the Balabit dataset
-    \item \textit{client timestamp}: elapsed time (in seconds) since the start of the session as recorded by the RDP client used by each of the 10 users
-    \item \textit{button}: the current condition of the mouse buttons
-    \item \textit{state}: additional information about the current state of the mouse
-    \item \textit{x}: the x coordinate (in pixels) of the mouse cursor on the screen
-    \item \textit{y}: the y coordinate (in pixels) of the mouse cursor on the screen
+    \item \textbf{record timestamp}: elapsed time (in seconds) since the start of the session as recorded by the network monitoring device used in the creation of the Balabit dataset
+    \item \textbf{client timestamp}: elapsed time (in seconds) since the start of the session as recorded by the RDP client used by each of the 10 users
+    \item \textbf{button}: the current condition of the mouse buttons
+    \item \textbf{state}: additional information about the current state of the mouse
+    \item \textbf{x}: the x coordinate (in pixels) of the mouse cursor on the screen
+    \item \textbf{y}: the y coordinate (in pixels) of the mouse cursor on the screen
 \end{itemize}
+An example of a session record looks like:
+\begin{center}
+    \begin{tabular}{ |c|c|c|c|c|c| }
+        \hline
+        \textbf{record timestamp} & \textbf{client timestamp} & \textbf{button} & \textbf{state} & \textbf{x} & \textbf{y} \\
+        \hline
+        0.0 & 0.0 & NoButton & Move & 399 & 962 \\
+        0.157999992371 & 0.155999999959 & NoButton & Move & 402 & 962 \\
+        0.365999937057 & 0.248999999953 & NoButton & Move & 407 & 962 \\
+        0.365999937057 & 0.358000000007 & Left & Pressed & 430 & 962 \\
+        0.476999998093 & 0.467999999993 & Left & Released & 474 & 963 \\
+        \ldots & \ldots & \ldots & \ldots & \ldots & \ldots \\
+        \hline
+    \end{tabular}
+\end{center}
+%duplicate session_0335985747
 
 \subsection{Realtime Dataset}\label{subsec:realtime-dataset}
 By using JavaScript's mousemove event listener, the coordinates of a user's mouse can be determined and recorded while a user is in session.
