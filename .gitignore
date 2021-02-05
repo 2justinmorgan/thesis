@@ -24,4 +24,5 @@ test/featuresgenerator/generator
 doc/latex*
 doc/thesis/thesis.pdf
 doc/linefy
+doc/inkscape/*.png
 

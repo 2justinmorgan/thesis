@@ -23,6 +23,18 @@ All supervised learning approaches, however, share a common disadvantage, relate
 In conclusion, since web bots are increasing in sophistication, meaning they are behaving more like humans in terms of mouse and HTTP request behavior~\cite{10.1109/DSN.2013.6575366}~\cite{7371507}, obtaining accurate training data that represents such complex web bots has been an issue.
 This, combined with the anonymity of proxies that scramble the IP addresses of web bots, has motivated this project.
 
+\section{General Architecture}\label{sec:general-arcitecture}
+The general architecture of this implementation is as follows:
+\begin{enumerate}
+    \item \textbf{data extraction}: The position metrics, timestamp and coordinates, of the user's mouse cursor are collected from the user's computer and sent to the server for analysis. The \textit{Dataset} section outlines this stage.
+    \item \textbf{features generation}: From the inputted raw data recorded and sent from the user's machine, features that characterize the raw data, and the user's session pertaining to it, are generated. The \textit{Features Engineering} section outlines this stage.
+    \item \textbf{features analysis}: Sessions are clustered based on the generated features. The \textit{Features Analysis} section outlines this stage.
+    \item \textbf{classification}: Clusters of sessions are used to determine bottness of users at client IP addresses. The \textit{Classification} section outlines this stage, a stage anticipated for future work.
+\end{enumerate}
+\begin{center}
+\includegraphics[width=1\columnwidth]{figures/general_architecture}
+\end{center}
+
 \section{Dataset}\label{sec:dataset}
 In order to cluster users based on their mouse movement behavior, data of their mouse movement must be obtained.
 An ideal scenario for this research would be to record the mouse movement of a high number of users, while navigating a specified user interface, thus creating a mouse movement recordings dataset.
