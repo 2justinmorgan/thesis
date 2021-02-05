@@ -103,3 +103,43 @@ A typical recorded session of a user's mouse movement metrics would look like:
 \end{center}
 These records can be stored on the user's computer, most likely in the browser via a JavaScript variable, then periodically sent to the server for which the website is hosted.
 From this input, on the server, the web bot and botnet detection scheme will begin.
+Pseudo code that generalizes the process of obtaining and sending a user's mouse movement metrics looks like:
+
+{\color{darkgray} // the list of "times" "x" and "y" values POSTed to the server}
+\newline
+{\color{blue} \textbf{var}} records;
+
+{\color{blue} \textbf{function}} flushRecords(bufSize)
+\newline
+\hspace*{25pt} {\color{darkgray} // reallocate "bufSize" number of indices for "times" "x" and "y" lists}
+
+{\color{blue} \textbf{function}} postAndFlushRecords(bufSize)
+\newline
+\hspace*{25pt} {\color{darkgray} // POST all recorded "times" "x" and "y" values to the server}
+
+{\color{blue} \textbf{function}} log(elapsedTime, x, y, bufSize)
+\newline
+\hspace*{25pt} {\color{darkgray} // insert "elapsedTime" "x" and "y" values into "records"}
+\newline
+\hspace*{25pt} {\color{darkgray} // postAndFlushRecords() if there are "bufSize" number of records}
+
+{\color{blue} \textbf{function}} initBufferTimeout(timeLimit, bufSize)
+\newline
+\hspace*{25pt} {\color{darkgray} // postAndFlushRecords() every "timeLimit" duration}
+
+{\color{blue} \textbf{function}} init()
+\newline
+\hspace*{25pt} {\color{darkgray} // use the "window" object's "onmousemove" func to log() mouse positions}
+\newline
+\hspace*{25pt} {\color{darkgray} // initBufferTimeout() to periodically POST logged "records" to the server}
+
+{\color{darkgray} // called once upon every page load}
+\newline
+init();
+
+The actual code, client{\_}mouse{\_}tracker.js, can be found in the src/ dir on the remote repo~\cite{thesis_github_repo} of this research.
+
+
+%\begin{center}
+%\includegraphics[width=0.85\columnwidth]{figures/client_mouse_tracker_pseudo_code}
+%\end{center}
