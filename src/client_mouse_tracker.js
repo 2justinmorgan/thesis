@@ -1,4 +1,9 @@
 
+/*
+ NOTE: There is room for improvement on how/when the records buffer object is cleared (POSTed and flushed)
+       Though the buffer is cleared at a time limit, the buffer will also be cleared if |records| >= recordsBufferSize
+*/
+
 var records;
 
 function flushRecords(recordsBufferSize) {
