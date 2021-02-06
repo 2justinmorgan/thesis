@@ -151,7 +151,24 @@ init();
 
 The actual code, client{\_}mouse{\_}tracker.js, can be found in the src/ dir on the remote repo~\cite{thesis_github_repo} of this research.
 
+\section{Features Engineering}\label{sec:features-engineering}
+The intrustion detection scheme~\cite{intrustion_detection_using_mouse_dynamics}, while also using the Balabit dataset as it was intended to be used, extracted a set of features from the raw mouse position data.
+Though their work implemented a supervised learning-based binary classifier, the features they extracted were proven to be effective metrics in differentiating and identifying users.
+Instead of using all 6 elements of a datapoint vector, as outlined in the \textit{Balabit Dataset} section, we elected to only use the client timestamp ($t$), x position ($x$), and y position ($y$) values.
+These three values construct a triplet, ($t_i$, $x_i$, $y_i$), $i = 1{\dots}n$, where $n$ is the number of recorded mouse positions, or datapoint vectors, in a session file.
+From these three values, or triplets, of a single datapoint vector, in the list of vectors of a session file, the following features were extracted:
+\begin{itemize}
+    \item \textbf{velocity}: $v_i = \frac{\Delta d_i}{\Delta t_i}$
+    \item \textbf{horizontal velocity}: ${v_x}_i = \frac{\Delta x_i}{\Delta t_i}$
+    \item \textbf{vertical velocity}: ${v_y}_i = \frac{\Delta y_i}{\Delta t_i}$
+    \item \textbf{acceleration}: $a_i = \frac{\Delta v_i}{\Delta t_i}$
+    \item \textbf{jerk}: $j_i = \frac{\Delta a_i}{\Delta t_i}$
+    \item \textbf{theta}: $\Theta _i = \arctan 2(\frac{\Delta y_i}{\Delta x_i})$
+\end{itemize}
 
-%\begin{center}
-%\includegraphics[width=0.85\columnwidth]{figures/client_mouse_tracker_pseudo_code}
-%\end{center}
+\subsection{Realtime Generation}\label{subsec:realtime-generation}
+As described in the objective, this implementation is meant to detect web bots and botnet attacks in realtime.
+At this stage of the detection scheme, a program would need to be run in realtime to compute the 6 features outline above.
+Initially, a Python program was used to generate these 6 features as described.
+The program calculated all 1676 session files, from all 10 users, in an average of 7 minutes.
+
