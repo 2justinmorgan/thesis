@@ -176,3 +176,15 @@ Further, the entire features generator program was converted from Python to Gola
 By creating Go-routines on each of the 6 features, the average runtime of the Golang program calculating all 1676 sessions files was less than 30 seconds.
 All runtimes for realtime feature generation do not include data cleaning and prep.
 Since the Balabit dataset has many duplicate timestamp values, with different \textit{x} and \textit{y} values, a pre-generation step would need to take place to remove erooneous duplicates, as a means to "clean" the raw data input.
+
+\subsection{Statistics}\label{subsec:statistics}
+After the $n$ feature values have been generated, where $n$ is the number of datapoint vectors or triplets in a session, for each of the 6 features, the values would need to be represented with statistical values.
+The statistical values used for each of the 6 features are \textit{mean, median, mode, inter-quartile range, minimum and maximum values, range} and \textit{standard deviation}.
+
+It is worth noting that the \textit{mode} and \textit{minimum} values did not appear to be as useful as the other statistical metrics.
+The minimum values of each of the feature values lists were mostly zero.
+This is a result of the feature calculations.
+For example, horizontal velocity could be zero if the $x$ position does not change in two successive datapoint vectors.
+Formally, ${v_x}_i = \frac{\Delta x_i}{\Delta t_i} = 0$ if $\Delta x_i = \lvert x_i - x_{i+1} \rvert = 0$, meaning $x_i = x_{i+1}$.
+This is one example of why the \textit{maximum} and \textit{range} values were often the same.
+If $range = \vert maximum - minimum \rvert$, where $mimimum = 0$, than $range = maxmimum$.
