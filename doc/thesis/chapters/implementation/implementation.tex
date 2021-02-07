@@ -28,7 +28,7 @@ The general architecture of this implementation is as follows:
 \begin{enumerate}
     \item \textbf{data extraction}: The position metrics, timestamp and coordinates, of the user's mouse cursor are collected from the user's computer and sent to the server for analysis. The \textit{Dataset} section outlines this stage.
     \item \textbf{features generation}: From the inputted raw data recorded and sent from the user's machine, features that characterize the raw data, and the user's session pertaining to it, are generated. The \textit{Features Engineering} section outlines this stage.
-    \item \textbf{features analysis}: Sessions are clustered based on the generated features. The \textit{Features Analysis} section outlines this stage.
+    \item \textbf{clustering}: Sessions are clustered based on the generated features. The \textit{Clustering} section outlines this stage.
     \item \textbf{classification}: Clusters of sessions are used to determine bottness of users at client IP addresses. The \textit{Classification} section outlines this stage, a stage anticipated for future work.
 \end{enumerate}
 \begin{center}
@@ -189,7 +189,7 @@ Formally, ${v_x}_i = \frac{\Delta x_i}{\Delta t_i} = 0$ if $\Delta x_i = \lvert 
 This is one example of why the \textit{maximum} and \textit{range} values were often the same.
 If $range = \vert maximum - minimum \rvert$, where $mimimum = 0$, than $range = maxmimum$.
 
-\section{Features Analysis}\label{sec:features-analysis}
+\section{Clustering}\label{sec:clustering}
 At this point in the web bot and botnet attack detection scheme, a number of metrics are obtained that can be used to differentiate users.
 For each of the 6 features, 8 statistical metrics are calculated to represent their respective features, totaling to 48 values that can be used for clustering.
 The purpose of clustering sessions, based on the outlined 48 values, is to differentiate users based solely on their mouse movement behavior.
