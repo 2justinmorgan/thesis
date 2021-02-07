@@ -171,4 +171,8 @@ As described in the objective, this implementation is meant to detect web bots a
 At this stage of the detection scheme, a program would need to be run in realtime to compute the 6 features outline above.
 Initially, a Python program was used to generate these 6 features as described.
 The program calculated all 1676 session files, from all 10 users, in an average of 7 minutes.
-
+By pre-allocating lists of numeric values, and incrementing a counter variable that keeps track of where to insert the next calculated feature value into the list of numeric values, the runtime was reduced from 7 minutes to slightly more than 3 minutes.
+Further, the entire features generator program was converted from Python to Golang.
+By creating Go-routines on each of the 6 features, the average runtime of the Golang program calculating all 1676 sessions files was less than 30 seconds.
+All runtimes for realtime feature generation do not include data cleaning and prep.
+Since the Balabit dataset has many duplicate timestamp values, with different \textit{x} and \textit{y} values, a pre-generation step would need to take place to remove erooneous duplicates, as a means to "clean" the raw data input.
