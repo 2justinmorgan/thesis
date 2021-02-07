@@ -158,12 +158,12 @@ Instead of using all 6 elements of a datapoint vector, as outlined in the \texti
 These three values construct a triplet, ($t_i$, $x_i$, $y_i$), $i = 1{\dots}n$, where $n$ is the number of recorded mouse positions, or datapoint vectors, in a session file.
 From these three values, or triplets, of a single datapoint vector, in the list of vectors of a session file, the following features were extracted:
 \begin{itemize}
-    \item \textbf{velocity}: $v_i = \frac{\Delta d_i}{\Delta t_i}$
-    \item \textbf{horizontal velocity}: ${v_x}_i = \frac{\Delta x_i}{\Delta t_i}$
-    \item \textbf{vertical velocity}: ${v_y}_i = \frac{\Delta y_i}{\Delta t_i}$
-    \item \textbf{acceleration}: $a_i = \frac{\Delta v_i}{\Delta t_i}$
-    \item \textbf{jerk}: $j_i = \frac{\Delta a_i}{\Delta t_i}$
-    \item \textbf{theta}: $\Theta _i = \arctan 2(\frac{\Delta y_i}{\Delta x_i})$
+    \item \textbf{velocity}: $v_i = \frac{\Delta p_i}{\Delta t_i}$, where $\Delta p_i = \lvert p_{i+1} - p_i \rvert$ and $\Delta t_i = t_{i+1} - t_i$
+    \item \textbf{horizontal velocity}: ${v_x}_i = \frac{\Delta x_i}{\Delta t_i}$, where $\Delta x_i = \lvert x_{i+1} - x_i \rvert$ and $\Delta t_i = t_{i+1} - t_i$
+    \item \textbf{vertical velocity}: ${v_y}_i = \frac{\Delta y_i}{\Delta t_i}$, where $\Delta y_i = \lvert y_{i+1} - y_i \rvert$ and $\Delta t_i = t_{i+1} - t_i$
+    \item \textbf{acceleration}: $a_i = \frac{\Delta v_i}{\Delta t_i}$, where $\Delta v_i = \lvert v_{i+1} - v_i \rvert$ and $\Delta t_i = t_{i+1} - t_i$
+    \item \textbf{jerk}: $j_i = \frac{\Delta a_i}{\Delta t_i}$, where $\Delta a_i = \lvert a_{i+1} - a_i \rvert$ and $\Delta t_i = t_{i+1} - t_i$
+    \item \textbf{theta}: $\Theta _i = \arctan 2(\frac{\Delta y_i}{\Delta x_i})$, where $\Delta y_i = \lvert y_{i+1} - y_i \rvert$ and $\Delta x_i = \lvert x_{i+1} - x_i \rvert$
 \end{itemize}
 
 \subsection{Realtime Generation}\label{subsec:realtime-generation}
@@ -179,7 +179,7 @@ Since the Balabit dataset has many duplicate timestamp values, with different \t
 
 \subsection{Statistics}\label{subsec:statistics}
 After the $n$ feature values have been generated, where $n$ is the number of datapoint vectors or triplets in a session, for each of the 6 features, the values would need to be represented with statistical values.
-The statistical values used for each of the 6 features are \textit{mean, median, mode, inter-quartile range, minimum and maximum values, range} and \textit{standard deviation}.
+The statistical values used for each of the 6 features are \textbf{mean}, \textbf{median}, \textbf{mode}, \textbf{interquartile range}, \textbf{minimum}, \textbf{maximum}, \textbf{range}, and \textbf{standard deviation}.
 
 It is worth noting that the \textit{mode} and \textit{minimum} values did not appear to be as useful as the other statistical metrics.
 The minimum values of each of the feature values lists were mostly zero.
