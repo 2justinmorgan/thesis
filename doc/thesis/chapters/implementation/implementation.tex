@@ -28,7 +28,7 @@ The general architecture of this implementation is as follows:
 \begin{enumerate}
     \item \textbf{data extraction}: The position metrics, timestamp and coordinates, of the user's mouse cursor are collected from the user's computer and sent to the server for analysis. The \textit{Dataset} section outlines this stage.
     \item \textbf{features generation}: From the inputted raw data recorded and sent from the user's machine, features that characterize the raw data, and the user's session pertaining to it, are generated. The \textit{Features Engineering} section outlines this stage.
-    \item \textbf{features analysis}: Sessions are clustered based on the generated features. The \textit{Features Analysis} section outlines this stage.
+    \item \textbf{clustering}: Sessions are clustered based on the generated features. The \textit{Clustering} section outlines this stage.
     \item \textbf{classification}: Clusters of sessions are used to determine bottness of users at client IP addresses. The \textit{Classification} section outlines this stage, a stage anticipated for future work.
 \end{enumerate}
 \begin{center}
@@ -151,7 +151,51 @@ init();
 
 The actual code, client{\_}mouse{\_}tracker.js, can be found in the src/ dir on the remote repo~\cite{thesis_github_repo} of this research.
 
+\section{Features Engineering}\label{sec:features-engineering}
+The intrustion detection scheme~\cite{intrustion_detection_using_mouse_dynamics}, while also using the Balabit dataset as it was intended to be used, extracted a set of features from the raw mouse position data.
+Though their work implemented a supervised learning-based binary classifier, the features they extracted were proven to be effective metrics in differentiating and identifying users.
+Instead of using all 6 elements of a datapoint vector, as outlined in the \textit{Balabit Dataset} section, we elected to only use the client timestamp ($t$), x position ($x$), and y position ($y$) values.
+These three values construct a triplet, ($t_i$, $x_i$, $y_i$), $i = 1{\dots}n$, where $n$ is the number of recorded mouse positions, or datapoint vectors, in a session file.
+From these three values, or triplets, of a single datapoint vector, in the list of vectors of a session file, the following features were extracted:
+\begin{itemize}
+    \item \textbf{velocity}: $v_i = \frac{\Delta p_i}{\Delta t_i}$, where $\Delta p_i = \lvert p_{i+1} - p_i \rvert$ and $\Delta t_i = t_{i+1} - t_i$
+    \item \textbf{horizontal velocity}: ${v_x}_i = \frac{\Delta x_i}{\Delta t_i}$, where $\Delta x_i = \lvert x_{i+1} - x_i \rvert$ and $\Delta t_i = t_{i+1} - t_i$
+    \item \textbf{vertical velocity}: ${v_y}_i = \frac{\Delta y_i}{\Delta t_i}$, where $\Delta y_i = \lvert y_{i+1} - y_i \rvert$ and $\Delta t_i = t_{i+1} - t_i$
+    \item \textbf{acceleration}: $a_i = \frac{\Delta v_i}{\Delta t_i}$, where $\Delta v_i = \lvert v_{i+1} - v_i \rvert$ and $\Delta t_i = t_{i+1} - t_i$
+    \item \textbf{jerk}: $j_i = \frac{\Delta a_i}{\Delta t_i}$, where $\Delta a_i = \lvert a_{i+1} - a_i \rvert$ and $\Delta t_i = t_{i+1} - t_i$
+    \item \textbf{theta}: $\Theta _i = \arctan 2(\frac{\Delta y_i}{\Delta x_i})$, where $\Delta y_i = \lvert y_{i+1} - y_i \rvert$ and $\Delta x_i = \lvert x_{i+1} - x_i \rvert$
+\end{itemize}
 
-%\begin{center}
-%\includegraphics[width=0.85\columnwidth]{figures/client_mouse_tracker_pseudo_code}
-%\end{center}
+\subsection{Realtime Generation}\label{subsec:realtime-generation}
+As described in the objective, this implementation is meant to detect web bots and botnet attacks in realtime.
+At this stage of the detection scheme, a program would need to be run in realtime to compute the 6 features outline above.
+Initially, a Python program was used to generate these 6 features as described.
+The program calculated all 1676 session files, from all 10 users, in an average of 7 minutes.
+By pre-allocating lists of numeric values, and incrementing a counter variable that keeps track of where to insert the next calculated feature value into the list of numeric values, the runtime was reduced from 7 minutes to slightly more than 3 minutes.
+Further, the entire features generator program was converted from Python to Golang.
+By creating Go-routines on each of the 6 features, the average runtime of the Golang program calculating all 1676 sessions files was less than 30 seconds.
+All runtimes for realtime feature generation do not include data cleaning and prep.
+Since the Balabit dataset has many duplicate timestamp values, with different \textit{x} and \textit{y} values, a pre-generation step would need to take place to remove erooneous duplicates, as a means to "clean" the raw data input.
+
+\subsection{Statistics}\label{subsec:statistics}
+After the $n$ feature values have been generated, where $n$ is the number of datapoint vectors or triplets in a session, for each of the 6 features, the values would need to be represented with statistical values.
+The statistical values used for each of the 6 features are \textbf{mean}, \textbf{median}, \textbf{mode}, \textbf{interquartile range}, \textbf{minimum}, \textbf{maximum}, \textbf{range}, and \textbf{standard deviation}.
+
+It is worth noting that the \textit{mode} and \textit{minimum} values did not appear to be as useful as the other statistical metrics.
+The minimum values of each of the feature values lists were mostly zero.
+This is a result of the feature calculations.
+For example, horizontal velocity could be zero if the $x$ position does not change in two successive datapoint vectors.
+Formally, ${v_x}_i = \frac{\Delta x_i}{\Delta t_i} = 0$ if $\Delta x_i = \lvert x_i - x_{i+1} \rvert = 0$, meaning $x_i = x_{i+1}$.
+This is one example of why the \textit{maximum} and \textit{range} values were often the same.
+If $range = \vert maximum - minimum \rvert$, where $mimimum = 0$, than $range = maxmimum$.
+
+\section{Clustering}\label{sec:clustering}
+At this point in the web bot and botnet attack detection scheme, a number of metrics are obtained that can be used to differentiate users.
+For each of the 6 features, 8 statistical metrics are calculated to represent their respective features, totaling to 48 values that can be used for clustering.
+The purpose of clustering sessions, based on the outlined 48 values, is to differentiate users based solely on their mouse movement behavior.
+Session files, or lists of mouse position vectors, would be inputted into this clustering algorithm to output clusters of differentiated users.
+In a realtime environment, the session files would be the mouse position metrics that are periodically inputted from the user's machine, as described in the \textit{Realtime} subsection of the \textit{Balabit Dataset} section.
+
+During the testing and analysis stages of this research, 2 clustering algorithms were used on the 1676 x 48 inputted session files.
+With \textbf{k-means} clustering, the value for \textit{k} was set to 10, the number of users present in the 1676 session files. All 48 values pertaining to each session file, were used as the passed-in clustering features.
+With \textbf{hierarchical} clustering, all 48 values were also used.
