@@ -58,6 +58,55 @@ This is because bot and human users have too similar browsing behavior, namely t
 However, this research claims that BotGraph is a very effective and efficient method of detecting bots as it achieves about 95\% in precision and recall while relying only on the client's behavior and not the client's identity variables.
 Some needed improvements include an implementation that generates more detailed graph-related features to better describe the characteristics of user sessions, specifically to identify the behavior of web bots.
 
+\subsection{Training Data Generation and Semi-Supervised Learning}\label{subsec:training-data-generation-and-semi-supervised-learning}
+The~\cite{bot_detection_for_search_engines} research addresses the common problem with supervised learning-based bot detection schemes.
+Due to the high traffic of modern search engines, it is infeasible to rely on human judges to generate labeled datasets, used in supervised learning approaches, by manually inspecting the search logs to label bot and human users.
+On a controlled webserver environment, labeled datasets were created by analyzing the response and activity of CAPTCHA challenges sent to the users.
+In an effort to enhance the user experience, challenges were sent selectively, either when the webserver is experiencing a high volume of network traffic, or when a user makes a high number of requests in a short amount of time.
+When presented with a challenge, the user can either disregard the challenge by exiting the session, answer correctly, or answer correctly, thus answering "no response", "correct response", or "wrong response", respectively.
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=1\columnwidth]{figures/semi_supervised_CAPTCHA_training_data_generation_results}
+    \caption{User answers to CAPTCHA challenges}
+    \label{fig:captcha-user-answers}
+    {\small The research notes that since the users were selected non-uniformly, most answers to the challenge were "no response"}
+\end{figure}
+About 80\% of the received responses were correct.
+This accounted for the majority of the training data with "human" labels.
+The remaining "human" labels were pulled from the large set of "no response" answers by analyzing heuristics of the user's number of clicks in a time period, the number of search result pages browsed, as well as information of the user's IP address.
+Users were labeled "bot" if the user's answer was "no response", and the user did not satisfy thresholds of the heuristics previously described.
+This CAPTCHA challenge-method accounted for the "0-cost" training data generation method, as described in the research.
+
+From the creation of the labeled training dataset, the following features were extracted from the users:
+\begin{itemize}
+    \item \textbf{PageTrackedCount}: measures the number of pages that the user browses
+    \item \textbf{UserClickCount}: measures the number of mouse clicks on the search result pages
+    \item \textbf{AllHitCount}: measures the overall "impressions" that the user receives in addition to the search results
+    \item \textbf{UserUniqueIPs}: measures the unique number of IPs a user is using
+    \item \textbf{UserUniqueQueries}: measures the unique number of queries issued by a single user in a search session
+    \item \textbf{Blacklisting Rules}:
+    \begin{enumerate}
+        \item \textbf{Form}: triggered when a user includes in the query certain obscure codes that are designed mostly for internal search engine instrumentation purposes that should be unfamiliar to most genuine human users
+        \item \textbf{IP}: a list of IPs that are publicly identified as Internet spammers and labeled all the traffic from these IPs as "bot"
+        \item \textbf{Query}:  this rule is triggered when the query composition is too complicated to be manually typed in by a human user
+    \end{enumerate}
+\end{itemize}
+The research stated, regarding the \textbf{PageTrackedCount}, that bots tend to behave in two extremes.
+Some bots will only submit queries and not browse any of the result pages (except the first one), ostensibly with the intention to increase the query frequency for certain keywords.
+The other extreme sees the bots fetch all the result pages for each query, probably trying to reverse engineer the index of the search engine, while genuine human users would probably just browse the first few pages of the query results selectively.
+For \textbf{UserClickCount}, clicks on the search engine results, as well as clicks on advertisements within the results, were included in the click counts.
+The research noted that the advertisement clicks, though are not distinguished in this work, may include bots specifically targeting ads to click.
+
+With these features, a supervised learning method of bot detection was used.
+In said research, the C4.5~\cite{c4.5} algorithm was the decision tree used in lieu of a custom implementation, stating "details of the decision tree algorithm are omitted here".
+By leveraging the autonomously created labeled training dataset, sourced from CAPTCHA response and filtered by following the previously mentioned heuristics, the decision tree algorithm was projected to work well.
+However, despite the positive projections, the results have shown to be inconsistent from the true data distribution, begging the question of the classification's integrity.
+This may be a result of the training dataset generation stage, since the "bot" labels are subject to the heuristics determined by domain experts.
+A useful approach to this dilemma was their statistical method of using numerous unlabeled data, due to uncertainties in the "0-cost" training data generation.
+Despite the evaluated performance improvement from the tested supervised learning approach, some inconsistencies would need to be addressed in future work.
+Due to the limited time of one week to present CAPTCHA challenges to users, some search engine bots may have been undetected, thus diminishing the integrity of the training data generation.
+Therefore, it is unclear if this bot detection scheme can be as useful during more real, long-term scenarios.
+
 \section{Similarity Analysis}\label{sec:similarity-analysis}
 The bot detection implementation~\cite{bot_detection_wei_alvarez} uses traffic analysis, unsupervised machine learning, removal of duplicate flows, and similarity between malicious and benign traffic flows to provide insight on the botness of a web user.
 The research refers to bot web traffic as malicious web traffic and non-malicious web traffic as benign web traffic, which may contain bots that are considered not harmful and are necessary to a system.
