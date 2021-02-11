@@ -1,6 +1,74 @@
 
 \section{Supervised Learning}\label{sec:supervised-learning}
 There are several bot detection schemes that utilize labeled datasets to train models in their implementation.
+
+\subsection{Deep Learning with Mouse Behavior Metrics}\label{subsec:deep-learning-with-mouse-behavior}
+The detection scheme~\cite{deep_learning_detection_with_mouse_behavior} analyzes the mouse movement and operations of a user to decide whether these gestures are consistent with that of a human user or bot user.
+Images containing the spatial and kinetic information that represents the mouse behavioral metrics are passed into a deep neural network for making the bot or not decision.
+Representing the models in such a way has enabled the use of CNNs to automate feature learning from a user's raw mouse position data.
+
+Rather than following the patterns of previous implementations that fed hand-crafted features into shallow machine learning models, this work transforms every mouse movement sequence into a separate image that contains the spatial and kinetic information about the mouse positions and movements.
+By doing so, CNN models can be used in this deep learning approach.
+Related detection schemes that utilize mouse behavioral metrics most likely use statistics of mouse movement sequences as a means to create features.
+Some of these features, common to this thesis work, include the mean, median, or variance of velocities, accelerations, etc.
+As an improvement from this trend, the said work contributes to the field by proposing a method of more accurately representing shape information of the user's mouse movement trajectories.
+This is an underlying motivation to use CNNs, since the complexities of these mouse trajectories can not be represented by using common statistical metrics.
+
+The architecture of this deep learning approach allows for decisions of a user's botness, meaning if they are a bot or not, in a realtime setting.
+\begin{figure}[!h]
+    \includegraphics[width=1\columnwidth]{figures/deep_learning_with_mouse_dynamics_system_architecture}
+    \caption{Architecture of the deep learning model using CNNs}
+    \label{fig:deep-learning-architecture}
+\end{figure}
+A user's botness is determined by considering the classification results of most mouse movement sequences extracted from the operation data created at the left-most, first stage of the architecture diagram.
+Therefore, if the classifier depicts inputted mouose movement sequences to be that of a bot, than that particular user, or source of raw mouse position data, will be classified as a bot.
+A few metrics were created to represent a user's mouse movement behavior:
+\begin{itemize}
+    \item \textbf{mouse movement sequence}: the records of a series of consecutive mouse moves
+    \item \textbf{mouse trajectory}: a time-space curve corresponding to a mouse movement sequence
+    \item \textbf{step size}: the distance between two consecutive points
+    \item \textbf{event interval}: the time difference between two points
+\end{itemize}
+Similarly to this thesis research, the \textbf{mouse movement sequence}s are in the format $(x_i, y_i, t_i)$, where $i = 1{\dots}n$ with $n$ being the number of mouse positions in the sequence, $x$ and $y$ are the 2D coordinates of a mouse cursor's position, and $t$ is the time of when that cursor was at the respective position.
+
+Representing a user's mouse movements is done by separating the continuous sequences of mouse events into segments of sequences that correspond to individual mouse movements.
+Their assumption is that the intervals between mouse events does not exceed 100ms.
+This closely aligns with the average mouse position polling rate of 125hz~\cite{mouse_dpi_and_polling_rate_explained}~\cite{mouse_dpi_and_usb_polling_rate}.
+Any mouse movement sequence segments containing less that 15 events were discarded, as these events were said to not contain enough information for bot detection.
+Following this sequence segmentation stage, a two-step process was implemented to transform the mouse movement sequence segments into images that can be used in the CNN model.
+
+\textbf{Mapping spatial information into the image} was achieved by using shape and distance metrics between consecutive events of a segment.
+The images were centered by finding the halfway point of the max distance between any two points in the segment.
+Zoom was considered since the max distances vary among different segments.
+With this in mind, all mouse positions in the segements were set to a constant 8px diameter.
+\textbf{Mapping kinetic information into the image} was achieved by reflecting the event interval series and step size series.
+The paper's denotations for these were $({\Delta}t_1,\dots,{\Delta}t_{n-1})$ and $({\Delta}d_1,\dots,{\Delta}d_{n-1})$ respectively.
+In short, they used velocity as the feature to be represented in the images.
+Every point in the segments were color-coded based on the magnitude of velocity calculated at each point.
+The colors were on the red, blue, green (RGB) scale, and decided by mapping the delta values to an integer ranging from 0 to 255.
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=.35\columnwidth]{figures/deep_learning_with_mouse_dynamics_mouse_segment_image_generation}
+    \caption{Conversion of a mouse sequence segment to an image}
+    \label{fig:deep-learning-image-generation}
+    {\small Spatial and kinetic information of a users mouse movement behavior are represented in images similar to this one. The mouse positions of mouse movement are shown in each sequence segment, a single image, and colors denote the velocity of mouse movement.}
+\end{figure}
+Bot users, specifically, were fabricated by 4 different types of bot scripts, each generating a unique pattern to their mouse movement trajectories.
+The 4 types look like:
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=1\columnwidth]{figures/deep_learning_with_mouse_dynamics_mouse_segment_image_generation_bots}
+    \caption{Conversion of bot mouse sequence segments to an image}
+    \label{fig:deep-learning-image-generation-bots}
+    {\small Shown are examples of the 4 different types of bot mouse trajectories: \textit{straight-line}, \textit{curve}, \textit{polyline}, and \textit{semi-straight line}, respectively}
+\end{figure}
+The semi-straight line was created by adding noise to the points on the straight-line mouse trajectory.
+Bezier curves were used to make the curve and polyline trajectories.
+All mouse sequence segments were created with a few different intervals between mouse events.
+These intervals were added by either a set constant value, uniformly distributed values, or values with a Gaussian distribution.
+Human datasets were gathered over a 2 month period of recording the activity of several human users.
+With these datasets, images were generated in the manner previously described, thus allowing for a supervised learning, CNN model approach.
+
 \subsection{Graphs and CNNs}\label{subsec:graphs-and-cnns}
 BotGraph is one which represented the sitemap, or order of page indexing, of a user with a nodes-and-edges graph.
 Since these generated graphs are images that represent a number of metrics based on user behavior, not user identification, the research utilized convoluted neural networks (CNN)s to predict users types of either bot or human.
