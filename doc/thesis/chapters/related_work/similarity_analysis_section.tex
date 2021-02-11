@@ -1,0 +1,19 @@
+
+\section{Similarity Analysis}\label{sec:similarity-analysis}
+The bot detection implementation~\cite{bot_detection_wei_alvarez} uses traffic analysis, unsupervised machine learning, removal of duplicate flows, and similarity between malicious and benign traffic flows to provide insight on the botness of a web user.
+The research refers to bot web traffic as malicious web traffic and non-malicious web traffic as benign web traffic, which may contain bots that are considered not harmful and are necessary to a system.
+Search engine bots, for example, would be categorized as benign web traffic.
+A series of clustering algorithms were tested and used to determine which clusters contained the most flows, leading to insight on the characteristics of a bot.
+By conducting similarity analysis among these clusters, the work in this research provides a similarity coefficient to describe how malicious traffic data can be distinguished from benign traffic data.
+
+Majority clusters were identified by the number of flows in a cluster.
+Since the dataset contained mostly malicious flows, the cluster containing the most flows would also be the malicious flows cluster.
+If this was not the case, than the clustering accuracy was therefore to be inaccurate.
+Duplicate flows are flows that share the same values for the selected features, a set of networking-related metrics pertaining to packets traveling to and from the webserver.
+Similarity between clusters was evaluated using the Jaccard Similarity Coefficient, which was a number ranging from 0 to 1 and the number was the cardinality of the intersection between two clusters, divided by the cardinality of the union between two clusters.
+
+K-means was used to cluster benign and malicious flows, where k = 2.
+Although the number of clusters was set known to be two, and the features in these clusters was not biometric data like mouse movement, the method of feature engineering was used as inspiration in this thesis work.
+Removal of duplicate flows were shown to make the Jaccard Coefficient less computationally expensive.
+However, a large reduction of duplicate flows within a cluster indicated that the cluster contained bots of a botnet.
+Detecting anomalies such as this is important to consider when engineering features, a crucial step in the clustering process, in this thesis work.
