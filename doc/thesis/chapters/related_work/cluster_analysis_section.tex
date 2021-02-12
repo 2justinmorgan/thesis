@@ -1,0 +1,47 @@
+
+\section{Cluster Analysis}\label{sec:cluster-analysis}
+
+\subsection{Deductions by Similarities}\label{subsec:deductions-by-similarities}
+The bot detection implementation~\cite{bot_detection_wei_alvarez} uses traffic analysis, unsupervised machine learning, removal of duplicate flows, and similarity between malicious and benign traffic flows to provide insight on the botness of a web user.
+The research refers to bot web traffic as malicious web traffic and non-malicious web traffic as benign web traffic, which may contain bots that are considered not harmful and are necessary to a system.
+Search engine bots, for example, would be categorized as benign web traffic.
+A series of clustering algorithms were tested and used to determine which clusters contained the most flows, leading to insight on the characteristics of a bot.
+By conducting similarity analysis among these clusters, the work in this research provides a similarity coefficient to describe how malicious traffic data can be distinguished from benign traffic data.
+
+Majority clusters were identified by the number of flows in a cluster.
+Since the dataset contained mostly malicious flows, the cluster containing the most flows would also be the malicious flows cluster.
+If this was not the case, than the clustering accuracy was therefore to be inaccurate.
+Duplicate flows are flows that share the same values for the selected features, a set of networking-related metrics pertaining to packets traveling to and from the webserver.
+Similarity between clusters was evaluated using the Jaccard Similarity Coefficient, which was a number ranging from 0 to 1 and the number was the cardinality of the intersection between two clusters, divided by the cardinality of the union between two clusters.
+
+K-means was used to cluster benign and malicious flows, where k = 2.
+Although the number of clusters was set known to be two, and the features in these clusters was not biometric data like mouse movement, the method of feature engineering was used as inspiration in this thesis work.
+Removal of duplicate flows were shown to make the Jaccard Coefficient less computationally expensive.
+However, a large reduction of duplicate flows within a cluster indicated that the cluster contained bots of a botnet.
+Detecting anomalies such as this is important to consider when engineering features, a crucial step in the clustering process, in this thesis work.
+
+\subsection{Outlier Detection}\label{subsec:outlier-detection}
+There exists a few methods of outlier detection in bot and human user profiles.
+Traditional \textbf{statistical outlier detection methods} are univariate.
+Such techniques measure a particular atribute in a data distribution, while examining the degree of that value's outlierness.
+The parameters, either known or unknown, the number of expected outliers, and the types of expected outliers are the focus of a statistical method.
+Commons statistical measures, for example mean and standard deviation, can help find outliers in datasets.
+For \textbf{density-based outlier detection methods}, the data points, and their relations to neighbors, are an integral metric to identifying outliers.
+By definition, a datapoint is considered an outlier if there aren't many datapoints, or neighbors, near it.
+One common algorithm, local outlier factor, measures the density of a datapoint withing a given k-number of datapoint pertaining to the nearest neighbors of a datapoint
+Through this approach, outliers are identified as datapoints that have a substantially lower density that its neighbors.
+A drawback to this approach, as well as other similar approaches, is that it's only capable of measuring the outlierness of a single datapoint, while it's incapable of identifying clusters of outliers.
+Similarly, \textbf{distance-based outlier detection methods} is a method that may apply the local outlier factor.
+A key benefit to the distance-based method is its ability to detect single datapoint outliers, as well as clusters of outliers.
+
+The implementation~\cite{particle_swarm} uses outlier detection with a particle swarm optimization algorithm, hierarchical particle swarm based clustering, to detect web bots among human users.
+Web bots are said to be examples of outliers since they are able to index a large number of pages in a short amount of time, contrary to human users.
+There were two modules included in this work: a clustering module and an outlier detection module.
+Both modules work simultaneously to label suspecting outliers, while the clustering module performs clustering in a hierarchical agglomerative manner.
+Meanwhile, the outlier detection removes user profiles, that are labeled as suspecting outliers, from succeeding clusters.
+
+This implementation was tested by using a dataset of user profiles that mimic a bots' behavior, as well as dataset without any ground truth, meaning the dataset contained user profiles without labels of their botness.
+Three different metrics were used to predict the botness of user profiles: average intra-cluster distance, maximum intra-cluster distance, and the intersection of the average and maximum intra-cluster distances.
+The results have shown that, by using the average and maximum intra-cluster distance metrics, bots are detectable when they are "significantly different from [a] legitimate web user" ~\cite{particle_swarm}.
+
+Content goes here~\cite{optimized_outlier_bot_detection}
