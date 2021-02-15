@@ -83,8 +83,8 @@ def record_features(session):
 
     for line in mouse_data_file:
         for feature in FEATURES:
-            feature_val = round(get_val(feature, tpoints), 6)
-            session.features[feature].add_record(feature_val)
+            #feature_val = round(get_val(feature, tpoints), 6)
+            session.features[feature].add_record(get_val(feature, tpoints))
         tpoints.pop(0)
         tpoints.append(get_tpoint(line))
 
@@ -146,7 +146,7 @@ def main(argc, argv):
 
     record_features(session)
 
-    formatout.store(session)
+    #formatout.store(session)
 
 
 if __name__ == "__main__":

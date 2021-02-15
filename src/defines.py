@@ -1,6 +1,6 @@
 import commons
 
-HOME_DIR = "/home/jmorga27/Thesis"
+HOME_DIR = "c:/dev/thesis" #"/home/jmorga27/Thesis"
 MOUSE_DATA_FILE_ARGV_TITLE = "<mouse_data_file>"
 RECORDED_SESSIONS_DIR = f"{HOME_DIR}/data/recorded_features/sessions"
 MAIN_FILE = ""  # defined in script with main func
@@ -53,18 +53,20 @@ class Session(Locker):
         self.user = user
         self.id = id
         self.input_data_filepath = input_data_filepath
-        self.features = commons.init_features_obj(num_of_records=commons.line_count(input_data_filepath) - 9)
+        self.features = commons.init_features_obj(session_id=id, num_records=commons.line_count(input_data_filepath)-9)
         self.setlock(_inherited)
 
 
 class Feature(Locker):
-    def __init__(self, name="", num_of_records=0, _inherited=False):
+    def __init__(self, name="", num_records=0, session_id="", _inherited=False):
         super().__init__()
         self.name = name
-        self.records = [0.0]*num_of_records
+        self.records = [] #[0.0]*num_records
         self.records_counter = 0
+        self.output_file = open(f"{RECORDED_SESSIONS_DIR}/{session_id}_{name}.json", "w")
         self.setlock(_inherited)
 
     def add_record(self, record):
-        self.records[self.records_counter] = record
-        self.records_counter += 1
+        #self.records[self.records_counter] = record
+        #self.records_counter += 1
+        self.output_file.write(f"{record}\n")

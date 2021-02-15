@@ -37,10 +37,10 @@ def line_count(filepath):
     return sum(1 for l in open(filepath))
 
 
-def init_features_obj(num_of_records=0):
+def init_features_obj(session_id="", num_records=0):
     features = {}
     for feature_name in defines.FEATURES:
-        features[feature_name] = defines.Feature(feature_name, num_of_records=num_of_records)
+        features[feature_name] = defines.Feature(feature_name, num_records=num_records, session_id=session_id)
     return features
 
 
