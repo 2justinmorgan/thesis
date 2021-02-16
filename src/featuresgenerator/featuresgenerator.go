@@ -33,8 +33,5 @@ func main() {
 	inputFilePath := checkArgs(len(os.Args), os.Args)
 
 	session := commons.GetSession(inputFilePath)
-	generator.IterateInputDataFile(session)
-	for i := 0; i<20000; i++ {
-	    fmt.Printf("%f\n",session.Features["velocity"].Records[i])
-	}
+	generator.RecordFeatures(session)
 }
