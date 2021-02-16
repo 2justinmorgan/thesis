@@ -1,7 +1,7 @@
 
 package defines
 
-var ProjectHomeDir = "c:/dev/thesis"
+var ProjectHomeDir = "/home/jmorga27/Thesis" //"c:/dev/thesis"
 var OutputFeaturesDir = ProjectHomeDir + "/" + "data/recorded_features/sessions"
 
 // GetFeaturesNames returns a str slice of the features to be generated
