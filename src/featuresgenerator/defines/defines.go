@@ -39,12 +39,13 @@ type Session struct {
 // Feature contains the info of a specific feature, i.e. velocity or jerk
 type Feature struct {
 	Name string
-	Records []float64
+	Records *[]float64
 	RecordsCounter *int
 	NumRecords int
 }
 
 func (feature Feature) AddRecord(value float64) {
-    feature.Records[*feature.RecordsCounter] = value
-    *feature.RecordsCounter += 1
+    *feature.Records = append(*feature.Records, value)
+    //feature.Records[*feature.RecordsCounter] = value
+    //*feature.RecordsCounter += 1
 }

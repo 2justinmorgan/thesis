@@ -31,13 +31,13 @@ func GetSession(inputDataFilePath string) defines.Session {
 		os.Exit(1)
 	}
 
-	//numLines := FileLinesCounter(SafeOpen(inputDataFilePath))
+	numLines := 0 //FileLinesCounter(SafeOpen(inputDataFilePath))
 
 	return defines.Session{
 		ID: sessionID,
 		User: user,
 		InputDataFilePath: inputDataFilePath,
-		//Features: InitializeFeaturesMap(numLines),
+		Features: InitializeFeaturesMap(numLines),
 	}
 }
 
@@ -47,9 +47,10 @@ func InitializeFeaturesMap(numRecords int) map[string]defines.Feature {
 
     for _,featureName := range defines.GetFeaturesNames() {
         intNum := int(0)
+        floatSlice := []float64{}
         featuresMap[featureName] = defines.Feature{
             Name: featureName,
-            Records: make([]float64, numRecords),
+            Records: &floatSlice, //make([]float64, numRecords),
             RecordsCounter: &intNum,
             NumRecords: numRecords,
         }
