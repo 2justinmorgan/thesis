@@ -11,7 +11,7 @@ import (
 )
 
 // GetSession returns the Session pertaining to the passed-in session data input file
-func GetSession(inputDataFilePath string) defines.Session {
+func GetSession(inputDataFilePath string, numLines int) defines.Session {
 	filePathTokens := strings.Split(inputDataFilePath, "/")
 
 	sessionID := ""
@@ -30,8 +30,6 @@ func GetSession(inputDataFilePath string) defines.Session {
 		fmt.Fprintf(os.Stderr, "unable to get session info\n")
 		os.Exit(1)
 	}
-
-	numLines := FileLinesCounter(SafeOpen(inputDataFilePath))
 
 	return defines.Session{
 		ID: sessionID,
@@ -59,7 +57,8 @@ func InitializeFeaturesMap(numRecords int) map[string]defines.Feature {
 }
 
 // FileLinesCounter returns the number of lines in a file
-func FileLinesCounter(file *os.File) int {
+func FileLinesCounter(filePath string) int {
+    file := SafeOpen(filePath)
     buf := make([]byte, 32*1024)
     count := 0
     lineSep := []byte{'\n'}
