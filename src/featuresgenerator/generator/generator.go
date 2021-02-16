@@ -8,7 +8,6 @@ import (
 	"bufio"
 	"strings"
 	"strconv"
-	"sync"
 	"featuresgenerator/defines"
 	"featuresgenerator/commons"
 )
@@ -136,7 +135,7 @@ func AppendTPoint(tpoints []defines.TPoint, numTPoints int, newTPoint defines.TP
     return tpoints
 }
 
-func recordFeature(featureName string, session defines.Session, wg *sync.WaitGroup) {
+func recordFeature(featureName string, session defines.Session) {
     inputDataFile := commons.SafeOpen(session.InputDataFilePath)
     scanner := bufio.NewScanner(inputDataFile)
     tpoints := InitializeTPointsBuffer(scanner, 8)
@@ -154,20 +153,13 @@ func recordFeature(featureName string, session defines.Session, wg *sync.WaitGro
 
     fmt.Fprintf(outputFile, "]\n")
     outputFile.Close()
-
-    wg.Done()
 }
 
 // RecordFeatures generates all features of a session by iterating every line of that inputted session file
 func RecordFeatures(session defines.Session) {
-    var wg sync.WaitGroup
-
     for _,featureName := range defines.GetFeaturesNames() {
-        wg.Add(1)
-        go recordFeature(featureName, session, &wg)
+        recordFeature(featureName, session)
     }
-
-    wg.Wait()
 }
 
 // OutputAllFeatures records and writes all session features to output files
