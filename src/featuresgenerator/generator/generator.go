@@ -5,9 +5,12 @@ import (
 	"fmt"
 	"os"
 	"math"
+	"bufio"
 	"strings"
 	"strconv"
+	"sync"
 	"featuresgenerator/defines"
+	"featuresgenerator/commons"
 )
 
 // GetTPoint returns the (x, y, time) values of a single line of the input csv file
@@ -102,4 +105,77 @@ func GetFeatureVal(featureName string, tpoints []defines.TPoint) (featureVal flo
 	}
 
 	return -1
+}
+
+// InitializeTPointsBuffer loads the first n tpoints into a TPoint slice
+func InitializeTPointsBuffer(scanner *bufio.Scanner, n int) []defines.TPoint {
+    tpoints := make([]defines.TPoint, n)
+    i := 0
+
+    // reads the first line (the csv header)
+    scanner.Scan(); scanner.Text()
+
+    for scanner.Scan() {
+        tpoints[i] = GetTPoint(scanner.Text())
+        i += 1
+        if i >= n {
+            break
+        }
+    }
+
+    return tpoints
+}
+
+func AppendTPoint(tpoints []defines.TPoint, numTPoints int, newTPoint defines.TPoint) []defines.TPoint {
+    for i := 1; i < numTPoints; i++ {
+        tpoints[i-1] = tpoints[i]
+    }
+
+    tpoints[numTPoints-1] = newTPoint
+
+    return tpoints
+}
+
+func recordFeature(featureName string, session defines.Session, wg *sync.WaitGroup) {
+    inputDataFile := commons.SafeOpen(session.InputDataFilePath)
+    scanner := bufio.NewScanner(inputDataFile)
+    tpoints := InitializeTPointsBuffer(scanner, 8)
+
+    outputFilePath := defines.OutputFeaturesDir + "/" + session.ID + "_" + featureName + ".json"
+    outputFile := commons.SafeCreate(outputFilePath)
+
+    fmt.Fprintf(outputFile, "[%f", GetFeatureVal(featureName, tpoints))
+
+    for scanner.Scan() {
+        tpoints = AppendTPoint(tpoints, 8, GetTPoint(scanner.Text()))
+        session.Features[featureName].AddRecord(GetFeatureVal(featureName, tpoints))
+        //fmt.Fprintf(outputFile, ",%f", GetFeatureVal(featureName, tpoints))
+    }
+
+    fmt.Fprintf(outputFile, "]\n")
+    outputFile.Close()
+
+    wg.Done()
+}
+
+// RecordFeatures generates all features of a session by iterating every line of that inputted session file
+func RecordFeatures(session defines.Session) {
+    var wg sync.WaitGroup
+
+    for _,featureName := range defines.GetFeaturesNames() {
+        wg.Add(1)
+        go recordFeature(featureName, session, &wg)
+    }
+
+    wg.Wait()
+}
+
+// OutputAllFeatures records and writes all session features to output files
+func OutputAllFeatures(session defines.Session) {
+    RecordFeatures(session)
+    for _,featureName := range defines.GetFeaturesNames() {
+        outputFilePath := defines.OutputFeaturesDir + "/" + session.ID + "_" + featureName + ".json"
+        outputFile := commons.SafeCreate(outputFilePath)
+        fmt.Fprint(outputFile, session.Features[featureName].Records)
+    }
 }

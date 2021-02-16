@@ -1,6 +1,9 @@
 
 package defines
 
+var ProjectHomeDir = "/home/jmorga27/Thesis" //"c:/dev/thesis"
+var OutputFeaturesDir = ProjectHomeDir + "/" + "data/recorded_features/sessions"
+
 // GetFeaturesNames returns a str slice of the features to be generated
 func GetFeaturesNames() (features []string) {
 	return []string{
@@ -36,6 +39,12 @@ type Session struct {
 // Feature contains the info of a specific feature, i.e. velocity or jerk
 type Feature struct {
 	Name string
-	Records []int
-	RecordsCounter int
+	Records []float64
+	RecordsCounter *int
+	NumRecords int
+}
+
+func (feature Feature) AddRecord(value float64) {
+    feature.Records[*feature.RecordsCounter] = value
+    *feature.RecordsCounter += 1
 }

@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"featuresgenerator/commons"
+	"featuresgenerator/generator"
 )
 
 func printUsage() {
@@ -31,6 +32,7 @@ func checkArgs(argc int, argv []string) string {
 func main() {
 	inputFilePath := checkArgs(len(os.Args), os.Args)
 
-	session := commons.GetSession(inputFilePath)
-	_ = session
+	session := commons.GetSession(inputFilePath, commons.FileLinesCounter(inputFilePath))
+
+	generator.OutputAllFeatures(session)
 }
