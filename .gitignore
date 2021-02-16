@@ -14,6 +14,7 @@ data/recorded_features/sessions
 data/ISOT_dataset/datasets/
 
 src/featuresgenerator/featuresgenerator
+src/featuresgenerator/featuresgenerator.exe
 
 # sym links
 test/featuresgenerator/featuresgenerator.go
