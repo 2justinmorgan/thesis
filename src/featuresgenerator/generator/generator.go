@@ -148,8 +148,8 @@ func recordFeature(featureName string, session defines.Session, wg *sync.WaitGro
 
     for scanner.Scan() {
         tpoints = AppendTPoint(tpoints, 8, GetTPoint(scanner.Text()))
-        //session.Features[featureName].AddRecord(GetFeatureVal(featureName, tpoints))
-        fmt.Fprintf(outputFile, ",%f", GetFeatureVal(featureName, tpoints))
+        session.Features[featureName].AddRecord(GetFeatureVal(featureName, tpoints))
+        //fmt.Fprintf(outputFile, ",%f", GetFeatureVal(featureName, tpoints))
     }
 
     fmt.Fprintf(outputFile, "]\n")
@@ -173,4 +173,9 @@ func RecordFeatures(session defines.Session) {
 // OutputAllFeatures records and writes all session features to output files
 func OutputAllFeatures(session defines.Session) {
     RecordFeatures(session)
+    for _,featureName := range defines.GetFeaturesNames() {
+        outputFilePath := defines.OutputFeaturesDir + "/" + session.ID + "_" + featureName + ".json"
+        outputFile := commons.SafeCreate(outputFilePath)
+        fmt.Fprint(outputFile, session.Features[featureName].Records)
+    }
 }
