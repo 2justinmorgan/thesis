@@ -1,6 +1,9 @@
 
 package defines
 
+var ProjectHomeDir = "c:/dev/thesis"
+var OutputFeaturesDir = ProjectHomeDir + "/" + "data/recorded_features/sessions"
+
 // GetFeaturesNames returns a str slice of the features to be generated
 func GetFeaturesNames() (features []string) {
 	return []string{

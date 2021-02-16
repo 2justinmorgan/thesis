@@ -95,6 +95,7 @@ func OutputSlice(filePath string, floatNums []float64) {
     f, err := os.Create(filePath)
     if err != nil {
         fmt.Fprintf(os.Stderr, "error writing slice to file path \"%s\"\n", filePath)
+        os.Exit(1)
     }
     defer f.Close()
 

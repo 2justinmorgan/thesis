@@ -165,6 +165,7 @@ func RecordFeatures(session defines.Session) {
 func OutputAllFeatures(session defines.Session) {
     RecordFeatures(session)
     for _,feature := range session.Features {
-        commons.OutputSlice(feature.Name+".json", feature.Records)
+        outputFilePath := defines.OutputFeaturesDir + "/" + session.ID + "_" + feature.Name + ".json"
+        commons.OutputSlice(outputFilePath, feature.Records)
     }
 }
