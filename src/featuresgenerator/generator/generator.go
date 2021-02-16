@@ -105,15 +105,46 @@ func GetFeatureVal(featureName string, tpoints []defines.TPoint) (featureVal flo
 	return -1
 }
 
+// InitializeTpointsBuffer loads the first n tpoints into a TPoint slice
+func InitializeTpointsBuffer(scanner *bufio.Scanner, n int) []defines.TPoint {
+    tpoints := make([]defines.TPoint, n)
+    i := 0
+
+    // reads the first line (the csv header)
+    scanner.Scan(); scanner.Text()
+
+    for scanner.Scan() {
+        tpoints[i] = GetTPoint(scanner.Text())
+        i += 1
+        if i >= n {
+            break
+        }
+    }
+
+    return tpoints
+}
+
+func AppendTPoint(tpoints []defines.TPoint, numTPoints int, newTPoint defines.TPoint) []defines.TPoint {
+    for i := 1; i < numTPoints; i++ {
+        tpoints[i-1] = tpoints[i]
+        fmt.Printf("%+v | ", tpoints[i-1])
+    }
+    fmt.Printf("\n")
+
+    tpoints[numTPoints-1] = newTPoint
+
+    return tpoints
+}
+
 // IterateInputDataFile generates all features of a session by iterating every line of that inputted session file
 func IterateInputDataFile(session defines.Session) {
     scanner := bufio.NewScanner(session.InputDataFile)
-    // reads the first line (the csv header)
-    scanner.Scan(); scanner.Text()
+    tpoints := InitializeTpointsBuffer(scanner, 8)
+
     for scanner.Scan() {
-        tpoint := GetTPoint(scanner.Text())
-        fmt.Printf("%+v\n", tpoint)
-        fmt.Printf("%+v\n", len(session.Features["velocity"].Records))
-        session.Features["velocity"].AddRecord(10.5)
+        tpoints = AppendTPoint(tpoints, 8, GetTPoint(scanner.Text()))
+        for _,featureName := range defines.GetFeaturesNames() {
+            session.Features[featureName].AddRecord(GetFeatureVal(featureName, tpoints))
+        }
     }
 }

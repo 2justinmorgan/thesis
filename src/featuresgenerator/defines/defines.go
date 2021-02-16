@@ -42,9 +42,13 @@ type Feature struct {
 	Name string
 	Records []float64
 	RecordsCounter *int
+	NumRecords int
 }
 
 func (feature Feature) AddRecord(value float64) {
+    if *feature.RecordsCounter >= feature.NumRecords {
+        return
+    }
     feature.Records[*feature.RecordsCounter] = value
     *feature.RecordsCounter += 1
 }

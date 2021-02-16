@@ -52,6 +52,7 @@ func InitializeFeaturesMap(numRecords int) map[string]defines.Feature {
             Name: featureName,
             Records: make([]float64, numRecords),
             RecordsCounter: &i,
+            NumRecords: numRecords,
         }
     }
 
