@@ -137,16 +137,25 @@ func AppendTPoint(tpoints []defines.TPoint, numTPoints int, newTPoint defines.TP
 }
 
 func recordFeature(featureName string, session defines.Session, wg *sync.WaitGroup) {
-    defer wg.Done()
-
     inputDataFile := commons.SafeOpen(session.InputDataFilePath)
     scanner := bufio.NewScanner(inputDataFile)
     tpoints := InitializeTPointsBuffer(scanner, 8)
 
+    outputFilePath := defines.OutputFeaturesDir + "/" + session.ID + "_" + featureName + ".json"
+    outputFile := commons.SafeCreate(outputFilePath)
+
+    fmt.Fprintf(outputFile, "[%f", GetFeatureVal(featureName, tpoints))
+
     for scanner.Scan() {
         tpoints = AppendTPoint(tpoints, 8, GetTPoint(scanner.Text()))
-        session.Features[featureName].AddRecord(GetFeatureVal(featureName, tpoints))
+        //session.Features[featureName].AddRecord(GetFeatureVal(featureName, tpoints))
+        fmt.Fprintf(outputFile, ",%f", GetFeatureVal(featureName, tpoints))
     }
+
+    fmt.Fprintf(outputFile, "]\n")
+    outputFile.Close()
+
+    wg.Done()
 }
 
 // RecordFeatures generates all features of a session by iterating every line of that inputted session file
@@ -164,8 +173,4 @@ func RecordFeatures(session defines.Session) {
 // OutputAllFeatures records and writes all session features to output files
 func OutputAllFeatures(session defines.Session) {
     RecordFeatures(session)
-    for _,feature := range session.Features {
-        outputFilePath := defines.OutputFeaturesDir + "/" + session.ID + "_" + feature.Name + ".json"
-        commons.OutputSlice(outputFilePath, feature.Records)
-    }
 }

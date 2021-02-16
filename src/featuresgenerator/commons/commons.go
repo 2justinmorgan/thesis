@@ -31,13 +31,13 @@ func GetSession(inputDataFilePath string) defines.Session {
 		os.Exit(1)
 	}
 
-	numLines := FileLinesCounter(SafeOpen(inputDataFilePath))
+	//numLines := FileLinesCounter(SafeOpen(inputDataFilePath))
 
 	return defines.Session{
 		ID: sessionID,
 		User: user,
 		InputDataFilePath: inputDataFilePath,
-		Features: InitializeFeaturesMap(numLines),
+		//Features: InitializeFeaturesMap(numLines),
 	}
 }
 
@@ -90,13 +90,19 @@ func SafeOpen(filePath string) *os.File {
     return file
 }
 
-// OutputSlice writes a float64 slice to the inputted file path
-func OutputSlice(filePath string, floatNums []float64) {
-    f, err := os.Create(filePath)
+// SafeCreate creates a file and returns its file pointer, via os.Create, or exits program upon open error
+func SafeCreate(filePath string) *os.File {
+    file, err := os.Create(filePath)
     if err != nil {
-        fmt.Fprintf(os.Stderr, "error writing slice to file path \"%s\"\n", filePath)
+        fmt.Fprintf(os.Stderr, "error creating file \"%s\"\n", filePath)
         os.Exit(1)
     }
+    return file
+}
+
+// OutputSlice writes a float64 slice to the inputted file path
+func OutputSlice(filePath string, floatNums []float64) {
+    f := SafeCreate(filePath)
     defer f.Close()
 
     l := len(floatNums)
