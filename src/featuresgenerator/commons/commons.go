@@ -31,13 +31,13 @@ func GetSession(inputDataFilePath string) defines.Session {
 		os.Exit(1)
 	}
 
-	//numLines := FileLinesCounter(SafeOpen(inputDataFilePath))
+	numLines := FileLinesCounter(SafeOpen(inputDataFilePath))
 
 	return defines.Session{
 		ID: sessionID,
 		User: user,
 		InputDataFilePath: inputDataFilePath,
-		//Features: InitializeFeaturesMap(numLines),
+		Features: InitializeFeaturesMap(numLines),
 	}
 }
 
