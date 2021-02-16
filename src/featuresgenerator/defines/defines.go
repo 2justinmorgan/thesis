@@ -40,6 +40,6 @@ type Session struct {
 // Feature contains the info of a specific feature, i.e. velocity or jerk
 type Feature struct {
 	Name string
-	Records []int
+	Records []float64
 	RecordsCounter int
 }

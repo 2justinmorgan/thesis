@@ -105,6 +105,7 @@ func GetFeatureVal(featureName string, tpoints []defines.TPoint) (featureVal flo
 	return -1
 }
 
+// IterateInputDataFile generates all features of a session by iterating every line of that inputted session file
 func IterateInputDataFile(session defines.Session) {
     scanner := bufio.NewScanner(session.InputDataFile)
     // reads the first line (the csv header)
@@ -112,5 +113,6 @@ func IterateInputDataFile(session defines.Session) {
     for scanner.Scan() {
         tpoint := GetTPoint(scanner.Text())
         fmt.Printf("%+v\n", tpoint)
+        fmt.Printf("%+v\n", len(session.Features["velocity"].Records))
     }
 }
