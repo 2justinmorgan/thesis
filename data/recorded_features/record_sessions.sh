@@ -1,5 +1,5 @@
 
-gen_features_script_filepath="../../src/gen_features.py";
+gen_features_script_filepath="../../src/featuresgenerator/featuresgenerator";
 clean_data_dirs=( \
 	"../clean_mouse_data/test_files" \
 	"../clean_mouse_data/training_files");
@@ -20,7 +20,7 @@ for clean_data_dir in ${clean_data_dirs[@]}; do
 		echo $user_dir;
 		for session_file in $(ls ${clean_data_dir}/${user_dir}); do
 			session_filepath="${clean_data_dir}/${user_dir}/${session_file}";
-			python3 $gen_features_script_filepath $session_filepath;
+			./$gen_features_script_filepath $session_filepath;
 		done
 	done
 done
