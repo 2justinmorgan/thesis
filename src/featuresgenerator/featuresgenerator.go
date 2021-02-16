@@ -33,5 +33,6 @@ func main() {
 	inputFilePath := checkArgs(len(os.Args), os.Args)
 
 	session := commons.GetSession(inputFilePath)
-	generator.RecordFeatures(session)
+
+	generator.OutputAllFeatures(session)
 }

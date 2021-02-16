@@ -90,3 +90,19 @@ func SafeOpen(filePath string) *os.File {
     }
     return file
 }
+
+// OutputSlice writes a float64 slice to the inputted file path
+func OutputSlice(filePath string, floatNums []float64) {
+    f, err := os.Create(filePath)
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "error writing slice to file path \"%s\"\n", filePath)
+    }
+    defer f.Close()
+
+    l := len(floatNums)
+    fmt.Fprintf(f, "[%f", floatNums[0])
+    for i := 1; i<l; i++ {
+       fmt.Fprintf(f, ",%f", floatNums[i])  // print values to f, one per line
+    }
+    fmt.Fprintf(f, "]\n")
+}

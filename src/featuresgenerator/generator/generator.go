@@ -9,6 +9,7 @@ import (
 	"strings"
 	"strconv"
 	"featuresgenerator/defines"
+	"featuresgenerator/commons"
 )
 
 // GetTPoint returns the (x, y, time) values of a single line of the input csv file
@@ -144,5 +145,13 @@ func RecordFeatures(session defines.Session) {
         for _,featureName := range defines.GetFeaturesNames() {
             session.Features[featureName].AddRecord(GetFeatureVal(featureName, tpoints))
         }
+    }
+}
+
+// OutputAllFeatures records and writes all session features to output files
+func OutputAllFeatures(session defines.Session) {
+    RecordFeatures(session)
+    for _,feature := range session.Features {
+        commons.OutputSlice(feature.Name+".json", feature.Records)
     }
 }
