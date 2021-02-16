@@ -9,7 +9,6 @@ import (
 	"strings"
 	"strconv"
 	"featuresgenerator/defines"
-	"featuresgenerator/commons"
 )
 
 // GetTPoint returns the (x, y, time) values of a single line of the input csv file
@@ -107,10 +106,7 @@ func GetFeatureVal(featureName string, tpoints []defines.TPoint) (featureVal flo
 }
 
 func IterateInputDataFile(session defines.Session) {
-    file := commons.SafeOpen(session.InputDataFilePath)
-    defer file.Close()
-
-    scanner := bufio.NewScanner(file)
+    scanner := bufio.NewScanner(session.InputDataFile)
     // reads the first line (the csv header)
     scanner.Scan(); scanner.Text()
     for scanner.Scan() {

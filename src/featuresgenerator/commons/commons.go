@@ -32,7 +32,7 @@ func GetSession(inputDataFilePath string) defines.Session {
 	return defines.Session{
 		ID: sessionID,
 		User: user,
-		InputDataFilePath: inputDataFilePath,
+		InputDataFile: SafeOpen(inputDataFilePath),
 	}
 }
 

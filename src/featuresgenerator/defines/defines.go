@@ -1,6 +1,10 @@
 
 package defines
 
+import (
+    "os"
+)
+
 // GetFeaturesNames returns a str slice of the features to be generated
 func GetFeaturesNames() (features []string) {
 	return []string{
@@ -29,7 +33,7 @@ type TPoint struct {
 type Session struct {
 	ID string
 	User string
-	InputDataFilePath string
+	InputDataFile *os.File
 	Features map[string]Feature
 }
 
