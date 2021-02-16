@@ -114,5 +114,6 @@ func IterateInputDataFile(session defines.Session) {
         tpoint := GetTPoint(scanner.Text())
         fmt.Printf("%+v\n", tpoint)
         fmt.Printf("%+v\n", len(session.Features["velocity"].Records))
+        session.Features["velocity"].AddRecord(10.5)
     }
 }

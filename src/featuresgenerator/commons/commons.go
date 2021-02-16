@@ -45,12 +45,13 @@ func GetSession(inputDataFilePath string) defines.Session {
 // InitializeFeaturesMap returns the hashmap containing all features, with preallocated records slices
 func InitializeFeaturesMap(numRecords int) map[string]defines.Feature {
     featuresMap := make(map[string]defines.Feature)
+    i := int(0)
 
     for _,featureName := range defines.GetFeaturesNames() {
         featuresMap[featureName] = defines.Feature{
             Name: featureName,
             Records: make([]float64, numRecords),
-            RecordsCounter: 0,
+            RecordsCounter: &i,
         }
     }
 

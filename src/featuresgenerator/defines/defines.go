@@ -41,5 +41,10 @@ type Session struct {
 type Feature struct {
 	Name string
 	Records []float64
-	RecordsCounter int
+	RecordsCounter *int
+}
+
+func (feature Feature) AddRecord(value float64) {
+    feature.Records[*feature.RecordsCounter] = value
+    *feature.RecordsCounter += 1
 }

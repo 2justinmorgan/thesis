@@ -34,4 +34,5 @@ func main() {
 
 	session := commons.GetSession(inputFilePath)
 	generator.IterateInputDataFile(session)
+	fmt.Printf("%f\n",session.Features["velocity"].Records[10])
 }
