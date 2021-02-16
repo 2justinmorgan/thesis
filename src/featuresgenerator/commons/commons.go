@@ -35,3 +35,13 @@ func GetSession(inputDataFilePath string) defines.Session {
 		InputDataFilePath: inputDataFilePath,
 	}
 }
+
+// SafeOpen returns a file pointer, via os.Open, or exits program upon open error
+func SafeOpen(filePath string) *os.File {
+    file, err := os.Open(filePath)
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "error opening file \"%s\"", filePath)
+        os.Exit(1)
+    }
+    return file
+}

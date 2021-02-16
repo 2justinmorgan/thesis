@@ -5,9 +5,11 @@ import (
 	"fmt"
 	"os"
 	"math"
+	"bufio"
 	"strings"
 	"strconv"
 	"featuresgenerator/defines"
+	"featuresgenerator/commons"
 )
 
 // GetTPoint returns the (x, y, time) values of a single line of the input csv file
@@ -102,4 +104,17 @@ func GetFeatureVal(featureName string, tpoints []defines.TPoint) (featureVal flo
 	}
 
 	return -1
+}
+
+func IterateInputDataFile(session defines.Session) {
+    file := commons.SafeOpen(session.InputDataFilePath)
+    defer file.Close()
+
+    scanner := bufio.NewScanner(file)
+    // reads the first line (the csv header)
+    scanner.Scan(); scanner.Text()
+    for scanner.Scan() {
+        tpoint := GetTPoint(scanner.Text())
+        fmt.Printf("%+v\n", tpoint)
+    }
 }

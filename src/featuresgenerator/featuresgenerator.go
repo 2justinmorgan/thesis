@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"featuresgenerator/commons"
+	"featuresgenerator/generator"
 )
 
 func printUsage() {
@@ -32,5 +33,5 @@ func main() {
 	inputFilePath := checkArgs(len(os.Args), os.Args)
 
 	session := commons.GetSession(inputFilePath)
-	_ = session
+	generator.IterateInputDataFile(session)
 }
