@@ -35,3 +35,9 @@ test_num,os,branch_name,time_real,time_user,time_sys
 1,lin,golang_parallelized_writing_to_slice_buffer_as_features_are_calculated,1m6.640s,1m54.564s,3m26.896s
 2,lin,golang_parallelized_writing_to_slice_buffer_as_features_are_calculated,1m5.783s,1m52.285s,3m24.000s
 3,lin,golang_parallelized_writing_to_slice_buffer_as_features_are_calculated,1m5.046s,1m52.407s,3m21.619s
+1,win,golang_sequential_writing_to_slice_buffer_as_features_are_calculated,3m11.034s,0m2.079s,0m6.962s
+2,win,golang_sequential_writing_to_slice_buffer_as_features_are_calculated,3m4.676s,0m2.366s,0m8.119s
+3,win,golang_sequential_writing_to_slice_buffer_as_features_are_calculated,3m4.074s,0m2.185s,0m6.807s
+1,lin,golang_sequential_writing_to_slice_buffer_as_features_are_calculated,0m46.942s,0m42.882s,0m6.655s
+2,lin,golang_sequential_writing_to_slice_buffer_as_features_are_calculated,0m46.289s,0m42.384s,0m6.642s
+3,lin,golang_sequential_writing_to_slice_buffer_as_features_are_calculated,0m46.519s,0m41.825s,0m6.966s
