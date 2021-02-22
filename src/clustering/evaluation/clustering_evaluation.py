@@ -35,15 +35,17 @@ def tally_frequencies(user_names, clusters, table_name):
                 f"select count(*) from {table_name} "
                 f"where cluster = {cluster_id} and "
                 f"[user] = '{user_name}'")
-            cluster.user_freqs[user_name] += result.first()[0]
+            user_frequency_count = result.first()[0]
+            cluster.user_freqs[user_name] += user_frequency_count
+            cluster.population_count += user_frequency_count
 
 
 def measure_intra_distances(clusters, table_name):
-    for cluster_name in clusters:
-        cluster = clusters[cluster_name]
+    for cluster_id in clusters:
+        cluster = clusters[cluster_id]
         result = DB.exec(
             f"select Distance from {table_name} "
-            f"where Cluster = {cluster_name}"
+            f"where Cluster = {cluster_id}"
         )
         count = 0
         intra_distances = []
@@ -52,6 +54,17 @@ def measure_intra_distances(clusters, table_name):
             intra_distances.append(row["Distance"])
         cluster.intra_dist_mean = statistics.fmean(intra_distances)
         cluster.intra_dist_stdev = statistics.stdev(intra_distances) if count >= 2 else 0.0
+
+
+def analyze_clusters_populations(evaluation, table_name):
+    clusters_populations_counts = []
+    for cluster_id in evaluation.clusters:
+        cluster = evaluation.clusters[cluster_id]
+        clusters_populations_counts.append(cluster.population_count)
+    evaluation.clusters_populations_mean = statistics.fmean(clusters_populations_counts)
+    evaluation.clusters_populations_stdev = statistics.stdev(clusters_populations_counts)
+    evaluation.clusters_populations_range["min"] = min(clusters_populations_counts)
+    evaluation.clusters_populations_range["max"] = max(clusters_populations_counts)
 
 
 def evaluate(table_name):
@@ -65,6 +78,7 @@ def evaluate(table_name):
 
     tally_frequencies(user_names, evaluation.clusters, table_name)
     measure_intra_distances(evaluation.clusters, table_name)
+    analyze_clusters_populations(evaluation, table_name)
 
     return evaluation
 
