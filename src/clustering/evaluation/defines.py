@@ -64,6 +64,10 @@ class Evaluation(Locker):
         self.clusters_populations_mean = 0.0
         self.clusters_populations_stdev = 0.0
         self.clusters_populations_range = {"min": 0, "max": 0}
+        self.clusters_intra_dist_mean_mean = 0.0
+        self.clusters_intra_dist_stdev_mean = 0.0
+        self.clusters_intra_dist_mean_stdev = 0.0
+        self.clusters_intra_dist_stdev_stdev = 0.0
         self.clusters = self.init_clusters_obj(cluster_ids, user_names)
         self.setlock(_inherited)
 

@@ -57,14 +57,24 @@ def measure_intra_distances(clusters, table_name):
 
 
 def analyze_clusters_populations(evaluation, table_name):
-    clusters_populations_counts = []
-    for cluster_id in evaluation.clusters:
-        cluster = evaluation.clusters[cluster_id]
-        clusters_populations_counts.append(cluster.population_count)
+    clusters_populations_counts = [cluster[1].population_count for cluster in evaluation.clusters.items()]
+
     evaluation.clusters_populations_mean = statistics.fmean(clusters_populations_counts)
     evaluation.clusters_populations_stdev = statistics.stdev(clusters_populations_counts)
     evaluation.clusters_populations_range["min"] = min(clusters_populations_counts)
     evaluation.clusters_populations_range["max"] = max(clusters_populations_counts)
+
+
+def analyze_clusters_intra_distances(evaluation, table_name):
+    clusters_mean_intra_distances = []
+    clusters_stdev_intra_distances = []
+    for cluster in evaluation.clusters.items():
+        clusters_mean_intra_distances.append(cluster[1].intra_dist_mean)
+        clusters_stdev_intra_distances.append(cluster[1].intra_dist_stdev)
+    evaluation.clusters_intra_dist_mean_mean = statistics.fmean(clusters_mean_intra_distances)
+    evaluation.clusters_intra_dist_mean_stdev = statistics.stdev(clusters_mean_intra_distances)
+    evaluation.clusters_intra_dist_stdev_mean = statistics.fmean(clusters_stdev_intra_distances)
+    evaluation.clusters_intra_dist_stdev_stdev = statistics.stdev(clusters_stdev_intra_distances)
 
 
 def evaluate(table_name):
@@ -78,6 +88,7 @@ def evaluate(table_name):
 
     tally_frequencies(user_names, evaluation.clusters, table_name)
     measure_intra_distances(evaluation.clusters, table_name)
+    analyze_clusters_intra_distances(evaluation, table_name)
     analyze_clusters_populations(evaluation, table_name)
 
     return evaluation
