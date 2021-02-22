@@ -27,7 +27,28 @@ def get_cluster_ids(table_name):
     return users_list
 
 
-def tally_frequencies(user_names, clusters, table_name):
+def get_user_freq_bias_metric(cluster, total_num_sessions, total_num_clusters):
+    sorted_users_by_freq = sorted(cluster.user_freqs, key=cluster.user_freqs.get, reverse=True)
+    weight = len(cluster.user_freqs)-2
+    weighted_diffs = []
+    for i in range(len(cluster.user_freqs)-1):
+        percentage_a = cluster.user_freqs[sorted_users_by_freq[i]] / cluster.population_count
+        percentage_b = cluster.user_freqs[sorted_users_by_freq[i+1]] / cluster.population_count
+        weighted_diffs.append((percentage_a - percentage_b) * weight)
+        weight -= 1
+    avg_num_session_per_cluster = total_num_sessions / total_num_clusters
+    diff_from_avg = abs(avg_num_session_per_cluster - cluster.population_count)
+    return sum(weighted_diffs) / diff_from_avg if diff_from_avg > 0 else sum(weighted_diffs)
+
+
+def get_total_num_sessions(table_name):
+    result = DB.exec(f"select count(*) from {table_name}")
+    return result.first()[0]
+
+
+def tally_user_frequencies(clusters, table_name):
+    total_num_sessions = get_total_num_sessions(table_name)
+    total_num_clusters = len(clusters)
     for cluster_id in clusters:
         cluster = clusters[cluster_id]
         for user_name in cluster.user_freqs:
@@ -35,9 +56,11 @@ def tally_frequencies(user_names, clusters, table_name):
                 f"select count(*) from {table_name} "
                 f"where cluster = {cluster_id} and "
                 f"[user] = '{user_name}'")
-            user_frequency_count = result.first()[0]
-            cluster.user_freqs[user_name] += user_frequency_count
-            cluster.population_count += user_frequency_count
+            user_freq_count = result.first()[0]
+            cluster.user_freqs[user_name] += user_freq_count
+            cluster.population_count += user_freq_count
+
+        cluster.user_freq_bias_metric = get_user_freq_bias_metric(cluster, total_num_sessions, total_num_clusters)
 
 
 def measure_intra_distances(clusters, table_name):
@@ -57,12 +80,17 @@ def measure_intra_distances(clusters, table_name):
 
 
 def analyze_clusters_populations(evaluation, table_name):
-    clusters_populations_counts = [cluster[1].population_count for cluster in evaluation.clusters.items()]
+    clusters_populations_counts = []
+    clusters_user_freq_bias_metrics = []
+    for cluster in evaluation.clusters.items():
+        clusters_populations_counts.append(cluster[1].population_count)
+        clusters_user_freq_bias_metrics.append(cluster[1].user_freq_bias_metric)
 
     evaluation.clusters_populations_mean = statistics.fmean(clusters_populations_counts)
     evaluation.clusters_populations_stdev = statistics.stdev(clusters_populations_counts)
     evaluation.clusters_populations_range["min"] = min(clusters_populations_counts)
     evaluation.clusters_populations_range["max"] = max(clusters_populations_counts)
+    evaluation.clusters_user_freq_bias_metric_median = statistics.median(clusters_user_freq_bias_metrics)
 
 
 def analyze_clusters_intra_distances(evaluation, table_name):
@@ -86,7 +114,7 @@ def evaluate(table_name):
         cluster_ids=cluster_ids,
         user_names=user_names)
 
-    tally_frequencies(user_names, evaluation.clusters, table_name)
+    tally_user_frequencies(evaluation.clusters, table_name)
     measure_intra_distances(evaluation.clusters, table_name)
     analyze_clusters_intra_distances(evaluation, table_name)
     analyze_clusters_populations(evaluation, table_name)

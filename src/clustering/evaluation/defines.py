@@ -44,6 +44,7 @@ class Cluster(Locker):
         self.intra_dist_mean = 0.0
         self.intra_dist_stdev = 0.0
         self.population_count = 0
+        self.user_freq_bias_metric = 0.0
         self.user_freqs = self.init_user_freqs_obj(user_names)
         self.setlock(_inherited)
 
@@ -68,6 +69,7 @@ class Evaluation(Locker):
         self.clusters_intra_dist_stdev_mean = 0.0
         self.clusters_intra_dist_mean_stdev = 0.0
         self.clusters_intra_dist_stdev_stdev = 0.0
+        self.clusters_user_freq_bias_metric_median = 0.0
         self.clusters = self.init_clusters_obj(cluster_ids, user_names)
         self.setlock(_inherited)
 

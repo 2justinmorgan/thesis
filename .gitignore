@@ -22,6 +22,8 @@ test/featuresgenerator/featuresgenerator.go
 test/featuresgenerator/defines
 test/featuresgenerator/commons
 test/featuresgenerator/generator
+test/clustering/evaluation/clustering_evaluation.py
+test/clustering/evaluation/defines.py
 
 doc/latex*
 doc/thesis/thesis.pdf
