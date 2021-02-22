@@ -1,0 +1,19 @@
+{
+  "mouse_movement": {
+    "connection_strings": {
+      "windows": "mssql+pyodbc://DESKTOP-LTMG868\\SQLEXPRESS01/mouse_movement?driver=SQL Server?Trusted_Connection=yes",
+      "linux": "(to be defined)"
+    },
+    "table_groups": {
+      "cluster_distances": [
+        "cluster_distances_iqr",
+        "cluster_distances_mean",
+        "cluster_distances_median",
+        "cluster_distances_mode",
+        "cluster_distances_pca_top_8_without_theta",
+        "cluster_distances_pca_top_10",
+        "cluster_distances_stdev"
+      ]
+    }
+  }
+}

@@ -5,6 +5,7 @@
 __pycache__/
 
 pkg/
+venv/
 
 data/clean_mouse_data/clean_data.py
 data/clean_mouse_data/test_files
