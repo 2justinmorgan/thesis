@@ -2,6 +2,7 @@
 import sys
 import json
 import jsonpickle
+import statistics
 import defines
 
 DB = defines.DBConnect(db_name="mouse_movement")
@@ -37,6 +38,22 @@ def tally_frequencies(user_names, clusters, table_name):
             cluster.user_freqs[user_name] += result.first()[0]
 
 
+def measure_intra_distances(clusters, table_name):
+    for cluster_name in clusters:
+        cluster = clusters[cluster_name]
+        result = DB.exec(
+            f"select Distance from {table_name} "
+            f"where Cluster = {cluster_name}"
+        )
+        count = 0
+        intra_distances = []
+        for row in result:
+            count += 1
+            intra_distances.append(row["Distance"])
+        cluster.intra_dist_mean = statistics.fmean(intra_distances)
+        cluster.intra_dist_stdev = statistics.stdev(intra_distances) if count >= 2 else 0.0
+
+
 def evaluate(table_name):
     user_names = get_users(table_name)
     cluster_ids = get_cluster_ids(table_name)
@@ -47,11 +64,8 @@ def evaluate(table_name):
         user_names=user_names)
 
     tally_frequencies(user_names, evaluation.clusters, table_name)
-    #measure_intra_distances(evaluation.clusters)
+    measure_intra_distances(evaluation.clusters, table_name)
 
-    #result = DB.exec(f"select distinct [user] from {table_name}")
-    #for row in result:
-    #    print(f"user: {row['user']}")
     return evaluation
 
 
@@ -65,7 +79,7 @@ def evaluate_clusters(db):
 def main(argc, argv):
     evaluations = evaluate_clusters(DB)
 
-    print(to_json(evaluations))
+    #print(to_json(evaluations))
     f = open(f"{defines.DIR}/src/clustering/evaluation/out.json", "w")
     json.dump(json.loads(to_json(evaluations)), f, indent=2)
 
