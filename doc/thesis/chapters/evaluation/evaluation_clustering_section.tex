@@ -1,54 +1,152 @@
 
-\section{Features Generation}\label{sec:evaluation-features-generation}
-As session files, containing mouse positions of users, are inputted to the back-end server, the features generator is deployed to extract features sets in realtime. Doing so is costly on a server. Since the average number of polled mouse positions is about 125 times per second, and sessions last for numerous minutes, session files contain an average of tens of thousands of lines. Every line of the session files are used and fed through the features generator. Genration of the 6 outputted feature vectors, velocity, horizontal velocity, vertical velocity, acceleration, jerk, and theta, require input of each line of a session file. The computational cost of the features generation step is very high.
+\section{Clustering}\label{sec:evaluation-clustering}
+Though the clustering stage of this detection scheme is to be used in realtime, this thesis research mostly consists of offline testing and evaluation. In the context of this thesis, an optimal outcome for the clustering stage would include clear distinction of clusters that reflect a differentiation between users. By using solely mouse data from the user, and generating features from this data, differentiating users through unlabeled data is the intended outcome in this evaluation.
 
-Evaluation of the features generator consisted of a few different architectures. A Windows and Linux machine were used to run programs written in Python and Golang. With the intention of viewing results and keeping the research process simple, the features generator was originally written in Python. As the program's robustness increased, results were viewed, and runtimes increased, the decision to create the features generator in Golang was influenced by runtime optimization. Since this detection scheme is intended to be run in realtime on a server, and the computation cost of the features generation step is intensive, converting to and parallelizing with Golang seemed like a reasonable investment.
+A statistical software, JMP, was used to perform principal component analysis and generate clusters. Although there were multiple clustering methods available, all of which showed promising results, kmeans was the clustering method used in this research. Outputted distance and membership metrics reflect the level of effectiveness between different features used with the kmeans method. Since there were 10 users in the inputted dataset~\cite{balabit_dataset}, and the intention is to differentiate all users, the \textit{k} value was set to 10 in all clustering samples.
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+		\hline
+		\textbf{feature} & \textbf{PC1} & \textbf{PC2} & \textbf{PC3} & \textbf{PC4} & \textbf{PC5} & \textbf{PC6} & \textbf{PC7} & \textbf{sum} \\
+		\hline
+		vel-median & 0.07 & 0.29 & -0.09 & -0.02 & 0.04 & 0.07 & 0.06 & \textbf{43.72} \\
+		vel-iqr & 0.08 & 0.19 & -0.28 & -0.09 & 0.05 & 0.21 & 0.18 & \textbf{35.59} \\
+		yvel-median & 0.07 & 0.28 & 0.04 & 0.07 & 0.06 & -0.01 & 0.19 & \textbf{70.60} \\
+		yvel-mode & 0.01 & 0.07 & -0.03 & 0.05 & -0.03 & -0.01 & 0.28 & \textbf{33.75} \\
+		yvel-iqr & 0.08 & 0.22 & -0.12 & 0.01 & 0.12 & 0.18 & 0.30 & \textbf{78.26} \\
+		accl-median & 0.06 & 0.31 & 0.07 & -0.01 & 0.07 & -0.02 & -0.13 & \textbf{35.89} \\
+		theta-mean & 0.01 & 0.02 & 0.30 & 0.19 & 0.23 & 0.16 & 0.38 & \textbf{128.40} \\
+		theta-median & 0.01 & 0.03 & 0.28 & 0.20 & 0.20 & 0.14 & 0.40 & \textbf{126.28} \\
+		theta-iqr & -0.03 & -0.07 & 0.28 & 0.00 & 0.30 & 0.29 & -0.07 & \textbf{69.52} \\
+		theta-stdev & -0.04 & -0.07 & 0.30 & 0.00 & 0.27 & 0.24 & -0.18 & \textbf{52.62} \\
+		\hline
+	\end{tabular}
+	\caption{Results from PCA (all)}
+	{\small Shown are the 8 features used as a result of the principal component analysis on all 48 features. Per the right-most sums column, the left-most column contains features that account for most of the variation of the data. Note how the theta features have such high values, despite them having the lowest original values. This may be a result of data standardization in JMP}
+	\label{tab:pca-all-results}
+\end{table}
+
+By observing the plotted eigen vectors, the number of components chosen from PCA was the number of components needed to cumulatively attribute to at least 80\% of the variance in the inputted features. In the PCA that observes all 48 features, 7 components were needed to satisfy this 80\% threshold. Eigen vectors of each feature were summed and compared. The max sum of all features up to the nth component indicates that feature as having the most "weight" or influence on the variation in the data. A challenging aspect of PCA was deciding how many components to sum to. 7 components were chosen here. But that is only because 7 components were needed to satisfy a self-suggested threshold of 80\% that seemed reasonable. There is a need to analyze further to reinforce this approach.
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+		\hline
+		\textbf{PrinComp} & \textbf{01} & \textbf{02} & \textbf{03} & \textbf{04} & \textbf{05} & \textbf{06} & \textbf{07} & \textbf{08} \\
+		\hline
+		Eigen & 14.47 & 8.94 & 3.76 & 3.09 & 2.71 & 2.00 & 1.91 & 1.22 \\
+		Per & 30.8 & 19.0 & 8.0 & 6.6 & 5.8 & 4.3 & 4.1 & 2.6 \\
+		Cum & 30.1 & 49.8 & 57.8 & 64.4 & 70.2 & 74.4 & 78.5 & 81.1 \\
+		\hline
+	\end{tabular}
+	\caption{Eigen values in PCA (all)}
+	{\small Principal component analysis on all 48 features}
+	\label{tab:eigen-values-all}
+\end{table}
+
+% COMMENT BEGIN
+\iffalse
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|c|}
+		\hline
+		\textbf{feature} & \textbf{Prin1} & \textbf{Prin2} & \textbf{Prin3} & \textbf{Prin4} & \textbf{Prin5} & \textbf{sum} \\
+		\hline
+		vel-mean & 0.22 & -0.06 & 0.21 & -0.02 & -0.09 & 26.25 \\
+		\textbf{vel-median} & \textbf{0.07} & \textbf{0.30} & \textbf{0.08} & \textbf{-0.03} & \textbf{0.09} & \textbf{50.47} \\
+		\textbf{vel-mode} & \textbf{0.03} & \textbf{0.01} & \textbf{0.14} & \textbf{-0.07} & \textbf{0.41} & \textbf{51.17} \\
+		\textbf{vel-iqr} & \textbf{0.08} & \textbf{0.21} & \textbf{0.20} & \textbf{-0.12} & \textbf{0.35} & \textbf{71.79} \\
+		vel-stdev & 0.24 & -0.09 & 0.14 & -0.02 & -0.09 & 18.35 \\
+		\textbf{vel-min} & \textbf{0.00} & \textbf{0.04} & \textbf{0.16} & \textbf{0.53} & \textbf{0.03} & \textbf{75.72} \\
+		vel-max & 0.24 & -0.09 & 0.00 & -0.02 & -0.02 & 11.43 \\
+		vel-range & 0.24 & -0.09 & 0.00 & -0.02 & -0.02 & 11.43 \\
+		xvel-mean & 0.22 & -0.06 & 0.21 & -0.02 & -0.09 & 26.43 \\
+		xvel-median & 0.07 & 0.29 & 0.07 & -0.03 & 0.06 & 45.72 \\
+		xvel-mode & 0.02 & 0.05 & 0.09 & -0.01 & 0.28 & 42.32 \\
+		\textbf{xvel-iqr} & \textbf{0.08} & \textbf{0.21} & \textbf{0.19} & \textbf{-0.12} & \textbf{0.31} & \textbf{66.92} \\
+		xvel-stdev & 0.24 & -0.09 & 0.14 & -0.02 & -0.08 & 18.35 \\
+		\textbf{xvel-min} & \textbf{-0.01} & \textbf{0.03} & \textbf{0.14} & \textbf{0.51} & \textbf{0.00} & \textbf{68.50} \\
+		xvel-max & 0.24 & -0.09 & 0.00 & -0.02 & -0.02 & 11.39 \\
+		xvel-range & 0.24 & -0.09 & 0.00 & -0.02 & -0.02 & 11.39 \\
+		yvel-mean & 0.22 & -0.06 & 0.21 & -0.02 & -0.10 & 25.13 \\
+		yvel-median & 0.06 & 0.28 & 0.02 & 0.00 & -0.01 & 35.57 \\
+		yvel-mode & 0.01 & 0.07 & 0.05 & 0.00 & 0.16 & 28.91 \\
+		\textbf{yvel-iqr} & \textbf{0.08} & \textbf{0.23} & \textbf{0.16} & \textbf{-0.09} & \textbf{0.24} & \textbf{61.37} \\
+		yvel-stdev & 0.24 & -0.09 & 0.14 & -0.02 & -0.09 & 18.32 \\
+		\textbf{yvel-min} & \textbf{0.00} & \textbf{0.03} & \textbf{0.15} & \textbf{0.48} & \textbf{0.02} & \textbf{68.27} \\
+		yvel-max & 0.24 & -0.09 & 0.00 & -0.02 & -0.02 & 11.44 \\
+		yvel-range & 0.24 & -0.09 & 0.00 & -0.02 & -0.02 & 11.44 \\
+		accl-mean & 0.22 & 0.04 & 0.08 & 0.01 & -0.07 & 27.59 \\
+		accl-median & 0.06 & 0.31 & -0.04 & 0.01 & -0.15 & 19.17 \\
+		accl-mode & 0.03 & 0.16 & 0.05 & -0.03 & 0.02 & 23.17 \\
+		accl-iqr & 0.06 & 0.31 & -0.03 & -0.01 & -0.12 & 22.41 \\
+		accl-stdev & 0.24 & -0.05 & -0.03 & 0.03 & 0.03 & 20.82 \\
+		accl-min & 0.00 & -0.02 & 0.11 & 0.30 & 0.08 & 46.13 \\
+		accl-max & 0.21 & -0.03 & -0.28 & 0.08 & 0.16 & 13.86 \\
+		accl-range & 0.21 & -0.03 & -0.28 & 0.08 & 0.16 & 13.86 \\
+		jerk-mean & 0.14 & 0.23 & -0.11 & 0.04 & -0.19 & 11.75 \\
+		jerk-median & 0.05 & 0.30 & -0.09 & 0.02 & -0.24 & 4.40 \\
+		jerk-mode & 0.04 & 0.24 & -0.06 & 0.01 & -0.21 & 1.37 \\
+		jerk-iqr & 0.05 & 0.30 & -0.09 & 0.02 & -0.24 & 3.14 \\
+		jerk-stdev & 0.19 & 0.04 & -0.26 & 0.09 & 0.09 & 15.33 \\
+		jerk-min & 0.00 & 0.01 & 0.06 & 0.18 & 0.04 & 29.47 \\
+		jerk-max & 0.14 & 0.03 & -0.40 & 0.12 & 0.21 & 9.23 \\
+		jerk-range & 0.14 & 0.03 & -0.40 & 0.12 & 0.21 & 9.23 \\
+		\hline
+	\end{tabular}
+	\caption{Results from PCA (without theta)}
+	{\small \textbf{Shown is a complete list} of the features used in the principal component analysis. Note that the theta features are not used in the PCA. The selected features used as a result of the PCA are in bold}
+	\label{tab:pca-without-theta-results}
+\end{table}
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|c|}
+		\hline
+		\textbf{PrinComp} & \textbf{01} & \textbf{02} & \textbf{03} & \textbf{04} & \textbf{05} & \textbf{06} \\
+		\hline
+		Eigen & 14.43 & 8.67 & 3.28 & 2.57 & 2.11 & 1.21 \\
+		Per & 36.1 & 21.7 & 8.2 & 6.4 & 5.3 & 3.0 \\
+		Cum & 36.1 & 57.7 & 65.9 & 72.4 & 77.6 & 80.7 \\
+		\hline
+	\end{tabular}
+	\caption{Eigen values in PCA (without theta)}
+	{\small Due to the "all" PCA showing low relevance of the theta features, a corresponding PCA on the remaining 40 features was performed. Those results are show here}
+	\label{tab:eigen-values-without-theta}
+\end{table}
+\fi
+% COMMENT END
+
+Once the principal components were chosen, the clustering stage begins. Note that the PCA step is not going to be a part of the detection scheme. The only reason why it was applied here was to see which mouse movement features are most effective in user differentiation by clustering. Despite the PCA-generated features, there were a number of clustering version used for comparison. The \textbf{mean}, \textbf{median}, \textbf{mode}, \textbf{standard deviation}, and the \textbf{interquartile range} of each of the 6 movement features, \textit{velocity}, \textit{horizontal velocity}, \textit{vertical velocity}, \textit{acceleration}, \textit{jerk}, and \textit{theta}, were used to build clusters. Of all 48 feature vectors that are to be used in clustering, 6 features, one movement feature per statistical value, were chosen as parameters to cluster.
 
 \begin{table}[h!]
 	\centering
 	\begin{tabular}{ |c|c|c|c|c|c| }
 		\hline
-		\textbf{system} & \textbf{cores} & \textbf{clock{\_}speed} & \textbf{memory} & \textbf{cpu{\_}desc} & \textbf{exec{\_}env} \\
+		\textbf{features{\_}set} & \textbf{pop{\_}stdev} & \textbf{pop{\_}range} & \textbf{bias} & \textbf{dist{\_}mean} & \textbf{dist{\_}stdev} \\
 		\hline
-		Open{\_}SUSE & 4 & 1.6GHz & 8GB-DDR4 & 8th-Gen-i5 & native-Bash \\
-		Windows{\_}10 & 4 & 3.4GHz & 12GB-DDR4 & 6th-Gen-i7 & winpty-Bash \\
+		iqr & 152.42 & 14-445 & 3.628 & 1.794 & 2.012 \\
+		mean & 294.60 & 1-732 & 2.647 & 2.037 & 1.846 \\
+		median & 174.16 & 1-478 & 3.475 & 1.369 & 1.374 \\
+		mode & 477.47 & 1-1523 & 2.360 & 2.480 & 3.073 \\
+		stdev & 329.97 & 1-837 & 1.054 & 2.098 & 1.892 \\
+		pca{\_}8 & 215.36 & 2-590 & 1.272 & 5.859 & 4.397 \\
+		pca{\_}10 & 139.14 & 2-396 & 1.400 & 3.862 & 3.523 \\
 		\hline
 	\end{tabular}
-	\caption{Environments used to generate session features}
-	{\small \textbf{Both systems use a solid-state hard drive.} Comparison of the different environments used to generate features from the mouse position data inputted from the user's computer. \textit{Each result shown are averages of 3 separate runtimes}}
+	\caption{Clustering distribution results}
+	\label{tab:clustering-distribution-results}
 \end{table}
 
-Below are metrics reflecting the total runtimes of each architecture. The Linux machine is run on an Open{\_}SUSE Tumbleweed Linux instance. A Bash terminal was used to execute the Python and Golang programs. However, the Python runtime results varied drastically on the Windows machine. There is one explanation relating to a "wrapper" program, winpty, that had to be used to invoke the Python interpreter. This wrapper-like program acts as an interface between the underlying Windows operating system and the Bash terminal. Enabling users to run Unix programs, winpty must have an overhead cost when using its interface. As you can see, the runtimes are nearly 3 times the amount of the Linux equivalents. Regardless, all runtimes were most often shorter when run on the Linux machine.
+For example, the "mean" features set used as parameters for clustering were \textbf{velocity}-\textit{mean}, \textbf{horizontal velocity}-\textit{mean}, \textbf{vertical velocity}-\textit{mean}, \textbf{acceleration}-\textit{mean}, \textbf{jerk}-\textit{mean}, and \textbf{theta}-\textit{mean}. This pattern continued through all 6 of the movement features, over all 8 of the statistical features. Hence the 48 features to choose from.
 
-There is a bottleneck in the system design. A Bash script was used to execute the features generator program, which takes one session file as input and outputs 6 feature vectors by writing them to files named with the convention \textit{sessionid{\_}userid{\_}featurename}.json in a separate directory.
+\begin{figure}[h!]
+	\includegraphics[width=.8\columnwidth]{figures/user_freq_distribution}
 
-While this Bash script is sufficient in this research on how to differentiate users by clustering, there is one design change that will significantly reduce the runtime of the system. Instead of using a program that sequentially takes input, like this Bash script, a parallelized "master" program is a necessary design decision. Although the Golang metrics reflect a parallelized program, which generates the 6 feature vectors in parallel, a master node can be used to take inputted session files and trigger multiple executions of the features generator. Additionally, session files can be split into several "chunks" that would reduce the required execution time of each features generator executable. Preferably, this parallelization would be distributed across many Linux boxes equipped with the features generator executable.
-
-\begin{figure}
-	\centering
-	\includegraphics[width=1\columnwidth]{figures/bash_feature_generator_runtime_screenshot_linux}
-	\includegraphics[width=1\columnwidth]{figures/bash_feature_generator_runtime_screenshot_windows}
-	\caption{Screen shots of the Bash script running the features generator}
-	{\small Both screenshots, Linux (top) and Windows (bottom), include two printouts of the users. This is because the inputted session files consist of a training and testing dataset, per the Balabit dataset~\cite{balabit_dataset}}
-	\label{fig:bash-features-generator-runtimes}
+	\caption{User frequency bias metric}
+	\label{fig:user_freq_bias_metric}
+	{\small The user frequency bias metric describes the distribution of users in a cluster. A high value indicates that the cluster is biased to a certain user(s). A low value indicates that the cluster is not biased to any user(s) and is evenly spread. This metric accounts for variance and weights applied to the hierarchy of frequencies.}
 \end{figure}
 
-\begin{table}[h!]
-	\centering
-	\begin{tabular}{ |c|c|c|c|c| }
-		\hline
-		\textbf{method} & \textbf{lin{\_}go} & \textbf{win{\_}go} & \textbf{lin{\_}py} & \textbf{win{\_}py} \\
-		\hline
-		list{\_}buf & 1m5s & 1m42s & 3m16s & 11m16s \\
-		prealloc{\_}list{\_}buf & 0m36s & 2m25s & 3m31s & 10m52s \\
-		file{\_}append & 1m13s & 1m42s & 3m18s & 10m55s \\
-		go{\_}seq & 0m46s & 3m4s & -- & -- \\
-		\hline
-	\end{tabular}
-	\caption{Runtimes of different features generation methods}
-	{\small A "list" buffer was used for Python execs, while a "slice" was the equivalent buffer used for Golang execs. Python on the Windows system was run through an API, winpty, that enables Bash terminals to run Unix-like programs. This may account for the significantly slower Python runtimes on Windows}
-\end{table}
-
-Three different methods, \textit{list or slice buffer}, \textit{preallocated list or slice buffer}, \textit{file append}, and an additional sequential Golang method, were used to compare the different features generator architectures. The list or slice buffer method showed slower runtimes since memory had to be reallocated upon data insertions. By preallocating the memory space, with a given size number, there is no longer a need to reallocate memory for this buffer type. This explains why the preallocated list or slice buffers had a faster average runtime. However, an interesting observation is with runtimes of the Windows preallocated slice buffer and file append methods. Results show that, while using a non-preallocated slice in Golang had the same runtime as the file append method in Golang, the preallocated slice buffer method resulted in slower runtimes. One explaination would be the quality of the solid state hard drives. Thought both systems use a solid state hard drive as their main storage, the Windows system is equipped with an aftermarket SSD. Perhaps the file write speed is quicker with this hard drive, thus decreasing the runtime of the file append method. However, there is uncertainty with this theory.
-
-Of the different methods used, the preallocated slice buffer with Golang method used on the Linux machine showed the best results. This is what prompted the deployment of a non-parallelized, sequential version of the preallocated slice buffer method with Golang was added for comparison. As the results reflect, preallocated slice buffers boast optimal runtimes in Golang. However, the sequential version of the Golang generator showed poor results on the Windows system. This may be attributed to the slow runtimes of the parallelized preallocated slice buffer method results. An additional explanation could be the method used to obtain the size needed for preallocation. Since the number of lines of the input file is the size used to preallocate the slice buffer, the process of reading the input file may be the culprit. Perhaps there were file system blocks associated with the slower runtimes. Regardless, the optimal architecture for the features generator was the parallelized, preallocated slice buffer method with Golang on the Linux machine.
+%\input{chapters/evaluation/evaluation_clustering_user_frequency_tables}
