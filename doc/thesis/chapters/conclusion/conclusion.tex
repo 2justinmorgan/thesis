@@ -1,3 +1,42 @@
 
 \chapter{Conclusion}\label{ch:conclustion}
 
+\section{Contributions}\label{sec:contributions}
+This thesis research includes the following contributions:
+
+1) A parallelized and scalable Golang implementation that extracts movement features from inputted position data in realtime.
+The format of the position data is in a standard time-position format.
+Despite the 2 dimensions of the intended input data, adding an additional dimension should not pose any issues.
+Since the program outputs vectors of the 1st, 2nd, and 3rd derivatives of a postion dataset, there may be other applications that require parallelized features generation in realtime.
+
+2) A membership bias metric that measures how well a clustering method differentiates users.
+Measuring variance is not sufficient when valuating clusters in this context.
+Though it's optimal to have high variance between members of a cluster and the member for which is represented by that cluster, variance would not be a simple method of measuring the disparity between members of a cluster in the intended way.
+The membership bias metric accounts for the variance among irrelevant, non-represented members of a cluster.
+
+3) Several mouse movement features sets that have shown to be useful to differentiate users.
+The majority of related works that utilize a users mouse movement behavior require labeling of data.
+This is to say that, because unsupervised learning methods are not common with mouse movement metrics, providing preliminary results about which features to use for clustering will be beneficial.
+
+4) An unsupervised learning approach to web bot detection.
+Prior research indicates that supervised learning methods, though still the popular methods, are not able to detect the growing number of highly sophisticated web bots.
+A simple explanation of this is that, since supervised learning methods require labeled datasets, and that trained models are only as effective as the robustness of the training data, supervised learning methods can not maintaing the cutting edge in bot detection.
+This thesis attempts to resolve this ongoing issue by supplying researchers with a method detecting bots by solely looking at the mouse movement behavior of a user, regardless of their bot or humanness.
+
+5) A web bot detection scheme that does not require users to login or prove their humanness.
+Most websites require users to have an account, or pass a test to prove their humanness, to access a website.
+This traditional design not only causes user friction, but it also poses several threats and liabilities to the company hosting the website.
+Being able to differentiate users without requiring them to login or prove their humanness, i.e. CAPTCHA, is a meaningful contribution.
+
+\section{Future Work}\label{sec:future-work}
+A important portion of this thesis was not completed because of the time spent on clustering users.
+Classification is meant to occur after users have been clustered and differentiated.
+By knowing that users A and B exist in the inputted sessions datas, limiting the frequency of a user's network requests on a website can be achieved without them needing to login.
+However, this thesis research did not reach that point in the system design.
+Additionally, more features can be analyzed to improve the clustering accuracy.
+This includes the validity of the principal component analysis done in the evaluation's clustering section.
+
+Realtime features generation is an integral part of this detection scheme.
+Webservers having the ability to generate features in realtime, without sacrificing performance, is a important aspect to consider.
+Specifically, a distributed system can be applied to decrease runtimes of the features generation step.
+By introducing a set of nodes, one of which includes a master that directs workers and their inputs and outputs, the high computational costs of generating features from numerous sessions can be manageable.
