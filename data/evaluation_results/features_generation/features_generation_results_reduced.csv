@@ -1,0 +1,8 @@
+prog,lin_time,win_time
+py_output_file,199.23,674.8
+py_list_buf,197.04,676.27
+py_preallocated_list_buf,211.56,651.69
+go_output_file,67.22,101.65
+go_slice_buf,65.82,102.01
+go_preallocated_slice_buf,36.06,146.53
+go_sequential_slice_buf,46.58,186.59
