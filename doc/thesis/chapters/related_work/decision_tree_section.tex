@@ -1,7 +1,7 @@
 
 \section{Decision Tree}\label{sec:decision-tree}
 
-An implementation~\cite{bot_or_human} uses the C4.5 decision tree algorithm to determine if a user is a bot or not by characterizing human behaviors from bot behaviors in online services.
+An implementation introduced in~\cite{bot_or_human} uses the C4.5 decision tree algorithm to determine if a user is a bot or not by characterizing human behaviors from bot behaviors in online services.
 This approach consists of a two-step system that (1) extracts a user's behavioral metrics via a client-side logger, and (2) determines the botness of a user, based on the retrieved behavioral metrics, with a server-side classifier.
 A client-side logger, in this context, records a user's behavioral metrics such as mouse movements and keystrokes.
 Upon gathering this client-side data, the records are sent to the server-side classifier that utilizes the C4.5 decision tree algorithm.
@@ -9,10 +9,10 @@ Upon gathering this client-side data, the records are sent to the server-side cl
 There are two different bot detection approaches that this article seeks to address.
 Firstly, \textbf{content-based filtering}, used by third party clients, needs to be improved upon since they suffer from high false negative rates.
 This is due to mostly in part of the bot makers finding ways to evade filtering rules set by enforcers.
-Secondly, \textbf{human interactive proofs} (HIPs), such as CAPTCHA, are problematic for more than one reason.
+Secondly, \textbf{human interactive proofs} (HIP)s, such as CAPTCHA, are problematic for more than one reason.
 Not only are CAPTCHAs breakable by bot implementors, but the they are intrusive to the user experience.
 Although there are ways to increase the reliability of HIPs to detect and block bots, such ways would require more interaction from the authentic human users, thus increasing user friction and diminishing the user experience.
-Human observational proofs (HOBs) are a solution to this dilemma.
+Human observational proofs (HOB)s are a solution to this dilemma.
 Unlike the HIPs that are commonly used, HOPs passively observe the actions and behavior of users performing tasks that are meant to be challenging for bots.
 
 A blog site was the testing location for this research.
@@ -47,9 +47,9 @@ Mouse metrics are recorded at an average of 125hz polling rate.
 Unbeknownst to the user, the Logger collects, via JavaScript events, five UI events: \textit{key press}, \textit{key release}, \textit{mouse move}, \textit{mouse button press}, and \textit{mouse button release}.
 When the recordings are POSTed to the server-side Detector, a \textbf{log processor} begins to calculate the timing entropy of intervals of the whole raw event data sequence in the POSTed user log.
 This detects periodic or regular timing of the entire user behavior.
-Entropy rate can be used to distinguish a human user from a bot user.
+The entropy rate can be used to distinguish a human user from a bot user.
 Human behavior is often more complicated than bot behavior.
-Such complexity can be measured by entropy rate.
+Such complexity can be measured by the entropy rate.
 Once the log processor finishes, the C4.5 algorithm is used as a base for the Detector's \textbf{classifier}.
 Reasons for using the C4.5 decision tree algorithm include its efficiency to process large amounts of training data in a short time, the logic is easy to understand and not a black-box, the tree is able to process continuous and discrete values, and lastly, the tree has autonomous tree height constraints to avoid over fitting.
 Finally, the \textbf{decision maker} in the Detector considers all classifications previously made on a user, and holistically makes a decision of its botness.

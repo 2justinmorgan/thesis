@@ -1,6 +1,10 @@
 
 \section{Motivation for Clustering}\label{sec:motivation-for-clustering}
-Distil Networks classifies ~\cite{bad_bot_report} bot sophistication levels as follows:
+As outlined in the background section, a supervised learning implementation is as useful as the robustness of its labeled dataset.
+Supervised learning-based bot detection implementations that classify bot and human users, otherwise known as a "binary classifier", require labeled datapoints for both bot and human users.
+Use of an unsupervised learning implementation, specifically clustering, is motivated by the increasing sophistication of bots and the decreasing availability of labeled datasets to represent such bots.
+
+Distil Networks~\cite{bad_bot_report} classifies bot sophistication levels as follows:
 \begin{itemize}
     \item \textbf{Simple}
         Connecting from a single, ISP-assigned IP address, this type connects to websites using automated scripts, not browers, and doesn't self-report, or masquerade, as being a real browser.
