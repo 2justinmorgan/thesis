@@ -18,6 +18,7 @@ The architecture of this deep learning approach allows for decisions of a user's
 \begin{figure}[!h]
     \includegraphics[width=1\columnwidth]{figures/deep_learning_with_mouse_dynamics_system_architecture}
     \caption{Architecture of the deep learning model using CNNs}
+    {\small System design from~\cite{deep_learning_detection_with_mouse_behavior}}
     \label{fig:deep-learning-architecture}
 \end{figure}
 A user's botness is determined by considering the classification results of most mouse movement sequences extracted from the operation data created at the left-most, first stage of the architecture diagram.
@@ -51,7 +52,7 @@ The colors were on the red, blue, green (RGB) scale, and decided by mapping the 
     \includegraphics[width=.35\columnwidth]{figures/deep_learning_with_mouse_dynamics_mouse_segment_image_generation}
     \caption{Conversion of a mouse sequence segment to an image}
     \label{fig:deep-learning-image-generation}
-    {\small Spatial and kinetic information of a users mouse movement behavior are represented in images similar to this one. The mouse positions of mouse movement are shown in each sequence segment, a single image, and colors denote the velocity of mouse movement.}
+    {\small Spatial and kinetic information of a users mouse movement behavior are represented in images similar to this one, as shown in~\cite{deep_learning_detection_with_mouse_behavior}. The mouse positions of mouse movement are shown in each sequence segment, a single image, and colors denote the velocity of mouse movement.}
 \end{figure}
 Bot users, specifically, were fabricated by 4 different types of bot scripts, each generating a unique pattern to their mouse movement trajectories.
 Figure~\ref{fig:deep-learning-image-generation-bots} displays images that represent these 4 types.
@@ -60,7 +61,7 @@ Figure~\ref{fig:deep-learning-image-generation-bots} displays images that repres
     \includegraphics[width=1\columnwidth]{figures/deep_learning_with_mouse_dynamics_mouse_segment_image_generation_bots}
     \caption{Conversion of bot mouse sequence segments to an image}
     \label{fig:deep-learning-image-generation-bots}
-    {\small Shown are examples of the 4 different types of bot mouse trajectories: \textit{straight-line}, \textit{curve}, \textit{polyline}, and \textit{semi-straight line}, respectively}
+    {\small Shown are examples of the 4 different types of bot mouse trajectories: \textit{straight-line}, \textit{curve}, \textit{polyline}, and \textit{semi-straight line}, respectively, as shown in~\cite{deep_learning_detection_with_mouse_behavior}}
 \end{figure}
 The semi-straight line was created by adding noise to the points on the straight-line mouse trajectory.
 Bezier curves were used to make the curve and polyline trajectories.
@@ -134,7 +135,7 @@ When presented with a challenge, the user can either disregard the challenge by 
     \includegraphics[width=1\columnwidth]{figures/semi_supervised_CAPTCHA_training_data_generation_results}
     \caption{User answers to CAPTCHA challenges}
     \label{fig:captcha-user-answers}
-    {\small The research notes that since the users were selected non-uniformly, most answers to the challenge were "no response"}
+    {\small The research notes that since the users were selected non-uniformly, most answers to the challenge were "no response", as shown in~\cite{bot_detection_for_search_engines}}
 \end{figure}
 About 80\% of the received responses were correct.
 This accounted for the majority of the training data with "human" labels.
