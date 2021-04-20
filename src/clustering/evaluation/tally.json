@@ -1,0 +1,296 @@
+{
+	"stdev": {
+		"user7": {
+			"cluster_id": 9,
+			"percentage": "2/17"
+		},
+		"user9": {
+			"cluster_id": 3,
+			"percentage": "1/1"
+		},
+		"user12": {
+			"cluster_id": 10,
+			"percentage": "143/837"
+		},
+		"user15": {
+			"cluster_id": 6,
+			"percentage": "150/747"
+		},
+		"user16": {
+			"cluster_id": 1,
+			"percentage": "1/9"
+		},
+		"user20": {
+			"cluster_id": 2,
+			"percentage": "6/38"
+		},
+		"user21": {
+			"cluster_id": 8,
+			"percentage": "1/1"
+		},
+		"user23": {
+			"cluster_id": 4,
+			"percentage": "1/5"
+		},
+		"user29": {
+			"cluster_id": 5,
+			"percentage": "1/1"
+		},
+		"user35": {
+			"cluster_id": 7,
+			"percentage": "5/20"
+		}
+	},
+	"pca_10": {
+		"user7": {
+			"cluster_id": 5,
+			"percentage": "80/122"
+		},
+		"user9": {
+			"cluster_id": 4,
+			"percentage": "43/66"
+		},
+		"user12": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user15": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user16": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user20": {
+			"cluster_id": 3,
+			"percentage": "18/78"
+		},
+		"user21": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user23": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user29": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user35": {
+			"cluster_id": 0,
+			"percentage": 0
+		}
+	},
+	"pca_8": {
+		"user7": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user9": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user12": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user15": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user16": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user20": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user21": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user23": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user29": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user35": {
+			"cluster_id": 0,
+			"percentage": 0
+		}
+	},
+	"mean": {
+		"user7": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user9": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user12": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user15": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user16": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user20": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user21": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user23": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user29": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user35": {
+			"cluster_id": 0,
+			"percentage": 0
+		}
+	},
+	"median": {
+		"user7": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user9": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user12": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user15": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user16": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user20": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user21": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user23": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user29": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user35": {
+			"cluster_id": 0,
+			"percentage": 0
+		}
+	},
+	"mode": {
+		"user7": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user9": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user12": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user15": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user16": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user20": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user21": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user23": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user29": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user35": {
+			"cluster_id": 0,
+			"percentage": 0
+		}
+	},
+	"iqr": {
+		"user7": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user9": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user12": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user15": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user16": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user20": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user21": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user23": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user29": {
+			"cluster_id": 0,
+			"percentage": 0
+		},
+		"user35": {
+			"cluster_id": 0,
+			"percentage": 0
+		}
+	}
+}

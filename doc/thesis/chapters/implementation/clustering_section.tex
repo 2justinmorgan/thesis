@@ -4,9 +4,8 @@ At this point in the web bot and botnet attack detection scheme, a number of met
 For each of the 6 features, 8 statistical metrics are calculated to represent their respective features, totaling to 48 values that can be used for clustering.
 The purpose of clustering sessions, based on the outlined 48 values, is to differentiate users based solely on their mouse movement behavior.
 Session files, or lists of mouse position vectors, would be inputted into this clustering algorithm to output clusters of differentiated users.
-In a realtime environment, the session files would be the mouse position metrics that are periodically inputted from the user's machine, as described in the \textit{Realtime} subsection of the \textit{Balabit Dataset} section.
+In a realtime environment, the session files would be the mouse position metrics that are periodically inputted from the user's machine, as described in the \textit{Realtime Dataset} section~\ref{subsec:realtime-dataset}.
 
 During the testing and analysis stages of this research, 2 clustering algorithms were used on the 1676 x 48 inputted session files.
 With \textbf{k-means} clustering, the value for \textit{k} was set to 10, the number of users present in the 1676 session files. All 48 values pertaining to each session file, were used as the passed-in clustering features.
 With \textbf{hierarchical} clustering, all 48 values were also used.
-

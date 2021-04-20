@@ -1,6 +1,6 @@
 ﻿
 \chapter{Implementation}\label{ch:implementation}
-This project will utilize an approach that begins by identifying users, which include human and bot users, based solely on their mouse movement behavior~\cite{intrustion_detection_using_mouse_dynamics}.
+This thesis work utilizes an approach that begins by identifying users, which include human and bot users, based solely on their mouse movement behavior~\cite{intrustion_detection_using_mouse_dynamics}.
 Specifically, this project presents a user differentiation method based on mouse behavior metrics, such as movement angle, movement velocity, scroll velocity, etc., instead of relying on client IP addresses present in the server logs.
 Further study could include metrics that are also used in previously implemented web bot detection schemes.
 But this project will start with just the mouse behavior metrics.
@@ -11,9 +11,14 @@ However, this "log-in, then use website" method causes user friction~\cite{how_r
 An example of this could be requiring a user to click/check "I'm not a robot" on older versions of reCAPTCHA.
 In conclusion, this project presents an unsupervised, clustering method to autonomously identify users, as if they were to log in to an account, providing a means to make more informed decisions of the "web bot-ness" of visitors on a website.
 
+\input{chapters/system_design/objective_section}
+
+\input{chapters/system_design/general_architecture_section}
+
 \input{chapters/implementation/dataset_section}
 
 \input{chapters/implementation/features_engineering_section}
 
 \input{chapters/implementation/clustering_section}
 
+\input{chapters/implementation/classification_section}

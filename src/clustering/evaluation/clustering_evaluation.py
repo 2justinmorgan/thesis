@@ -60,6 +60,7 @@ def tally_user_frequencies(clusters, table_name):
             cluster.user_freqs[user_name] += user_freq_count
             cluster.population_count += user_freq_count
 
+        cluster.user_freqs = {k: v for k, v in sorted(cluster.user_freqs.items(), key=lambda i: i[1], reverse=True)}
         cluster.user_freq_bias_metric = get_user_freq_bias_metric(cluster, total_num_sessions, total_num_clusters)
 
 
@@ -131,6 +132,24 @@ def evaluate_clusters(db):
 
 def main(argc, argv):
     evaluations = evaluate_clusters(DB)
+
+    for cname in evaluations:
+        clusters = evaluations[cname].clusters
+
+        max_users = {}
+        for level in range(10):
+            level_users = {}
+            for cluster_id in clusters:
+                cluster = clusters[cluster_id]
+                top_user_name = list(cluster.user_freqs.keys())[level]
+                freq = cluster.user_freqs[top_user_name]
+                level_user_freq = level_users.get(top_user_name, 0)
+                if top_user_name not in max_users and freq > level_user_freq:
+                    max_users[top_user_name] = f"{freq}|{cluster_id}"
+
+        print(cname)
+        print(max_users)
+        print(cname + "\n")
 
     #print(to_json(evaluations))
     f = open(f"{defines.DIR}/src/clustering/evaluation/out.json", "w")

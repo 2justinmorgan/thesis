@@ -2,7 +2,9 @@
 \section{Dataset}\label{sec:dataset}
 In order to cluster users based on their mouse movement behavior, data of their mouse movement must be obtained.
 An ideal scenario for this research would be to record the mouse movement of a high number of users, while navigating a specified user interface, thus creating a mouse movement recordings dataset.
-But there are alternatives that maintain the validity of this research.
+This would be ideal because there would be more user profiles, as well as knowledge of the graphical user interface used to generate these user profiles.
+Unfortunately, doing so would require time, people, and resources that are not available during time-frame of this thesis research.
+However, there are alternatives that maintain the validity of this research, such as using a predefined dataset with mouse behavior-based user profiles.
 
 \subsection{Balabit Dataset}\label{subsec:balabit-dataset}
 For testing and analysis purposes, a predefined dataset of users were used in this research.
@@ -35,7 +37,8 @@ A session record is a csv file containing these fields~\cite{balabit_dataset}:
     \item \textbf{y}: the y coordinate (in pixels) of the mouse cursor on the screen
 \end{itemize}
 An example of a session record looks like:
-\begin{center}
+\begin{table}
+    \centering
     \begin{tabular}{ |c|c|c|c|c|c| }
         \hline
         \textbf{record timestamp} & \textbf{client timestamp} & \textbf{button} & \textbf{state} & \textbf{x} & \textbf{y} \\
@@ -48,12 +51,14 @@ An example of a session record looks like:
         \ldots & \ldots & \ldots & \ldots & \ldots & \ldots \\
         \hline
     \end{tabular}
-\end{center}
+    \caption{Balabit dataset session file format}
+    \label{tab:balabit-dataset-format}
+\end{table}
 %duplicate session_0335985747
 
 \subsection{Realtime Dataset}\label{subsec:realtime-dataset}
-In a realtime environment, where the user differentiating algorithm is deployed, mouse movement data would come from the browser on the user's computer.
-By using JavaScript's mousemove event listener, the coordinates of a user's mouse can be determined and recorded while a user is in session.
+In a realtime environment, where the user-differentiating algorithm is deployed, mouse movement data would come from the browser on the user's computer.
+By using a JavaScript mousemove event listener, the coordinates of a user's mouse can be determined and recorded while a user is in session.
 On average, a computers mouse position is polled 125 times per second~\cite{mouse_dpi_and_polling_rate_explained}~\cite{mouse_dpi_and_usb_polling_rate}.
 This means that if a 10 second user session is recorded, there should be an average of 1,250 mouse position records of any single user browsing a website.
 Records can be in a csv format:
@@ -63,7 +68,8 @@ Records can be in a csv format:
     \item \textbf{y}: the y coordinate (in pixels) of the mouse cursor on the screen
 \end{itemize}
 A typical recorded session of a user's mouse movement metrics would look like:
-\begin{center}
+\begin{table}
+    \centering
     \begin{tabular}{ |c|c|c| }
         \hline
         \textbf{time} & \textbf{x} & \textbf{y} \\
@@ -76,7 +82,9 @@ A typical recorded session of a user's mouse movement metrics would look like:
         \ldots & \ldots & \ldots \\
         \hline
     \end{tabular}
-\end{center}
+    \caption{Realtime session file format}
+    \label{tab:realtime-dataset-format}
+\end{table}
 These records can be stored on the user's computer, most likely in the browser via a JavaScript variable, then periodically sent to the server for which the website is hosted.
 From this input, on the server, the web bot and botnet detection scheme will begin.
 Pseudo code that generalizes the process of obtaining and sending a user's mouse movement metrics looks like:

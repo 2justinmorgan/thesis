@@ -2,7 +2,7 @@
 \section{Clustering}\label{sec:evaluation-clustering}
 Though the clustering stage of this detection scheme is to be used in realtime, this thesis research mostly consists of offline testing and evaluation. In the context of this thesis, an optimal outcome for the clustering stage would include clear distinction of clusters that reflect a differentiation between users. By using solely mouse data from the user, and generating features from this data, differentiating users through unlabeled data is the intended outcome in this evaluation.
 
-A statistical software, JMP, was used to perform principal component analysis and generate clusters. Although there were multiple clustering methods available, all of which showed promising results, kmeans was the clustering method used in this research. Outputted distance and membership metrics reflect the level of effectiveness between different features used with the kmeans method. Since there were 10 users in the inputted dataset~\cite{balabit_dataset}, and the intention is to differentiate all users, the \textit{k} value was set to 10 in all clustering samples.
+A statistical software, JMP, was used to perform principal component analysis and generate clusters. Although there were multiple clustering methods available, all of which showed promising results, kmeans was the clustering method used in this research for the multitude of analysis tools and metrics available in the JMP software. Outputted distance and membership metrics reflect the level of effectiveness between different features used with the kmeans method. Since there were 10 users in the inputted dataset~\cite{balabit_dataset}, and the intention is to differentiate all users, the \textit{k} value was set to 10 in all clustering samples.
 
 \begin{table}[h!]
 	\centering
@@ -27,7 +27,7 @@ A statistical software, JMP, was used to perform principal component analysis an
 	\label{tab:pca-all-results}
 \end{table}
 
-By observing the plotted eigen vectors, the number of components chosen from PCA was the number of components needed to cumulatively attribute to at least 80\% of the variance in the inputted features. In the PCA that observes all 48 features, 7 components were needed to satisfy this 80\% threshold. Eigen vectors of each feature were summed and compared. The max sum of all features up to the nth component indicates that feature as having the most "weight" or influence on the variation in the data. A challenging aspect of PCA was deciding how many components to sum to. 7 components were chosen here. But that is only because 7 components were needed to satisfy a self-suggested threshold of 80\% that seemed reasonable. There is a need to analyze further to reinforce this approach.
+By observing the plotted Eigen vectors, the number of components chosen from PCA was the number of components needed to cumulatively attribute to at least 80\% of the variance in the inputted features. In the PCA that observes all 48 features, 7 components were needed to satisfy this 80\% threshold. Eigen vectors of each feature were summed and compared. The max sum of all features up to the nth component indicates that feature as having the most "weight" or influence on the variation in the data. A challenging aspect of PCA was deciding how many components to sum to. 7 components were chosen here. But that is only because 7 components were needed to satisfy a self-suggested threshold of 80\% that seemed reasonable. There is a need to analyze further to reinforce this approach.
 
 \begin{table}[h!]
 	\centering
@@ -118,7 +118,18 @@ By observing the plotted eigen vectors, the number of components chosen from PCA
 \fi
 % COMMENT END
 
-Once the principal components were chosen, the clustering stage begins. Note that the PCA step is not going to be a part of the detection scheme. The only reason why it was applied here was to see which mouse movement features are most effective in user differentiation by clustering. Despite the PCA-generated features, there were a number of clustering version used for comparison. The \textbf{mean}, \textbf{median}, \textbf{mode}, \textbf{standard deviation}, and the \textbf{interquartile range} of each of the 6 movement features, \textit{velocity}, \textit{horizontal velocity}, \textit{vertical velocity}, \textit{acceleration}, \textit{jerk}, and \textit{theta}, were used to build clusters. Of all 48 feature vectors that are to be used in clustering, 6 features, one movement feature per statistical value, were chosen as parameters to cluster.
+\begin{figure}
+	\centering
+	\includegraphics[width=.4\columnwidth]{figures/clustering_3d_plot_1_of_4}
+	\includegraphics[width=.4\columnwidth]{figures/clustering_3d_plot_2_of_4}
+	\includegraphics[width=.4\columnwidth]{figures/clustering_3d_plot_3_of_4}
+	\includegraphics[width=.4\columnwidth]{figures/clustering_3d_plot_4_of_4}
+	\caption{3D illustrations of clustering}
+	{\small Shown here are 4 images of the same (median) clustering results, using the top 3 principal components.}
+	\label{fig:clustering-3d-plots}
+\end{figure}
+
+Once the principal components were chosen, the clustering stage begins. Note that the PCA step is not going to be a part of the detection scheme. The only reason why it was applied here was to see which mouse movement features are most effective in user differentiation by clustering. Despite the PCA-generated features, there were a number of clustering versions used for comparison. The \textbf{mean}, \textbf{median}, \textbf{mode}, \textbf{standard deviation}, and the \textbf{interquartile range} of each of the 6 movement features, \textit{velocity}, \textit{horizontal velocity}, \textit{vertical velocity}, \textit{acceleration}, \textit{jerk}, and \textit{theta}, were used to build clusters. Of all 48 feature vectors that are to be used in clustering, 6 features, one movement feature per statistical value, were chosen as parameters to cluster.
 
 \begin{table}[h!]
 	\centering
@@ -146,7 +157,43 @@ For example, the "mean" features set used as parameters for clustering were \tex
 
 	\caption{User frequency bias metric}
 	\label{fig:user_freq_bias_metric}
-	{\small The user frequency bias metric describes the distribution of users in a cluster. A high value indicates that the cluster is biased to a certain user(s). A low value indicates that the cluster is not biased to any user(s) and is evenly spread. This metric accounts for variance and weights applied to the hierarchy of frequencies.}
 \end{figure}
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{ |c|c|c|c|c|c|c|c|c|c| }
+		\hline
+		\textbf{features{\_}set} & \textbf{iqr} & \textbf{mean} & \textbf{median} & \textbf{mode} & \textbf{pca{\_}8} & \textbf{pca{\_}10} & \textbf{stdev} & total \\
+		\hline
+		user7 & 34 & 0 & 40 & 3 & 52 & 80 & 96 & 158 \\
+		user9 & 43 & 0 & 48 & 7 & 12 & 43 & 0 & 130 \\
+		user12 & 93 & 2 & 37 & 6 & 103 & 88 & 3 & 240 \\
+		user15 & 32 & 3 & 59 & 2 & 28 & 65 & 150 & 253\\
+		user16 & 67 & 3 & 1 & 1 & 4 & 53 & 3 & 201\\
+		user20 & 18 & 51 & 4 & 1 & 0 & 2 & 6 & 114 \\
+		user21 & 0 & 4 & 52 & 0 & 3 & 0 & 1 & 121 \\
+		user23 & 40 & 76 & 11 & 136 & 2 & 10 & 1 & 142 \\
+		user29 & 61 & 1 & 0 & 0 & 10 & 58 & 1 & 124 \\
+		user35 & 7 & 3 & 84 & 2 & 85 & 15 & 2 & 193 \\
+		\hline
+		\textbf{accuracy} & \textbf{2.361} & \textbf{1.074} & \textbf{1.992} & \textbf{1.088} & \textbf{1.541} & \textbf{2.358} & \textbf{1.314} & -- \\
+		\hline
+	\end{tabular}
+	\caption{User differentiation accuracy}
+	\label{tab:user-differentiation-accuracy}
+	{\small Accuracy of the different features{\_}sets in clustering to differentiate users}
+\end{table}
+
+Table~\ref{tab:user-differentiation-accuracy} shows how clusters were assigned to users and clustering accuracy was calculated. Users were differentiated by iterating the frequency rankings of all 10 clusters and assigning clusters to users. The frequencies of the users in their respective clusters are listed in the columns, with the far-right \textit{total} column containing the user's total number of session files clustered. Each feature{\_}set cluster's accuracy is calculated by adding the percentages of \textit{total} users in each cluster. Feature{\_}set \textit{iqr} clusters had the highest accuracy, whereas the \textit{mean} clusters had the lowest accuracy.
+
+The user frequency bias metric describes the distribution of users in a cluster.
+A high value indicates that the cluster is biased to a certain user(s).
+A low value indicates that the cluster is not biased to any user(s) and is evenly spread. This metric accounts for variance and weights applied to the hierarchy of frequencies.
+
+The user frequency bias metric can be expressed as
+\[ \frac{\sum_{i=1}^{n-1} |p_i - p_{i+1}| * (n-i)}{|P-A|} \]
+where $n$ is the number of users in a cluster, $p_i$ is the percentage of the ith user in comparison to the total cluster population, $P$ is the total cluster population, and $A$ is the average population for all clusters.
+
+With the user frequency bias metric and the distance values previously outlined, a conclusion of this clustering approach will outline the validity and meaning of this thesis work.
 
 %\input{chapters/evaluation/evaluation_clustering_user_frequency_tables}
