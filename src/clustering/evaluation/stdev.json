@@ -1,0 +1,212 @@
+{
+  "2": {
+    "py/object": "defines.Cluster",
+    "cluster_id": "2",
+    "intra_dist_mean": 4.15022795971579,
+    "intra_dist_stdev": 7.273371950839363,
+    "population_count": 38,
+    "user_freq_bias_metric": 0.0034519168291098114,
+    "user_freqs": {
+      "user21": 4,
+      "user9": 5,
+      "user20": 6,
+      "user35": 6,
+      "user7": 4,
+      "user29": 4,
+      "user16": 1,
+      "user23": 1,
+      "user12": 4,
+      "user15": 3
+    },
+    "_Locker__locked": true
+  },
+  "3": {
+    "py/object": "defines.Cluster",
+    "cluster_id": "3",
+    "intra_dist_mean": 0,
+    "intra_dist_stdev": 0,
+    "population_count": 1,
+    "user_freq_bias_metric": 0.04801920768307323,
+    "user_freqs": {
+      "user21": 0,
+      "user9": 1,
+      "user20": 0,
+      "user35": 0,
+      "user7": 0,
+      "user29": 0,
+      "user16": 0,
+      "user23": 0,
+      "user12": 0,
+      "user15": 0
+    },
+    "_Locker__locked": true
+  },
+  "6": {
+    "py/object": "defines.Cluster",
+    "cluster_id": "6",
+    "intra_dist_mean": 0.45204514228219544,
+    "intra_dist_stdev": 0.7960299974018584,
+    "population_count": 747,
+    "user_freq_bias_metric": 0.00142787234543975,
+    "user_freqs": {
+      "user21": 53,
+      "user9": 85,
+      "user20": 50,
+      "user35": 87,
+      "user7": 54,
+      "user29": 15,
+      "user16": 106,
+      "user23": 62,
+      "user12": 85,
+      "user15": 150
+    },
+    "_Locker__locked": true
+  },
+  "4": {
+    "py/object": "defines.Cluster",
+    "cluster_id": "4",
+    "intra_dist_mean": 4.76125159634,
+    "intra_dist_stdev": 1.4872928621518624,
+    "population_count": 5,
+    "user_freq_bias_metric": 0.015990159901599018,
+    "user_freqs": {
+      "user21": 0,
+      "user9": 0,
+      "user20": 0,
+      "user35": 2,
+      "user7": 1,
+      "user29": 1,
+      "user16": 0,
+      "user23": 1,
+      "user12": 0,
+      "user15": 0
+    },
+    "_Locker__locked": true
+  },
+  "10": {
+    "py/object": "defines.Cluster",
+    "cluster_id": "10",
+    "intra_dist_mean": 0.5151957456792114,
+    "intra_dist_stdev": 1.1716540676127574,
+    "population_count": 837,
+    "user_freq_bias_metric": 0.0008709809494334875,
+    "user_freqs": {
+      "user21": 58,
+      "user9": 38,
+      "user20": 56,
+      "user35": 91,
+      "user7": 96,
+      "user29": 97,
+      "user16": 89,
+      "user23": 76,
+      "user12": 143,
+      "user15": 93
+    },
+    "_Locker__locked": true
+  },
+  "7": {
+    "py/object": "defines.Cluster",
+    "cluster_id": "7",
+    "intra_dist_mean": 2.803429626945,
+    "intra_dist_stdev": 2.4280144492267772,
+    "population_count": 20,
+    "user_freq_bias_metric": 0.008468834688346884,
+    "user_freqs": {
+      "user21": 3,
+      "user9": 0,
+      "user20": 1,
+      "user35": 5,
+      "user7": 1,
+      "user29": 3,
+      "user16": 1,
+      "user23": 1,
+      "user12": 1,
+      "user15": 4
+    },
+    "_Locker__locked": true
+  },
+  "8": {
+    "py/object": "defines.Cluster",
+    "cluster_id": "8",
+    "intra_dist_mean": 0,
+    "intra_dist_stdev": 0,
+    "population_count": 1,
+    "user_freq_bias_metric": 0.04801920768307323,
+    "user_freqs": {
+      "user21": 1,
+      "user9": 0,
+      "user20": 0,
+      "user35": 0,
+      "user7": 0,
+      "user29": 0,
+      "user16": 0,
+      "user23": 0,
+      "user12": 0,
+      "user15": 0
+    },
+    "_Locker__locked": true
+  },
+  "5": {
+    "py/object": "defines.Cluster",
+    "cluster_id": "5",
+    "intra_dist_mean": 0,
+    "intra_dist_stdev": 0,
+    "population_count": 1,
+    "user_freq_bias_metric": 0.04801920768307323,
+    "user_freqs": {
+      "user21": 0,
+      "user9": 0,
+      "user20": 0,
+      "user35": 0,
+      "user7": 0,
+      "user29": 1,
+      "user16": 0,
+      "user23": 0,
+      "user12": 0,
+      "user15": 0
+    },
+    "_Locker__locked": true
+  },
+  "1": {
+    "py/object": "defines.Cluster",
+    "cluster_id": "1",
+    "intra_dist_mean": 3.434991656288889,
+    "intra_dist_stdev": 2.5590239494090294,
+    "population_count": 9,
+    "user_freq_bias_metric": 0.012610340479192936,
+    "user_freqs": {
+      "user21": 1,
+      "user9": 1,
+      "user20": 1,
+      "user35": 0,
+      "user7": 0,
+      "user29": 0,
+      "user16": 1,
+      "user23": 0,
+      "user12": 3,
+      "user15": 2
+    },
+    "_Locker__locked": true
+  },
+  "9": {
+    "py/object": "defines.Cluster",
+    "cluster_id": "9",
+    "intra_dist_mean": 4.859769847288235,
+    "intra_dist_stdev": 3.202015925031802,
+    "population_count": 17,
+    "user_freq_bias_metric": 0.007421295211311617,
+    "user_freqs": {
+      "user21": 1,
+      "user9": 0,
+      "user20": 0,
+      "user35": 2,
+      "user7": 2,
+      "user29": 3,
+      "user16": 3,
+      "user23": 1,
+      "user12": 4,
+      "user15": 1
+    },
+    "_Locker__locked": true
+  }
+}
