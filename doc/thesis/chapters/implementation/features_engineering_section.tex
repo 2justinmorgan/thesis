@@ -22,7 +22,16 @@ Initially, a Python program was used to generate these 6 features as described.
 The program calculated all 1676 session files, from all 10 users, in an average of 7 minutes.
 By pre-allocating lists of numeric values, and incrementing a counter variable that keeps track of where to insert the next calculated feature value into the list of numeric values, the runtime was reduced from 7 minutes to slightly more than 3 minutes.
 Further, the entire features generator program was converted from Python to Golang.
+
+\begin{figure}[!h]
+    \includegraphics[width=1\columnwidth]{figures/parallelized_features_generator}
+    \caption{Parallelization of the features generator}
+    \label{fig:parallelization-of-the-features-generator-implementation-version}
+    {\small There are 6 Go routines, or threads as shown in this diagram, that parallelize the features generation stage of the system design. Figure~\ref{fig:distribution-of-the-parallelize-features-generator} displays how this parallelized features generator can be distributed.}
+\end{figure}
+
 By creating Go-routines on each of the 6 features, the average runtime of the Golang program calculating all 1676 sessions files was less than 30 seconds.
+Figure~\ref{fig:parallelization-of-the-features-generator-implementation-version} shows the parallelization of calculating the 6 features.
 All runtimes for realtime feature generation do not include data cleaning and prep.
 Since the Balabit dataset has many duplicate timestamp values, with different \textit{x} and \textit{y} values, a pre-generation step would need to take place to remove erooneous duplicates, as a means to "clean" the raw data input.
 
