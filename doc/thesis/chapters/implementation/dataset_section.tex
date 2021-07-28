@@ -39,6 +39,9 @@ A session record is a csv file containing these fields~\cite{balabit_dataset}:
 An example of a session record looks like:
 \begin{table}
     \centering
+    \caption{Balabit dataset session file format}
+    \bigskip
+    \label{tab:balabit-dataset-format}
     \begin{tabular}{ |c|c|c|c|c|c| }
         \hline
         \textbf{record timestamp} & \textbf{client timestamp} & \textbf{button} & \textbf{state} & \textbf{x} & \textbf{y} \\
@@ -51,8 +54,6 @@ An example of a session record looks like:
         \ldots & \ldots & \ldots & \ldots & \ldots & \ldots \\
         \hline
     \end{tabular}
-    \caption{Balabit dataset session file format}
-    \label{tab:balabit-dataset-format}
 \end{table}
 %duplicate session_0335985747
 
@@ -70,6 +71,9 @@ Records can be in a csv format:
 A typical recorded session of a user's mouse movement metrics would look like:
 \begin{table}
     \centering
+    \caption{Realtime session file format}
+    \bigskip
+    \label{tab:realtime-dataset-format}
     \begin{tabular}{ |c|c|c| }
         \hline
         \textbf{time} & \textbf{x} & \textbf{y} \\
@@ -82,9 +86,7 @@ A typical recorded session of a user's mouse movement metrics would look like:
         \ldots & \ldots & \ldots \\
         \hline
     \end{tabular}
-    \caption{Realtime session file format}
-    \label{tab:realtime-dataset-format}
-\end{table}
+ \end{table}
 These records can be stored on the user's computer, most likely in the browser via a JavaScript variable, then periodically sent to the server for which the website is hosted.
 From this input, on the server, the web bot and botnet detection scheme will begin.
 Pseudo code that generalizes the process of obtaining and sending a user's mouse movement metrics looks like:

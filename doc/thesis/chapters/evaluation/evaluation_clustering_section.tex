@@ -6,6 +6,10 @@ A statistical software, JMP, was used to perform principal component analysis an
 
 \begin{table}[h!]
 	\centering
+	\caption{Results from PCA (all)}
+	{\small Shown are the 8 features used as a result of the principal component analysis on all 48 features. Per the right-most sums column, the left-most column contains features that account for most of the variation of the data. Note how the theta features have such high values, despite them having the lowest original values. This may be a result of data standardization in JMP}
+	\bigskip
+	\label{tab:pca-all-results}
 	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
 		\hline
 		\textbf{feature} & \textbf{PC1} & \textbf{PC2} & \textbf{PC3} & \textbf{PC4} & \textbf{PC5} & \textbf{PC6} & \textbf{PC7} & \textbf{sum} \\
@@ -22,15 +26,16 @@ A statistical software, JMP, was used to perform principal component analysis an
 		theta-stdev & -0.04 & -0.07 & 0.30 & 0.00 & 0.27 & 0.24 & -0.18 & \textbf{52.62} \\
 		\hline
 	\end{tabular}
-	\caption{Results from PCA (all)}
-	{\small Shown are the 8 features used as a result of the principal component analysis on all 48 features. Per the right-most sums column, the left-most column contains features that account for most of the variation of the data. Note how the theta features have such high values, despite them having the lowest original values. This may be a result of data standardization in JMP}
-	\label{tab:pca-all-results}
 \end{table}
 
 By observing the plotted Eigen vectors, the number of components chosen from PCA was the number of components needed to cumulatively attribute to at least 80\% of the variance in the inputted features. In the PCA that observes all 48 features, 7 components were needed to satisfy this 80\% threshold. Eigen vectors of each feature were summed and compared. The max sum of all features up to the nth component indicates that feature as having the most "weight" or influence on the variation in the data. A challenging aspect of PCA was deciding how many components to sum to. 7 components were chosen here. But that is only because 7 components were needed to satisfy a self-suggested threshold of 80\% that seemed reasonable. There is a need to analyze further to reinforce this approach.
 
 \begin{table}[h!]
 	\centering
+	\caption{Eigen values in PCA (all)}
+	{\small Principal component analysis on all 48 features}
+	\bigskip
+	\label{tab:eigen-values-all}
 	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
 		\hline
 		\textbf{PrinComp} & \textbf{01} & \textbf{02} & \textbf{03} & \textbf{04} & \textbf{05} & \textbf{06} & \textbf{07} & \textbf{08} \\
@@ -40,15 +45,16 @@ By observing the plotted Eigen vectors, the number of components chosen from PCA
 		Cum & 30.1 & 49.8 & 57.8 & 64.4 & 70.2 & 74.4 & 78.5 & 81.1 \\
 		\hline
 	\end{tabular}
-	\caption{Eigen values in PCA (all)}
-	{\small Principal component analysis on all 48 features}
-	\label{tab:eigen-values-all}
 \end{table}
 
 % COMMENT BEGIN
 \iffalse
 \begin{table}[h!]
 	\centering
+	\caption{Results from PCA (without theta)}
+	{\small \textbf{Shown is a complete list} of the features used in the principal component analysis. Note that the theta features are not used in the PCA. The selected features used as a result of the PCA are in bold}
+	\bigskip
+	\label{tab:pca-without-theta-results}
 	\begin{tabular}{|c|c|c|c|c|c|c|}
 		\hline
 		\textbf{feature} & \textbf{Prin1} & \textbf{Prin2} & \textbf{Prin3} & \textbf{Prin4} & \textbf{Prin5} & \textbf{sum} \\
@@ -95,13 +101,14 @@ By observing the plotted Eigen vectors, the number of components chosen from PCA
 		jerk-range & 0.14 & 0.03 & -0.40 & 0.12 & 0.21 & 9.23 \\
 		\hline
 	\end{tabular}
-	\caption{Results from PCA (without theta)}
-	{\small \textbf{Shown is a complete list} of the features used in the principal component analysis. Note that the theta features are not used in the PCA. The selected features used as a result of the PCA are in bold}
-	\label{tab:pca-without-theta-results}
 \end{table}
 
 \begin{table}[h!]
 	\centering
+	\caption{Eigen values in PCA (without theta)}
+	{\small Due to the "all" PCA showing low relevance of the theta features, a corresponding PCA on the remaining 40 features was performed. Those results are show here}
+	\bigskip
+	\label{tab:eigen-values-without-theta}
 	\begin{tabular}{|c|c|c|c|c|c|c|}
 		\hline
 		\textbf{PrinComp} & \textbf{01} & \textbf{02} & \textbf{03} & \textbf{04} & \textbf{05} & \textbf{06} \\
@@ -111,9 +118,6 @@ By observing the plotted Eigen vectors, the number of components chosen from PCA
 		Cum & 36.1 & 57.7 & 65.9 & 72.4 & 77.6 & 80.7 \\
 		\hline
 	\end{tabular}
-	\caption{Eigen values in PCA (without theta)}
-	{\small Due to the "all" PCA showing low relevance of the theta features, a corresponding PCA on the remaining 40 features was performed. Those results are show here}
-	\label{tab:eigen-values-without-theta}
 \end{table}
 \fi
 % COMMENT END
@@ -133,6 +137,9 @@ Once the principal components were chosen, the clustering stage begins. Note tha
 
 \begin{table}[h!]
 	\centering
+	\caption{Clustering distribution results}
+	\bigskip
+	\label{tab:clustering-distribution-results}
 	\begin{tabular}{ |c|c|c|c|c|c| }
 		\hline
 		\textbf{features{\_}set} & \textbf{pop{\_}stdev} & \textbf{pop{\_}range} & \textbf{bias} & \textbf{dist{\_}mean} & \textbf{dist{\_}stdev} \\
@@ -146,8 +153,6 @@ Once the principal components were chosen, the clustering stage begins. Note tha
 		pca{\_}10 & 139.14 & 2-396 & 1.400 & 3.862 & 3.523 \\
 		\hline
 	\end{tabular}
-	\caption{Clustering distribution results}
-	\label{tab:clustering-distribution-results}
 \end{table}
 
 For example, the "mean" features set used as parameters for clustering were \textbf{velocity}-\textit{mean}, \textbf{horizontal velocity}-\textit{mean}, \textbf{vertical velocity}-\textit{mean}, \textbf{acceleration}-\textit{mean}, \textbf{jerk}-\textit{mean}, and \textbf{theta}-\textit{mean}. This pattern continued through all 6 of the movement features, over all 8 of the statistical features. Hence the 48 features to choose from.
@@ -161,6 +166,10 @@ For example, the "mean" features set used as parameters for clustering were \tex
 
 \begin{table}[h!]
 	\centering
+	\caption{User differentiation accuracy}
+	{\small Accuracy of the different features{\_}sets in clustering to differentiate users}
+	\bigskip
+	\label{tab:user-differentiation-accuracy}
 	\begin{tabular}{ |c|c|c|c|c|c|c|c|c|c| }
 		\hline
 		\textbf{features{\_}set} & \textbf{iqr} & \textbf{mean} & \textbf{median} & \textbf{mode} & \textbf{pca{\_}8} & \textbf{pca{\_}10} & \textbf{stdev} & total \\
@@ -179,9 +188,6 @@ For example, the "mean" features set used as parameters for clustering were \tex
 		\textbf{accuracy} & \textbf{2.361} & \textbf{1.074} & \textbf{1.992} & \textbf{1.088} & \textbf{1.541} & \textbf{2.358} & \textbf{1.314} & -- \\
 		\hline
 	\end{tabular}
-	\caption{User differentiation accuracy}
-	\label{tab:user-differentiation-accuracy}
-	{\small Accuracy of the different features{\_}sets in clustering to differentiate users}
 \end{table}
 
 Table~\ref{tab:user-differentiation-accuracy} shows how clusters were assigned to users and clustering accuracy was calculated. Users were differentiated by iterating the frequency rankings of all 10 clusters and assigning clusters to users. The frequencies of the users in their respective clusters are listed in the columns, with the far-right \textit{total} column containing the user's total number of session files clustered. Each feature{\_}set cluster's accuracy is calculated by adding the percentages of \textit{total} users in each cluster. Feature{\_}set \textit{iqr} clusters had the highest accuracy, whereas the \textit{mean} clusters had the lowest accuracy.

@@ -6,6 +6,10 @@ Evaluation of the features generator consisted of a few different architectures.
 
 \begin{table}[h!]
     \centering
+    \caption{Environments used to generate session features}
+    {\small \textbf{Both systems use a solid-state hard drive.} Comparison of the different environments used to generate features from the mouse position data inputted from the user's computer. \textit{Each result shown are averages of 3 separate runtimes}}
+    \bigskip
+	\label{tab:environments-used-to-generate-session-features}
     \begin{tabular}{ |c|c|c|c|c|c| }
         \hline
         \textbf{system} & \textbf{cores} & \textbf{clock{\_}speed} & \textbf{memory} & \textbf{cpu{\_}desc} & \textbf{exec{\_}env} \\
@@ -14,8 +18,6 @@ Evaluation of the features generator consisted of a few different architectures.
         Windows{\_}10 & 4 & 3.4GHz & 12GB-DDR4 & 6th-Gen-i7 & winpty-Bash \\
         \hline
     \end{tabular}
-    \caption{Environments used to generate session features}
-    {\small \textbf{Both systems use a solid-state hard drive.} Comparison of the different environments used to generate features from the mouse position data inputted from the user's computer. \textit{Each result shown are averages of 3 separate runtimes}}
 \end{table}
 
 Below are metrics reflecting the total runtimes of each architecture. The Linux machine is run on an Open{\_}SUSE Tumbleweed Linux instance. A Bash terminal was used to execute the Python and Golang programs. However, the Python runtime results varied drastically on the Windows machine. There is one explanation relating to a "wrapper" program, winpty, that had to be used to invoke the Python interpreter. This wrapper-like program acts as an interface between the underlying Windows operating system and the Bash terminal. Enabling users to run Unix programs, winpty must have an overhead cost when using its interface. As you can see, the runtimes are nearly 3 times the amount of the Linux equivalents. Regardless, all runtimes were most often shorter when run on the Linux machine.
@@ -42,6 +44,10 @@ While this Bash script is sufficient in this research on how to differentiate us
 
 \begin{table}[h!]
     \centering
+    \caption{Runtimes of different features generation methods}
+    {\small A "list" buffer was used for Python execs, while a "slice" was the equivalent buffer used for Golang execs. Python on the Windows system was run through an API, winpty, that enables Bash terminals to run Unix-like programs. This may account for the significantly slower Python runtimes on Windows}
+    \bigskip
+	\label{tab:runtimes-of-different-features-generation-methods}
     \begin{tabular}{ |c|c|c|c|c| }
         \hline
         \textbf{method} & \textbf{lin{\_}go} & \textbf{win{\_}go} & \textbf{lin{\_}py} & \textbf{win{\_}py} \\
@@ -52,8 +58,6 @@ While this Bash script is sufficient in this research on how to differentiate us
         go{\_}seq & 0m46s & 3m4s & -- & -- \\
         \hline
     \end{tabular}
-    \caption{Runtimes of different features generation methods}
-    {\small A "list" buffer was used for Python execs, while a "slice" was the equivalent buffer used for Golang execs. Python on the Windows system was run through an API, winpty, that enables Bash terminals to run Unix-like programs. This may account for the significantly slower Python runtimes on Windows}
 \end{table}
 
 Three different methods, \textit{list or slice buffer}, \textit{preallocated list or slice buffer}, \textit{file append}, and an additional sequential Golang method, were used to compare the different features generator architectures. The list or slice buffer method showed slower runtimes since memory had to be reallocated upon data insertions. By preallocating the memory space, with a given size number, there is no longer a need to reallocate memory for this buffer type. This explains why the preallocated list or slice buffers had a faster average runtime. However, an interesting observation is with runtimes of the Windows preallocated slice buffer and file append methods. Results show that, while using a non-preallocated slice in Golang had the same runtime as the file append method in Golang, the preallocated slice buffer method resulted in slower runtimes. One explaination would be the quality of the solid state hard drives. Thought both systems use a solid state hard drive as their main storage, the Windows system is equipped with an aftermarket SSD. Perhaps the file write speed is quicker with this hard drive, thus decreasing the runtime of the file append method. However, there is uncertainty with this theory.
