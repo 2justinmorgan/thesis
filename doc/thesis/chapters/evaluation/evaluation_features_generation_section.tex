@@ -25,6 +25,7 @@ Below are metrics reflecting the total runtimes of each architecture. The Linux 
 There is a bottleneck in the system design. A Bash script was used to execute the features generator program, which takes one session file as input and outputs 6 feature vectors by writing them to files named with the convention \textit{sessionid} {\_} \textit{userid} {\_} \textit{featurename}.json in a separate directory.
 
 \begin{figure}[!h]
+    \centering
     \includegraphics[width=1\columnwidth]{figures/parallelized_features_generator_distributed}
     \caption{Distribution of the parallelized features generator}
     \label{fig:distribution-of-the-parallelize-features-generator}
